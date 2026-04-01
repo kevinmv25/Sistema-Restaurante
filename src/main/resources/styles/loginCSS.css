@@ -1,0 +1,74 @@
+.logo-container {
+    -fx-background-color: white;
+    -fx-padding: 15;
+}
+
+.panel-izquierdo {
+    -fx-background-color: #6E7074;
+}
+
+.logo-container {
+    -fx-background-color: white;
+    -fx-padding: 15;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.3, 0, 4);
+}
+
+.titulo-login {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+.textoNormal{
+   -fx-font-family: "Segoe UI";
+   -fx-font-size: 18px;
+   -fx-font-weight: bold;
+}
+
+.campo-texto {
+    -fx-background-color: transparent;
+    -fx-border-color: #ccc;
+    -fx-border-width: 0 0 2 0;
+    -fx-padding: 8;
+    -fx-font-size: 14px;
+}
+
+/* Hover */
+.campo-texto:hover {
+    -fx-border-color: #888;
+}
+
+/* Click (focus) 🔥 */
+.campo-texto:focused {
+    -fx-border-color: #000000;
+    -fx-border-width: 0 0 3 0;
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.2, 0, 2);
+}
+
+.boton-login {
+    -fx-background-color: #5a5c5f;
+    -fx-text-fill: white;
+    -fx-padding: 10;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.boton-login:pressed {
+    -fx-background-color: #3a3c3f;
+}
+
+.texto-sistema{
+    -fx-text-fill: white;
+}
+
+
+
+
+
+
+
+
+
+

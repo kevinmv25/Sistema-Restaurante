@@ -1,0 +1,72 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@500;700&display=swap');
+
+
+.bar-title{
+    -fx-background-color: #2c2e33
+}
+
+.btn-menu {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+
+.btn-menu:hover {
+    -fx-background-color: rgba(255,255,255,0.1);
+}
+
+.contenido{
+    -fx-background-color: #474748;
+}
+
+.pane-1{
+    -fx-background-color: #b0b0b0;
+}
+
+.pane-2{
+    -fx-background-color: #1c1c1e;
+}
+
+.pane-3{
+    -fx-background-color: #595959;
+}
+
+.btn-menu-admin{
+    -fx-background-color:#ffffff;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.btn-default{
+    -fx-background-color:#ffffff;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    
+}
+
+.textoNormal{
+   -fx-font-family: "Segoe UI";
+   -fx-font-size: 12px;
+   -fx-font-weight: bold;
+}
+
+.btn-menu-admin:hover {
+    
+    -fx-border-color: transparent transparent transparent #000000; /* solo borde izquierdo negro */
+    -fx-border-width: 0 0 0 3; /* grosor de la línea izquierda */
+    -fx-text-fill: #34495e; /* opcional, puedes cambiar color texto si quieres */
+}
+
+.btn-default:hover {
+    
+    -fx-border-color: transparent transparent transparent #000000; /* solo borde izquierdo negro */
+    -fx-border-width: 0 0 0 3; /* grosor de la línea izquierda */
+    -fx-text-fill: #34495e; /* opcional, puedes cambiar color texto si quieres */
+    
+}
