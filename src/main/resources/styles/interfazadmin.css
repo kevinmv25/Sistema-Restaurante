@@ -59,14 +59,14 @@
 .btn-menu-admin:hover {
     
     -fx-border-color: transparent transparent transparent #000000; /* solo borde izquierdo negro */
-    -fx-border-width: 0 0 0 3; /* grosor de la línea izquierda */
-    -fx-text-fill: #34495e; /* opcional, puedes cambiar color texto si quieres */
+    -fx-border-width: 0 0 0 3; 
+    -fx-text-fill: #34495e; 
 }
 
 .btn-default:hover {
     
-    -fx-border-color: transparent transparent transparent #000000; /* solo borde izquierdo negro */
-    -fx-border-width: 0 0 0 3; /* grosor de la línea izquierda */
-    -fx-text-fill: #34495e; /* opcional, puedes cambiar color texto si quieres */
+    -fx-border-color: transparent transparent transparent #000000; 
+    -fx-border-width: 0 0 0 3; 
+    -fx-text-fill: #34495e; 
     
 }

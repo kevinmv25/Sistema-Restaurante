@@ -1,0 +1,33 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.btn-default{
+    -fx-background-color:#ffffff;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    
+}
+
+.btn-default:hover{
+    -fx-border-color: transparent transparent transparent #000000; 
+    -fx-border-width: 0 0 0 3; 
+    -fx-text-fill: #34495e; 
+}
+
+.btn-menu {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+
+.btn-menu:hover {
+    -fx-background-color: rgba(255,255,255,0.1);
+}
+
+.textoNormal{
+   -fx-font-family: "Segoe UI";
+   -fx-font-size: 16px;
+   -fx-font-weight: bold;
+}

@@ -15,7 +15,7 @@ public class SistemaRestaurante extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scenes/interfazAdmin.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scenes/menu-admin.fxml"));
         Parent root = loader.load();
 
         Scene scene = new Scene(root);

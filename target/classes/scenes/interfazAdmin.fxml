@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -47,9 +48,9 @@
                               </VBox>
                               <VBox prefHeight="625.0" prefWidth="337.0">
                                  <children>
-                                    <AnchorPane prefHeight="278.0" prefWidth="326.0" styleClass="pane-3" VBox.vgrow="ALWAYS">
+                                    <AnchorPane prefHeight="263.0" prefWidth="330.0" styleClass="pane-3" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
-                                          <Insets bottom="200.0" right="50.0" top="225.0" />
+                                          <Insets bottom="185.0" right="50.0" top="185.0" />
                                        </VBox.margin>
                                     </AnchorPane>
                                  </children>
@@ -67,7 +68,7 @@
                   <Insets />
                </BorderPane.margin>
                <children>
-                  <Button fx:id="btn_sidebar" mnemonicParsing="false" onAction="#mostrarSidebar" prefHeight="48.0" prefWidth="81.0" styleClass="btn-menu" textAlignment="CENTER">
+                  <Button fx:id="btn_sidebar" mnemonicParsing="false" onAction="#mostrarSidebar" prefHeight="48.0" prefWidth="81.0" styleClass="btn-menu" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets left="10.0" top="15.0" />
                      </HBox.margin>
@@ -82,11 +83,20 @@
                         <Insets />
                      </opaqueInsets>
                   </Button>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <ImageView fitHeight="69.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="3.0">
+                           <image>
+                              <Image url="@../images/Restaurante..png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
                </children>
             </HBox>
          </top>
          <left>
-            <VBox fx:id="sidebar" prefHeight="700.0" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../styles/interfazadmin.css" BorderPane.alignment="CENTER">
+            <VBox fx:id="sidebar" prefHeight="700.0" prefWidth="250.0" spacing="13.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../styles/interfazadmin.css" BorderPane.alignment="CENTER">
                <children>
                   <StackPane prefHeight="38.0" prefWidth="250.0">
                      <children>
@@ -104,29 +114,29 @@
                         </Button>
                      </children>
                   </StackPane>
-                  <StackPane prefHeight="49.0" prefWidth="250.0" styleClass="color-default" VBox.vgrow="ALWAYS">
+                  <StackPane prefHeight="45.0" prefWidth="250.0" styleClass="color-default">
                      <VBox.margin>
                         <Insets top="30.0" />
                      </VBox.margin>
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="253.0" styleClass="btn-menu-admin" stylesheets="@../styles/interfazadmin.css" text="Menú-Admin" StackPane.alignment="CENTER">
+                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" styleClass="btn-menu-admin" stylesheets="@../styles/interfazadmin.css" text="Menú-Admin" StackPane.alignment="CENTER">
                            <StackPane.margin>
-                              <Insets />
+                              <Insets top="40.0" />
                            </StackPane.margin>
                         </Button>
                      </children>
                   </StackPane>
-                  <StackPane prefHeight="49.0" prefWidth="250.0" VBox.vgrow="ALWAYS">
+                  <StackPane prefHeight="45.0" prefWidth="250.0">
                      <children>
                         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="253.0" styleClass="btn-default" text="Inventario" StackPane.alignment="CENTER" />
                      </children>
                   </StackPane>
-                  <StackPane prefHeight="49.0" prefWidth="250.0" VBox.vgrow="ALWAYS">
+                  <StackPane prefHeight="45.0" prefWidth="250.0">
                      <children>
                         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="253.0" styleClass="btn-default" text="Empleados(Control)" />
                      </children>
                   </StackPane>
-                  <StackPane prefHeight="49.0" prefWidth="250.0" VBox.vgrow="ALWAYS">
+                  <StackPane prefHeight="99.0" prefWidth="250.0">
                      <children>
                         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="253.0" styleClass="btn-default" text="Reportes">
                            <StackPane.margin>
@@ -135,7 +145,8 @@
                         </Button>
                      </children>
                   </StackPane>
-                  <StackPane prefHeight="69.0" prefWidth="250.0">
+                  <Region prefHeight="154.0" prefWidth="250.0" />
+                  <StackPane prefHeight="56.0" prefWidth="250.0" VBox.vgrow="ALWAYS">
                      <children>
                         <Label styleClass="textoNormal" text="Siguenos en Facebook!">
                            <StackPane.margin>
@@ -151,6 +162,9 @@
                            </image>
                         </ImageView>
                      </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                   </StackPane>
                </children>
             </VBox>

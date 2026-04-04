@@ -1,4 +1,6 @@
+com\mycompany\sistema\restaurante\SistemaRestaurante.class
+com\mycompany\sistema\controllers\menuadminController.class
+com\mycompany\sistema\controllers\SidebarController.class
 com\mycompany\sistema\controllers\LoginController.class
 com\mycompany\sistema\controllers\InterfazAdminController.class
-com\mycompany\sistema\restaurante\SistemaRestaurante.class
 lib\SqlLib.class
