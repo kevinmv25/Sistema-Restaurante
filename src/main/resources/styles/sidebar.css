@@ -3,10 +3,17 @@
  */
 
 .btn-default{
-    -fx-background-color:#ffffff;
+    -fx-background-color: rgba(255, 255, 255, 0.01);
+    -fx-background-insets: 0; /* 👈 CLAVE */
+    -fx-background-radius: 0; /* opcional si quieres plano */
+    
+    -fx-border-color: transparent; /* elimina borde */
+    
+    -fx-text-fill: #2c3e50;
     -fx-font-family: "Segoe UI";
     -fx-font-size: 16px;
     -fx-font-weight: bold;
+    
     
 }
 
@@ -14,6 +21,7 @@
     -fx-border-color: transparent transparent transparent #000000; 
     -fx-border-width: 0 0 0 3; 
     -fx-text-fill: #34495e; 
+    
 }
 
 .btn-menu {
@@ -30,4 +38,12 @@
    -fx-font-family: "Segoe UI";
    -fx-font-size: 16px;
    -fx-font-weight: bold;
+}
+
+.sidebar{
+    -fx-background-color: rgba(255, 255, 255, 0.9799); /* blanco muy suave */
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+
+    
 }

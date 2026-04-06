@@ -15,11 +15,11 @@ public class SistemaRestaurante extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scenes/menu-admin.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scenes/interfazAdmin.fxml"));
         Parent root = loader.load();
 
         Scene scene = new Scene(root);
-        stage.setTitle("Interfaz del admin");
+        stage.setTitle("Restaurante LISTI");
         stage.setScene(scene);
         stage.show();
     }

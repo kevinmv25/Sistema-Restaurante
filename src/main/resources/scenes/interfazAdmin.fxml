@@ -119,7 +119,7 @@
                         <Insets top="30.0" />
                      </VBox.margin>
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" styleClass="btn-menu-admin" stylesheets="@../styles/interfazadmin.css" text="Menú-Admin" StackPane.alignment="CENTER">
+                        <Button fx:id="btn_menuAdmin" mnemonicParsing="false" onAction="#sceneMenuAdmin" prefHeight="30.0" prefWidth="250.0" styleClass="btn-menu-admin" stylesheets="@../styles/interfazadmin.css" text="Menú-Admin" StackPane.alignment="CENTER">
                            <StackPane.margin>
                               <Insets top="40.0" />
                            </StackPane.margin>
@@ -128,17 +128,17 @@
                   </StackPane>
                   <StackPane prefHeight="45.0" prefWidth="250.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="253.0" styleClass="btn-default" text="Inventario" StackPane.alignment="CENTER" />
+                        <Button fx:id="btn_inventario" mnemonicParsing="false" onAction="#sceneInventario" prefHeight="50.0" prefWidth="253.0" styleClass="btn-default" text="Inventario" StackPane.alignment="CENTER" />
                      </children>
                   </StackPane>
                   <StackPane prefHeight="45.0" prefWidth="250.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="253.0" styleClass="btn-default" text="Empleados(Control)" />
+                        <Button fx:id="btn_empleados" mnemonicParsing="false" prefHeight="50.0" prefWidth="253.0" styleClass="btn-default" text="Empleados(Control)" />
                      </children>
                   </StackPane>
                   <StackPane prefHeight="99.0" prefWidth="250.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="253.0" styleClass="btn-default" text="Reportes">
+                        <Button fx:id="btn_reportes" mnemonicParsing="false" prefHeight="50.0" prefWidth="253.0" styleClass="btn-default" text="Reportes">
                            <StackPane.margin>
                               <Insets bottom="100.0" />
                            </StackPane.margin>

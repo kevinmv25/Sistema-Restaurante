@@ -18,9 +18,7 @@ import javafx.util.Duration;
  *
  * @author juego
  */
-public class menuadminController implements Initializable, SidebarActions {
-
-    
+public class InventarioController implements Initializable, SidebarActions {
     @FXML
     private AnchorPane sidebar;
     
@@ -30,23 +28,19 @@ public class menuadminController implements Initializable, SidebarActions {
     private Button btn_salir;
     
     @FXML
-    private SidebarController sidebarController;
+    private SidebarController sidebarC;
 
     private boolean abierto =  false; //bandera para comprobar
-    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
        sidebar.setTranslateX(-200);
-       sidebarController.setParent(this);
+       sidebarC.setParent(this);
        
-       
-      
-        
-    }
-
+    }    
+    
     @FXML
     private void mostrarSidebar() {
         TranslateTransition tt = new TranslateTransition(Duration.millis(300), sidebar);
@@ -72,5 +66,7 @@ public class menuadminController implements Initializable, SidebarActions {
         tt.play();
         abierto = !abierto;
     }
+
+   
     
 }

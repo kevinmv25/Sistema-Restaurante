@@ -1,6 +1,9 @@
-com\mycompany\sistema\restaurante\SistemaRestaurante.class
 com\mycompany\sistema\controllers\menuadminController.class
 com\mycompany\sistema\controllers\SidebarController.class
+com\mycompany\sistema\restaurante\SistemaRestaurante.class
+com\mycompany\sistema\controllers\ControlController.class
+com\mycompany\sistema\controllers\SidebarActions.class
 com\mycompany\sistema\controllers\LoginController.class
 com\mycompany\sistema\controllers\InterfazAdminController.class
 lib\SqlLib.class
+com\mycompany\sistema\controllers\InventarioController.class
