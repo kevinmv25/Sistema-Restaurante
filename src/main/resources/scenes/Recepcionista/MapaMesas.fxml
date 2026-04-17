@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" style="-fx-background-color: #2c2e33;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.sistema.controllers.MapaMesasController">
+   <children>
+      <BorderPane layoutX="100.0" layoutY="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <StackPane prefWidth="800.0" BorderPane.alignment="CENTER">
+               <children>
+                  <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="600.0" style="-fx-border-color: #cccccc; -fx-background-color: white;">
+                     <children>
+                        <Label contentDisplay="CENTER" layoutX="258.0" layoutY="21.0" text="Asignación">
+                           <font>
+                              <Font name="Arial Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <Circle fx:id="mesa2" fill="#f3ff13" layoutX="310.0" layoutY="100.0" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fx:id="mesa1" fill="#ff1f1f" layoutX="88.0" layoutY="100.0" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fx:id="mesa3" fill="#919394" layoutX="546.0" layoutY="100.0" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Button fx:id="btnConfirmar" layoutX="229.0" layoutY="449.0" mnemonicParsing="false" onAction="#onActualizar" style="-fx-background-color: #34363a;" text="Confirmar asignación" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                        <Circle fx:id="mesa4" fill="#ff1f1f" layoutX="188.0" layoutY="184.0" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fx:id="mesa9" fill="#f3ff13" layoutX="213.0" layoutY="378.0" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fx:id="mesa5" fill="#ff1f1f" layoutX="435.0" layoutY="184.0" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fx:id="mesa7" fill="#919394" layoutX="310.0" layoutY="275.0" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fx:id="mesa6" fill="#f3ff13" layoutX="138.0" layoutY="275.0" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fx:id="mesa8" fill="#919394" layoutX="496.0" layoutY="275.0" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fx:id="mesa10" fill="#919394" layoutX="410.0" layoutY="378.0" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                     <StackPane.margin>
+                        <Insets bottom="50.0" right="100.0" />
+                     </StackPane.margin>
+                  </AnchorPane>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="60.0" top="20.0" />
+               </padding>
+               <BorderPane.margin>
+                  <Insets left="50.0" />
+               </BorderPane.margin>
+            </StackPane>
+         </center>
+         <top>
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="291.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Asignación de Mesas" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </HBox>
+         </top>
+         <left>
+            <VBox alignment="CENTER" fillWidth="false" maxWidth="200.0" minWidth="200.0" prefHeight="510.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER_LEFT">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="11.0" prefWidth="66.0" text="Estados" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER_LEFT" prefHeight="12.0" prefWidth="160.0" spacing="5.0">
+                     <children>
+                        <Circle fill="#ffffff00" radius="10.0" stroke="#368610" strokeType="INSIDE" strokeWidth="2.0" />
+                        <Label text="Mesa seleccionada" textFill="WHITE" wrapText="true" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="48.0" prefHeight="0.0" prefWidth="160.0" spacing="5.0">
+                     <children>
+                        <Circle fill="#919394" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Label prefHeight="0.0" prefWidth="87.0" text="Mesa disponible" textFill="WHITE" wrapText="true" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="134.0" prefHeight="0.0" prefWidth="160.0" spacing="5.0">
+                     <children>
+                        <Circle fill="#f3ff13" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Label text="Mesa reservada" textFill="WHITE" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="48.0" prefHeight="0.0" prefWidth="160.0" spacing="5.0">
+                     <children>
+                        <Circle fill="#ff1f1f" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Label text="Mesa ocupada" textFill="WHITE" wrapText="true" />
+                     </children>
+                  </HBox>
+                  <Button fx:id="btnActualizar" mnemonicParsing="false" onAction="#actualizarColoresMesas" prefHeight="14.0" prefWidth="104.0" style="-fx-background-color: #34363a;" text="Actualizar mapa " textFill="WHITE" />
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+               <BorderPane.margin>
+                  <Insets bottom="20.0" left="40.0" top="20.0" />
+               </BorderPane.margin>
+            </VBox>
+         </left></BorderPane>
+   </children>
+</AnchorPane>

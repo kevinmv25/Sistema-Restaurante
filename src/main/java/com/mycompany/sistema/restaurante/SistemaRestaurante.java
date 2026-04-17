@@ -14,6 +14,17 @@ public class SistemaRestaurante extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/scenes/Recepcionista/MapaMesas.fxml"));
+
+        Scene scene = new Scene(root);
+        stage.setTitle("Mapa de Mesas - Restaurante");
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    /*
+    @Override
+    public void start(Stage stage) throws Exception {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/scenes/interfazAdmin.fxml"));
         Parent root = loader.load();
@@ -23,5 +34,6 @@ public class SistemaRestaurante extends Application {
         stage.setScene(scene);
         stage.show();
     }
+    */
 }
 

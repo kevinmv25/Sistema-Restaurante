@@ -28,12 +28,16 @@
             <artifactId>javafx-fxml</artifactId>
             <version>25.0.2</version>
         </dependency>
+        
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.3.0</version>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-
-            <!-- Compilador -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -43,22 +47,19 @@
                 </configuration>
             </plugin>
 
-            <!-- EJECUCIÓN (SOLUCIÓN REAL) -->
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <mainClass>com.mycompany.sistema.restaurante.SistemaRestaurante</mainClass>
-                    <arguments>
-                        <argument>--module-path</argument>
-                        <argument>C:\Program Files\JavaFX\javafx-sdk-25.0.2\lib</argument>
-                        <argument>--add-modules</argument>
-                        <argument>javafx.controls,javafx.fxml</argument>
-                    </arguments>
-                </configuration>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <configuration>
+                            <mainClass>com.mycompany.sistema.restaurante.SistemaRestaurante</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
-
         </plugins>
     </build>
 
