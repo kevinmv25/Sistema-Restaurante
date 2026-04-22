@@ -37,4 +37,18 @@ public class SqlLib {
         }
         return listaMesas;
     }
+    
+    public void actualizarEstadoMesa(int idMesa, String nuevoEstado) {
+        String query = "UPDATE mesas SET estado = '" + nuevoEstado + "' WHERE id_mesa = " + idMesa;
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+             Statement stmt = conn.createStatement()) {
+
+            stmt.executeUpdate(query); // IMPORTANTE: Usar executeUpdate
+            System.out.println("Mesa " + idMesa + " actualizada con éxito.");
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Esto te dirá en la consola si falló la conexión o el SQL
+        }
+    }
 }

@@ -30,6 +30,8 @@ public class MapaMesasController implements Initializable {
     
     private SqlLib sql = new SqlLib();
     
+    private Circle mesaSeleccionadaActual = null;
+    
     //se definen los colores de las mesas como constantes
     private final Color COLOR_DISPONIBLE = Color.GRAY;
     private final Color COLOR_OCUPADA = Color.RED;
@@ -52,14 +54,22 @@ public class MapaMesasController implements Initializable {
     //
     @FXML
     private void seleccionarMesa(MouseEvent event) {
-        actualizarColoresMesas();
-        
-        //Se habilita el botón de confirmar
-        btnConfirmar.setDisable(false); 
-
-        // Cambia el color de la mesa que se selecciono
         Circle mesaPresionada = (Circle) event.getSource();
+    
+        //Si el color no es gris, esta ocupada o reservada
+        if (!mesaPresionada.getFill().equals(Color.GRAY)) {
+            mostrarAlerta("Mesa no disponible", 
+                          "La mesa seleccionada no está disponible actualmente", 
+                          "Por favor, selecciona una mesa que esté en color gris.");
+            return; //se detiene la ejecución
+        }
+
+        //Si es gris, permite la selección normal
+        actualizarColoresMesas(); //Limpia selecciones previas
+        btnConfirmar.setDisable(false);
         cambiarEstadoSeleccionado(mesaPresionada);
+        
+        this.mesaSeleccionadaActual = mesaPresionada;
     }
     
     //Cambia el color de la mesa al ser seleccionada
@@ -72,9 +82,24 @@ public class MapaMesasController implements Initializable {
     //actualiza el estado de las mesas
     @FXML
     private void onActualizar(ActionEvent event) {
-        System.out.println("Actualizando mapa desde la base de datos");
-        actualizarColoresMesas();
-        btnConfirmar.setDisable(true); //el boton de confirmar asignación se desactiva
+        if (mesaSeleccionadaActual == null) {
+            mostrarAlerta("Error", "No hay selección", "Por favor selecciona una mesa primero.");
+            return; 
+        }
+        
+        try {
+            String idStr = mesaSeleccionadaActual.getId().replace("mesa", "");
+            int idMesa = Integer.parseInt(idStr);
+
+            sql.actualizarEstadoMesa(idMesa, "Ocupada");
+
+            actualizarColoresMesas();
+            btnConfirmar.setDisable(true);
+            mesaSeleccionadaActual = null;
+        } catch (Exception e) {
+            // Esto evita que el programa se cierre y te muestra el error en la consola
+            e.printStackTrace(); 
+        }
     }
     
     //actualiza el mapa
@@ -116,5 +141,14 @@ public class MapaMesasController implements Initializable {
             case 10: return mesa10;
             default: return null;
         }
+    }
+    
+    //muestra mensaje de error
+    private void mostrarAlerta(String titulo, String encabezado, String contenido) {
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+        alert.setTitle(titulo);
+        alert.setHeaderText(encabezado);
+        alert.setContentText(contenido);
+        alert.showAndWait(); // El usuario debe dar clic en "Aceptar" para regresar al mapa
     }
 }

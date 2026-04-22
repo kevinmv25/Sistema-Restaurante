@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" style="-fx-background-color: #2c2e33;" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="com.mycompany.sistema.controllers.ReservacionController">
+    <stylesheets>
+        <URL value="@/styles/reservacion.css" />
+    </stylesheets>
+   <children>
+      <BorderPane layoutY="-49.6" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #333639;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="15.0" style="-fx-background-color: #333639;" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox alignment="TOP_CENTER" maxHeight="-Infinity" prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: white;">
+                     <children>
+                        <Label text="Reservación">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="5.0" top="7.0" />
+                           </padding>
+                        </Label>
+                        <Label text="1. Número de personas">
+                           <font>
+                              <Font name="System Bold" size="10.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="5.0" top="4.0" />
+                           </padding>
+                        </Label>
+                        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="300.0" spacing="5.0">
+                           <children>
+                              <Button mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #D3D3D3;" text="1" />
+                              <Button mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #D3D3D3;" text="2" />
+                              <Button mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #D3D3D3;" text="3" />
+                              <Button mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #D3D3D3;" text="4" />
+                              <Button mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #D3D3D3;" text="5" />
+                              <Button mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #D3D3D3;" text="6" />
+                              <Button mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #D3D3D3;" text="7" />
+                              <Button mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #D3D3D3;" text="8" />
+                              <Button mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #D3D3D3;" text="9" />
+                           </children>
+                        </HBox>
+                        <Label text="2. Hora de reservación">
+                           <font>
+                              <Font name="System Bold" size="10.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                        <Button mnemonicParsing="false" prefHeight="7.0" prefWidth="104.0" text="Seleccionar hora">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="4.0" top="4.0" />
+                           </padding>
+                        </Button>
+                        <Label text="3. Seleccionar día">
+                           <font>
+                              <Font name="System Bold" size="10.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                        <DatePicker />
+                        <Label text="4. Información de contacto">
+                           <font>
+                              <Font name="System Bold" size="10.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="5.0" top="7.0" />
+                           </padding>
+                        </Label>
+                        <HBox alignment="CENTER" prefHeight="45.0" prefWidth="300.0" spacing="7.0">
+                           <children>
+                              <TextField promptText="Apellido" />
+                              <TextField promptText="Nombre" />
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </HBox>
+                        <Button mnemonicParsing="false" style="-fx-background-color: gray;" text="Enviar reservación" textFill="WHITE" />
+                        <Label text="Nota: Se ofrece una tolerancia de 15 minutos. Después de este tiempo, la reservación se cancelará automáticamente." wrapText="true">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                           <padding>
+                              <Insets left="5.0" right="5.0" top="10.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+               </padding>
+            </VBox>
+         </center>
+         <top>
+            <Label text="Reservación" textFill="WHITE" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+               <padding>
+                  <Insets bottom="-10.0" top="10.0" />
+               </padding>
+            </Label>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>
