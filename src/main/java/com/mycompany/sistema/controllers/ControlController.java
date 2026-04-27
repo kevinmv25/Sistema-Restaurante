@@ -6,21 +6,39 @@ package com.mycompany.sistema.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+// IMPORTANTE: Asegúrate de que esta ruta coincida con tu paquete de productos
+import com.mycompany.sistema.controllers.ProductoController; 
 
-/**
- * FXML Controller class
- *
- * @author juego
- */
 public class ControlController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
+    @FXML
+    private ProductoController productoController; 
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
-}
+        
+    }
+
+    @FXML
+    private void btnBebidasClick() {
+        productoController.cargarProductos("Bebidas");
+    }
+
+    @FXML
+    private void btnDesayunosClick() {
+        productoController.cargarProductos("Desayunos");
+    }
+
+    @FXML
+    private void btnComidasClick() {
+        productoController.cargarProductos("Comidas");
+    }
+
+    @FXML
+    private void btnPostresClick() {
+        productoController.cargarProductos("Postres");
+    }
+} 
+
