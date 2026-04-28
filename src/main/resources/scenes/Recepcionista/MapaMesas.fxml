@@ -97,9 +97,9 @@
          <left>
             <VBox alignment="CENTER" fillWidth="false" maxWidth="200.0" minWidth="200.0" prefHeight="510.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER_LEFT">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="11.0" prefWidth="66.0" text="Estados" textAlignment="CENTER" textFill="WHITE">
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="22.0" prefWidth="91.0" text="Estados" textAlignment="CENTER" textFill="WHITE">
                      <font>
-                        <Font size="19.0" />
+                        <Font name="SansSerif Regular" size="19.0" />
                      </font>
                   </Label>
                   <HBox alignment="CENTER_LEFT" prefHeight="12.0" prefWidth="160.0" spacing="5.0">
