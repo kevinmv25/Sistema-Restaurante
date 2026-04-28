@@ -81,7 +81,7 @@
                         <Insets />
                      </opaqueInsets>
                      <VBox.margin>
-                        <Insets right="60.0" />
+                        <Insets left="20.0" right="60.0" />
                      </VBox.margin></Label>
                </children>
             </VBox>
@@ -92,7 +92,7 @@
                         <Insets right="280.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField prefHeight="26.0" prefWidth="274.0" promptText="Introduce tu usuario" styleClass="campo-texto">
+                  <TextField fx:id="txtUsuario" prefHeight="26.0" prefWidth="274.0" promptText="Introduce tu usuario" styleClass="campo-texto">
                      <VBox.margin>
                         <Insets right="75.0" />
                      </VBox.margin>
@@ -112,7 +112,7 @@
                         <Insets right="250.0" />
                      </VBox.margin>
                   </Label>
-                  <PasswordField prefHeight="26.0" prefWidth="270.0" promptText="Introduce la contraseña">
+                  <PasswordField fx:id="txtPassword" prefHeight="26.0" prefWidth="270.0" promptText="Introduce la contraseña">
                      <VBox.margin>
                         <Insets right="75.0" />
                      </VBox.margin>
@@ -124,7 +124,7 @@
             </VBox>
             <VBox alignment="CENTER" prefHeight="234.0" prefWidth="400.0">
                <children>
-                  <Button alignment="TOP_CENTER" mnemonicParsing="false" prefHeight="38.0" prefWidth="191.0" styleClass="boton-login" text="Iniciar Sesión">
+                  <Button fx:id="btnLogin" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#login" prefHeight="38.0" prefWidth="191.0" styleClass="boton-login" text="Iniciar Sesión">
                      <VBox.margin>
                         <Insets bottom="150.0" right="60.0" />
                      </VBox.margin></Button>
