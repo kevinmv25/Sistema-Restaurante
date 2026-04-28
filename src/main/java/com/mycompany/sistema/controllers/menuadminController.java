@@ -4,13 +4,19 @@
  */
 package com.mycompany.sistema.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -61,6 +67,7 @@ public class menuadminController implements Initializable, SidebarActions {
         abierto = !abierto;
     }
     
+    @Override
     public void ocultarSidebar(){
         TranslateTransition tt = new TranslateTransition(Duration.millis(300), sidebar);
         
@@ -71,6 +78,22 @@ public class menuadminController implements Initializable, SidebarActions {
         }
         tt.play();
         abierto = !abierto;
+    }
+    
+    @FXML
+    public void abrirDialog(ActionEvent event) throws IOException {
+        System.out.println(
+        getClass().getResource("/scenes/DialogAdmin/DialogMenu-Admin.fxml"));
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scenes/DialogAdmin/DialogMenu-Admin.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = new Stage(); 
+
+        stage.setTitle("Agregar platillo");
+        stage.setScene(new Scene(root));
+        stage.show();
+    
     }
     
 }

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="401.0" prefWidth="528.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.sistema.controllers.DialogMenuAdminController">
+    <stylesheets>
+        <URL value="@/styles/dialogmenu-admin.css" />
+    </stylesheets>
+   <children>
+      <DialogPane layoutX="-14.0" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="499.0" prefWidth="528.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <expandableContent>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
+          </expandableContent>
+         <header>
+            <VBox prefHeight="66.0" prefWidth="528.0" styleClass="header-bar" stylesheets="@../../styles/dialogmenu-admin.css" />
+         </header>
+         <content>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <VBox layoutX="19.200000000000003" layoutY="8.8" prefHeight="395.0" prefWidth="500.0" AnchorPane.bottomAnchor="-0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label styleClass="textoNormal" stylesheets="@../../styles/dialogmenu-admin.css" text="Agregar al Menú">
+                           <VBox.margin>
+                              <Insets left="200.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label styleClass="textoNormal" stylesheets="@../../styles/dialogmenu-admin.css" text="Nombre del Platillo">
+                           <VBox.margin>
+                              <Insets top="80.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField>
+                           <VBox.margin>
+                              <Insets right="150.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Label styleClass="textoNormal" stylesheets="@../../styles/dialogmenu-admin.css" text="Descripción">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField>
+                           <VBox.margin>
+                              <Insets right="150.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Label styleClass="textoNormal" stylesheets="@../../styles/dialogmenu-admin.css" text="Precio">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField>
+                           <VBox.margin>
+                              <Insets right="150.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Button mnemonicParsing="false" text="Agregar">
+                           <VBox.margin>
+                              <Insets left="220.0" top="45.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </content>
+      </DialogPane>
+   </children>
+</AnchorPane>

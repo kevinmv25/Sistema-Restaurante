@@ -14,7 +14,7 @@ import javafx.util.Duration;
 
 public class SidebarController implements Initializable {
 
-    private SidebarActions parent; //no guarda un controller en especifico, sino el que en ese momento lo use y/o implemente
+    private SidebarActions parent; //no guarda un controller en especifico, sino el que en ese momento lo use o implemente
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

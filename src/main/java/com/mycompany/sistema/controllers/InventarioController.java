@@ -55,6 +55,7 @@ public class InventarioController implements Initializable, SidebarActions {
         abierto = !abierto;
     }
     
+    @Override
     public void ocultarSidebar(){
         TranslateTransition tt = new TranslateTransition(Duration.millis(300), sidebar);
         
