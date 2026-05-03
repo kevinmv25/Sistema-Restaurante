@@ -3,6 +3,7 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -28,15 +29,15 @@
                      <children>
                         <Label styleClass="textoNormal" stylesheets="@../../styles/dialogmenu-admin.css" text="Agregar al Menú">
                            <VBox.margin>
-                              <Insets left="200.0" />
+                              <Insets left="180.0" />
                            </VBox.margin>
                         </Label>
                         <Label styleClass="textoNormal" stylesheets="@../../styles/dialogmenu-admin.css" text="Nombre del Platillo">
                            <VBox.margin>
-                              <Insets top="80.0" />
+                              <Insets top="40.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField>
+                        <TextField fx:id="txtNombre">
                            <VBox.margin>
                               <Insets right="150.0" />
                            </VBox.margin>
@@ -46,7 +47,7 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField>
+                        <TextField fx:id="txtDescripcion" prefHeight="26.0" prefWidth="390.0">
                            <VBox.margin>
                               <Insets right="150.0" />
                            </VBox.margin>
@@ -56,14 +57,24 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField>
+                        <TextField fx:id="txtPrecio" prefHeight="26.0" prefWidth="459.0">
                            <VBox.margin>
                               <Insets right="150.0" />
                            </VBox.margin>
                         </TextField>
-                        <Button mnemonicParsing="false" text="Agregar">
+                        <Label styleClass="textoNormal" stylesheets="@../../styles/dialogmenu-admin.css" text="Categoria">
                            <VBox.margin>
-                              <Insets left="220.0" top="45.0" />
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <ComboBox fx:id="comboCategoria" prefWidth="150.0" promptText="Platillo">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </ComboBox>
+                        <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardar" text="Agregar">
+                           <VBox.margin>
+                              <Insets left="220.0" top="20.0" />
                            </VBox.margin>
                         </Button>
                      </children>

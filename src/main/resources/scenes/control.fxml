@@ -38,16 +38,16 @@
                         </Button>
                      </children>
                   </VBox>
-                  <VBox prefHeight="600.0" prefWidth="475.0" HBox.hgrow="ALWAYS">
+                  <VBox prefHeight="600.0" prefWidth="475.0">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="360.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #b0b0b0;" width="381.0" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets left="70.0" top="50.0" />
                            </VBox.margin>
                         </Rectangle>
-                        <Button mnemonicParsing="false" text="Button" VBox.vgrow="ALWAYS">
+                        <Button mnemonicParsing="false" text="Lista de Empleados" VBox.vgrow="ALWAYS">
                            <VBox.margin>
-                              <Insets left="240.0" top="34.0" />
+                              <Insets left="210.0" top="34.0" />
                            </VBox.margin>
                         </Button>
                      </children>

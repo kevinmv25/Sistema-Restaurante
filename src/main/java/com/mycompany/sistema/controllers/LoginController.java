@@ -97,7 +97,7 @@ public class LoginController implements Initializable {
             //CAMBIAR EL NOMBRE DEL SCENE POR LA RUTA
             case "administrador":
                 
-                loader = new FXMLLoader(getClass().getResource("/scenes/AQUI_ADMIN.fxml"));
+                loader = new FXMLLoader(getClass().getResource("/scenes/interfazAdmin.fxml"));
                 break;
 
             case "mesero":
