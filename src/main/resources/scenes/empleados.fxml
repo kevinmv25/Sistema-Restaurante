@@ -78,14 +78,14 @@
                            <children>
                               <TableView fx:id="tablaEmpleados" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                 <columns>
-                                  <TableColumn fx:id="colNombre" prefWidth="228.79999387264252" text="Nombre completo" />
-                                  <TableColumn fx:id="colPuesto" prefWidth="94.4000244140625" text="Puesto" />
-                                    <TableColumn fx:id="colTelefono" minWidth="0.0" prefWidth="254.39993286132812" text="Teléfono" />
-                                    <TableColumn fx:id="colHorario" prefWidth="50.4000244140625" text="Horario" />
-                                    <TableColumn fx:id="colEstado" prefWidth="95.20001220703125" text="Estado" />
-                                    <TableColumn fx:id="colVacaciones" prefWidth="83.2000732421875" text="Vacaciones" />
-                                    <TableColumn fx:id="colSalario" prefWidth="99.20001220703125" text="Salario" />
-                                    <TableColumn fx:id="colCorreo" prefWidth="86.39990234375" text="Correo" />
+                                  <TableColumn fx:id="colNombre" prefWidth="194.400026679039" text="Nombre completo" />
+                                  <TableColumn fx:id="colPuesto" prefWidth="93.59999084472656" text="Puesto" />
+                                    <TableColumn fx:id="colTelefono" minWidth="0.0" prefWidth="148.79998779296875" text="Teléfono" />
+                                    <TableColumn fx:id="colHorario" prefWidth="135.99996948242188" text="Horario" />
+                                    <TableColumn fx:id="colEstado" prefWidth="108.00006103515625" text="Estado" />
+                                    <TableColumn fx:id="colVacaciones" prefWidth="79.199951171875" text="Vacaciones" />
+                                    <TableColumn fx:id="colSalario" prefWidth="108.79998779296875" text="Salario" />
+                                    <TableColumn fx:id="colCorreo" prefWidth="132.7999267578125" text="Correo" />
                                 </columns>
                               </TableView>
                            </children>

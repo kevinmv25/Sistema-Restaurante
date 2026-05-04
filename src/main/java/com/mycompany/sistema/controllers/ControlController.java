@@ -21,7 +21,7 @@ import javafx.util.Duration;
 
 
 
-public class ControlController implements Initializable {
+public class ControlController implements Initializable, SidebarActions {
 
     
     
@@ -44,6 +44,11 @@ public class ControlController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
+        sidebar.setTranslateX(-200);
+
+        if (sidebarController != null) {
+            sidebarController.setParent(this);
+        }
     }
 
     @FXML

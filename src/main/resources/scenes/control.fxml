@@ -35,7 +35,7 @@
                </children></HBox>
          </top>
          <left>
-            <VBox prefHeight="600.0" prefWidth="144.0" BorderPane.alignment="CENTER" />
+            <VBox prefHeight="600.0" prefWidth="144.0" styleClass="center-Bar" BorderPane.alignment="CENTER" />
          </left>
          <center>
             <HBox prefHeight="100.0" prefWidth="200.0" styleClass="center-Bar" BorderPane.alignment="CENTER">
@@ -71,5 +71,6 @@
                </children>
             </HBox>
          </center></BorderPane>
+      <fx:include fx:id="sidebar" source="sidebar.fxml" />
    </children>
 </AnchorPane>

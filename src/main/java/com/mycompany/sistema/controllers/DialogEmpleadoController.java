@@ -35,7 +35,6 @@ public class DialogEmpleadoController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
     }
 
-   
     public void setEmpleado(Empleado e) {
 
         this.empleado = e;
@@ -48,12 +47,10 @@ public class DialogEmpleadoController implements Initializable {
         txtHorario.setText(e.getHorario());
         txtEstado.setText(e.getEstatus());
 
-        
         txtSalario.setText(String.valueOf(e.getSalario()));
         txtVacaciones.setText(e.getVacaciones());
     }
 
-    
     @FXML
     private void guardarEmpleado() {
 
@@ -68,12 +65,7 @@ public class DialogEmpleadoController implements Initializable {
 
         try {
 
-            double salario = 0;
-
-            // Validación básica
-            if (!salarioTxt.isEmpty()) {
-                salario = Double.parseDouble(salarioTxt);
-            }
+            double salario = salarioTxt.isEmpty() ? 0 : Double.parseDouble(salarioTxt);
 
             if (editando) {
 
@@ -93,18 +85,17 @@ public class DialogEmpleadoController implements Initializable {
 
             } else {
 
-                Empleado nuevo = new Empleado();
-
-                nuevo.setNombre(nombre);
-                nuevo.setTelefono(telefono);
-                nuevo.setCorreo(correo);
-                nuevo.setPuesto(puesto);
-                nuevo.setHorario(horario);
-                nuevo.setEstatus(estado);
-
-                // 🔴 NUEVOS
-                nuevo.setSalario(salario);
-                nuevo.setVacaciones(vacaciones);
+                Empleado nuevo = new Empleado(
+                    nombre,
+                    "",
+                    telefono,
+                    correo,
+                    puesto,
+                    horario,
+                    estado,
+                    vacaciones,
+                    salario
+                );
 
                 sql.insertarEmpleado(nuevo);
 
@@ -123,13 +114,11 @@ public class DialogEmpleadoController implements Initializable {
         }
     }
 
-    
     @FXML
     private void cancelar() {
         cerrarVentana();
     }
 
-    
     private void cerrarVentana() {
         Stage stage = (Stage) txtNombre.getScene().getWindow();
         stage.close();

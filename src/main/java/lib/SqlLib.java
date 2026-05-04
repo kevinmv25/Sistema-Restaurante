@@ -1,6 +1,5 @@
 package lib;
 
-
 import com.mycompany.sistema.models.Empleado;
 import com.mycompany.sistema.models.Producto;
 import java.sql.Connection;
@@ -23,166 +22,127 @@ public class SqlLib {
     public Map<Integer, String> obtenerEstadosMesas() {
         Map<Integer, String> listaMesas = new HashMap<>();
         String query = "SELECT id_mesa, estado FROM mesas";
-
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
-
             while (rs.next()) {
                 int id = rs.getInt("id_mesa");
                 String estado = rs.getString("estado");
                 listaMesas.put(id, estado);
             }
-
         } catch (SQLException e) {
             System.err.println("Error al conectar a la base de datos: " + e.getMessage());
         }
-
         return listaMesas;
     }
 
     public void actualizarEstadoMesa(int idMesa, String nuevoEstado) {
-        String query = "UPDATE mesas SET estado = '" + nuevoEstado + "' WHERE id_mesa = " + idMesa;
-
+        String query = "UPDATE mesas SET estado = ? WHERE id_mesa = ?";
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-             Statement stmt = conn.createStatement()) {
-
-            stmt.executeUpdate(query);
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, nuevoEstado);
+            ps.setInt(2, idMesa);
+            ps.executeUpdate();
             System.out.println("Mesa " + idMesa + " actualizada con éxito.");
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public boolean isValidCredentials(String correo, String password) {
-
         String query = "SELECT password FROM usuarios WHERE correo = ?";
-
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = conn.prepareStatement(query)) {
-
             ps.setString(1, correo);
             ResultSet rs = ps.executeQuery();
-
             if (rs.next()) {
                 String storedPassword = rs.getString("password");
                 return password.equals(storedPassword);
             }
-
         } catch (SQLException e) {
             System.err.println("Error en login: " + e.getMessage());
         }
-
         return false;
     }
 
     public String getRole(String correo) {
-
-        String query = "SELECT r.nombre FROM usuarios u " +
-                       "JOIN roles r ON u.rol_id = r.id " +
-                       "WHERE u.correo = ?";
-
+        String query = "SELECT r.nombre FROM usuarios u JOIN roles r ON u.rol_id = r.id WHERE u.correo = ?";
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = conn.prepareStatement(query)) {
-
             ps.setString(1, correo);
             ResultSet rs = ps.executeQuery();
-
             if (rs.next()) {
                 return rs.getString("nombre");
             }
-
         } catch (SQLException e) {
             System.err.println("Error obteniendo rol: " + e.getMessage());
         }
-
         return "nil";
     }
 
     public boolean puedeLogin(String correo) {
-
         String query = "SELECT puede_login FROM usuarios WHERE correo = ?";
-
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = conn.prepareStatement(query)) {
-
             ps.setString(1, correo);
             ResultSet rs = ps.executeQuery();
-
             if (rs.next()) {
                 return rs.getBoolean("puede_login");
             }
-
         } catch (SQLException e) {
             System.err.println("Error validando acceso: " + e.getMessage());
         }
-
         return false;
     }
 
-    
     public List<Producto> obtenerProductos() {
-
         List<Producto> lista = new ArrayList<>();
-
         String sql =
             "SELECT p.id_producto, p.nombre, p.descripcion, p.precio, c.nombre AS categoria " +
-            "FROM productos p " +
-            "JOIN categorias c ON p.id_categoria = c.id_categoria";
-
+            "FROM productos p JOIN categorias c ON p.id_categoria = c.id_categoria";
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(sql)) {
-
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
-
                 Producto p = new Producto(
                     rs.getInt("id_producto"),
                     rs.getString("nombre"),
                     rs.getString("descripcion"),
                     rs.getDouble("precio"),
-                    rs.getString("categoria") // nombre de la categoría
+                    rs.getString("categoria")
                 );
-
                 lista.add(p);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return lista;
     }
 
-    
     public void eliminarProducto(int idProducto) {
-
         String sql = "DELETE FROM productos WHERE id_producto=?";
-
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-            PreparedStatement ps = conn.prepareStatement(sql)) {
-
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, idProducto);
             ps.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
+
     public List<Empleado> obtenerEmpleados() {
-
         List<Empleado> lista = new ArrayList<>();
-
-        String sql = "SELECT * FROM empleados";
-
+        String sql =
+            "SELECT e.id_empleado, e.nombre, e.apellido, e.telefono, e.correo, " +
+            "e.puesto, e.horario, e.estatus, e.salario, " +
+            "COALESCE(GROUP_CONCAT(CONCAT(v.fecha_inicio, ' - ', v.fecha_fin) SEPARATOR ', '), 'Sin vacaciones') AS vacaciones " +
+            "FROM empleados e " +
+            "LEFT JOIN vacaciones v ON e.id_empleado = v.id_empleado " +
+            "GROUP BY e.id_empleado";
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(sql)) {
-
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
-
                 Empleado e = new Empleado(
                     rs.getInt("id_empleado"),
                     rs.getString("nombre"),
@@ -191,26 +151,22 @@ public class SqlLib {
                     rs.getString("correo"),
                     rs.getString("puesto"),
                     rs.getString("horario"),
-                    rs.getString("estatus")
+                    rs.getString("estatus"),
+                    rs.getString("vacaciones"),
+                    rs.getDouble("salario")
                 );
-
                 lista.add(e);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return lista;
     }
-    
+
     public void insertarEmpleado(Empleado e) {
-
-        String sql = "INSERT INTO empleados(nombre, apellido, telefono, correo, puesto, horario, estatus) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
+        String sql = "INSERT INTO empleados(nombre, apellido, telefono, correo, puesto, horario, estatus, salario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-            PreparedStatement ps = conn.prepareStatement(sql)) {
-
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, e.getNombre());
             ps.setString(2, e.getApellido());
             ps.setString(3, e.getTelefono());
@@ -218,36 +174,28 @@ public class SqlLib {
             ps.setString(5, e.getPuesto());
             ps.setString(6, e.getHorario());
             ps.setString(7, e.getEstatus());
-
+            ps.setDouble(8, e.getSalario());
             ps.executeUpdate();
-
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
-    
+
     public void eliminarEmpleado(int id) {
-
         String sql = "DELETE FROM empleados WHERE id_empleado=?";
-
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-            PreparedStatement ps = conn.prepareStatement(sql)) {
-
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
+
     public void actualizarEmpleado(Empleado e) {
-
-        String sql = "UPDATE empleados SET nombre=?, apellido=?, telefono=?, correo=?, puesto=?, horario=?, estatus=? WHERE id_empleado=?";
-
+        String sql = "UPDATE empleados SET nombre=?, apellido=?, telefono=?, correo=?, puesto=?, horario=?, estatus=?, salario=? WHERE id_empleado=?";
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-            PreparedStatement ps = conn.prepareStatement(sql)) {
-
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, e.getNombre());
             ps.setString(2, e.getApellido());
             ps.setString(3, e.getTelefono());
@@ -255,17 +203,11 @@ public class SqlLib {
             ps.setString(5, e.getPuesto());
             ps.setString(6, e.getHorario());
             ps.setString(7, e.getEstatus());
-            ps.setInt(8, e.getId());
-
+            ps.setDouble(8, e.getSalario());
+            ps.setInt(9, e.getId());
             ps.executeUpdate();
-
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
-
-
-
-
-
 }
