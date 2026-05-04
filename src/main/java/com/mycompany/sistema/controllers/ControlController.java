@@ -8,8 +8,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-// IMPORTANTE: Asegúrate de que esta ruta coincida con tu paquete de productos
-import com.mycompany.sistema.controllers.ProductoController; 
+
+
 
 public class ControlController implements Initializable {
 

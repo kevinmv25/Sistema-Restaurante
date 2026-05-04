@@ -77,7 +77,7 @@
                                   <TableColumn fx:id="colNombre" prefWidth="135.7333755493164" text="Nombre del platillo" />
                                   <TableColumn fx:id="colDescripcion" prefWidth="539.2000885009766" text="Descripción" />
                                     <TableColumn fx:id="colPrecio" prefWidth="130.39990234375" text="Precio" />
-                                    <TableColumn prefWidth="151.466552734375" text="Categoria" />
+                                    <TableColumn fx:id="colCategoria" prefWidth="151.466552734375" text="Categoria" />
                                 </columns>
                               </TableView>
                            </children>

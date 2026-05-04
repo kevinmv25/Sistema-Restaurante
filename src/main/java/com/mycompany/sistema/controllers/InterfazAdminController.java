@@ -155,4 +155,10 @@ public class InterfazAdminController implements Initializable {
     private void scenePrincipal(javafx.event.ActionEvent event){
         cambiarEscena("/scenes/interfazAdmin.fxml", (Node) event.getSource() );
     }
+    
+    @FXML
+    private void sceneControl(javafx.event.ActionEvent event){
+        cambiarEscena("/scenes/control.fxml", (Node) event.getSource() );
+    }
+    
 }

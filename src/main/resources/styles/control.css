@@ -22,10 +22,15 @@
     -fx-font-size: 16px;
 }
 
-.button-asistencia{
-    
+.btn-asistencia {
+    -fx-background-color: #22c55e;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
 }
 
-.button-control{
-    
+.btn-empleado {
+    -fx-background-color: #3b82f6;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
 }
+

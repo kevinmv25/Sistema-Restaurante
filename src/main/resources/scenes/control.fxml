@@ -31,7 +31,7 @@
                               <Insets left="70.0" top="50.0" />
                            </VBox.margin>
                         </Rectangle>
-                        <Button mnemonicParsing="false" text="Asistencia" VBox.vgrow="ALWAYS">
+                        <Button mnemonicParsing="false" styleClass="btn-asistencia" text="Asistencia" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets left="230.0" top="30.0" />
                            </VBox.margin>
@@ -45,9 +45,9 @@
                               <Insets left="70.0" top="50.0" />
                            </VBox.margin>
                         </Rectangle>
-                        <Button mnemonicParsing="false" text="Lista de Empleados" VBox.vgrow="ALWAYS">
+                        <Button mnemonicParsing="false" styleClass="btn-empleado" text="Lista de Empleados" VBox.vgrow="ALWAYS">
                            <VBox.margin>
-                              <Insets left="210.0" top="34.0" />
+                              <Insets left="210.0" top="32.0" />
                            </VBox.margin>
                         </Button>
                      </children>

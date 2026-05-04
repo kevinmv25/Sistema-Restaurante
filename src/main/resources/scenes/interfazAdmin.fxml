@@ -133,7 +133,7 @@
                   </StackPane>
                   <StackPane prefHeight="45.0" prefWidth="250.0">
                      <children>
-                        <Button fx:id="btn_empleados" mnemonicParsing="false" prefHeight="50.0" prefWidth="253.0" styleClass="btn-default" text="Empleados(Control)" />
+                        <Button fx:id="btn_empleados" mnemonicParsing="false" onAction="#sceneControl" prefHeight="50.0" prefWidth="253.0" styleClass="btn-default" text="Empleados(Control)" />
                      </children>
                   </StackPane>
                   <StackPane prefHeight="99.0" prefWidth="250.0">

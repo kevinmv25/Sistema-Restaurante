@@ -38,7 +38,7 @@
             <Region prefHeight="15.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
             <Button mnemonicParsing="false" onAction="#sceneInventario" prefHeight="35.0" prefWidth="204.0" styleClass="btn-default" stylesheets="@../styles/sidebar.css" text="Inventario" VBox.vgrow="ALWAYS" />
             <Region prefHeight="15.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="209.0" styleClass="btn-default" stylesheets="@../styles/sidebar.css" text="Control" VBox.vgrow="ALWAYS" />
+            <Button mnemonicParsing="false" onAction="#sceneControl" prefHeight="35.0" prefWidth="209.0" styleClass="btn-default" stylesheets="@../styles/sidebar.css" text="Control" VBox.vgrow="ALWAYS" />
             <Region prefHeight="15.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
             <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="210.0" styleClass="btn-default" stylesheets="@../styles/sidebar.css" text="Reportes" VBox.vgrow="ALWAYS" />
             <Region prefHeight="14.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />

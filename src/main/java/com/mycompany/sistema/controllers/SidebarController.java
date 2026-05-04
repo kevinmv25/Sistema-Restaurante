@@ -79,5 +79,10 @@ public class SidebarController implements Initializable {
         cambiarEscena("/scenes/interfazAdmin.fxml", (Node) event.getSource() );
     }
     
+    @FXML
+    private void sceneControl(javafx.event.ActionEvent event){
+        cambiarEscena("/scenes/control.fxml", (Node) event.getSource() );
+    }
+    
     
 }

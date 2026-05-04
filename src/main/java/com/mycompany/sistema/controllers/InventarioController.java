@@ -28,7 +28,7 @@ public class InventarioController implements Initializable, SidebarActions {
     private Button btn_salir;
     
     @FXML
-    private SidebarController sidebarC;
+    private SidebarController sidebarController;
 
     private boolean abierto =  false; //bandera para comprobar
     /**
@@ -37,7 +37,7 @@ public class InventarioController implements Initializable, SidebarActions {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
        sidebar.setTranslateX(-200);
-       sidebarC.setParent(this);
+       sidebarController.setParent(this);
        
     }    
     
