@@ -63,7 +63,7 @@ public class menuadminController implements Initializable, SidebarActions {
 
         sidebar.setTranslateX(-200);
 
-        // 🔥 CONFIGURAR COLUMNAS (IMPORTANTE)
+        // CONFIGURAR COLUMNAS (IMPORTANTE)
         colNombre.setCellValueFactory(data ->
                 new SimpleStringProperty(data.getValue().getNombre()));
 
@@ -76,7 +76,7 @@ public class menuadminController implements Initializable, SidebarActions {
         colCategoria.setCellValueFactory(data ->
                 new SimpleStringProperty(data.getValue().getCategoria()));
 
-        cargarProductos(); // 🔥 cargar datos
+        cargarProductos(); // cargar datos
         
         
         if (sidebarController != null) {

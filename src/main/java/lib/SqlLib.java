@@ -1,6 +1,7 @@
 package lib;
 
 
+import com.mycompany.sistema.models.Empleado;
 import com.mycompany.sistema.models.Producto;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -169,5 +170,102 @@ public class SqlLib {
             e.printStackTrace();
         }
     }
+    
+    public List<Empleado> obtenerEmpleados() {
+
+        List<Empleado> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM empleados";
+
+        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql)) {
+
+            while (rs.next()) {
+
+                Empleado e = new Empleado(
+                    rs.getInt("id_empleado"),
+                    rs.getString("nombre"),
+                    rs.getString("apellido"),
+                    rs.getString("telefono"),
+                    rs.getString("correo"),
+                    rs.getString("puesto"),
+                    rs.getString("horario"),
+                    rs.getString("estatus")
+                );
+
+                lista.add(e);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+    
+    public void insertarEmpleado(Empleado e) {
+
+        String sql = "INSERT INTO empleados(nombre, apellido, telefono, correo, puesto, horario, estatus) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, e.getNombre());
+            ps.setString(2, e.getApellido());
+            ps.setString(3, e.getTelefono());
+            ps.setString(4, e.getCorreo());
+            ps.setString(5, e.getPuesto());
+            ps.setString(6, e.getHorario());
+            ps.setString(7, e.getEstatus());
+
+            ps.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public void eliminarEmpleado(int id) {
+
+        String sql = "DELETE FROM empleados WHERE id_empleado=?";
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void actualizarEmpleado(Empleado e) {
+
+        String sql = "UPDATE empleados SET nombre=?, apellido=?, telefono=?, correo=?, puesto=?, horario=?, estatus=? WHERE id_empleado=?";
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, e.getNombre());
+            ps.setString(2, e.getApellido());
+            ps.setString(3, e.getTelefono());
+            ps.setString(4, e.getCorreo());
+            ps.setString(5, e.getPuesto());
+            ps.setString(6, e.getHorario());
+            ps.setString(7, e.getEstatus());
+            ps.setInt(8, e.getId());
+
+            ps.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+
+
 
 }

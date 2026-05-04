@@ -3,6 +3,8 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -16,7 +18,21 @@
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0" stylesheets="@../styles/control.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="bar-title" BorderPane.alignment="CENTER" />
+            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="bar-title" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="btnSidebar" mnemonicParsing="false" onAction="#mostrarSidebar" prefHeight="55.0" prefWidth="78.0" styleClass="btn-menu">
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="5.0" top="20.0" />
+                     </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="46.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/icono_sidebar.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children></HBox>
          </top>
          <left>
             <VBox prefHeight="600.0" prefWidth="144.0" BorderPane.alignment="CENTER" />
@@ -31,7 +47,7 @@
                               <Insets left="70.0" top="50.0" />
                            </VBox.margin>
                         </Rectangle>
-                        <Button mnemonicParsing="false" styleClass="btn-asistencia" text="Asistencia" VBox.vgrow="ALWAYS">
+                        <Button fx:id="btnEmpleado" mnemonicParsing="false" styleClass="btn-asistencia" text="Asistencia" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets left="230.0" top="30.0" />
                            </VBox.margin>
@@ -45,7 +61,7 @@
                               <Insets left="70.0" top="50.0" />
                            </VBox.margin>
                         </Rectangle>
-                        <Button mnemonicParsing="false" styleClass="btn-empleado" text="Lista de Empleados" VBox.vgrow="ALWAYS">
+                        <Button fx:id="btnListaEmpleados" mnemonicParsing="false" onAction="#sceneEmpleado" styleClass="btn-empleado" text="Lista de Empleados" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets left="210.0" top="32.0" />
                            </VBox.margin>
