@@ -4,16 +4,22 @@
  */
 package com.mycompany.sistema.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import lib.SqlLib;
 
 /**
@@ -27,6 +33,9 @@ public class MapaMesasController implements Initializable {
     
     @FXML
     private Button btnConfirmar;
+    
+    @FXML
+    private Button btnSalir;
     
     private SqlLib sql = new SqlLib();
     
@@ -55,20 +64,23 @@ public class MapaMesasController implements Initializable {
     @FXML
     private void seleccionarMesa(MouseEvent event) {
         Circle mesaPresionada = (Circle) event.getSource();
-    
-        //Si el color no es gris, esta ocupada o reservada
-        if (!mesaPresionada.getFill().equals(Color.GRAY)) {
+
+        //Si el usuario hace clic en la mesa que ya tiene seleccionada, no hacemos nada
+        if (mesaPresionada == mesaSeleccionadaActual) {
+            return; 
+        }
+
+        //Si no es gris Y no es la seleccionada actual, entonces sí está ocupada/reservada
+        if (!mesaPresionada.getFill().equals(Color.GRAY) && mesaPresionada != mesaSeleccionadaActual) {
             mostrarAlerta("Mesa no disponible", 
                           "La mesa seleccionada no está disponible actualmente", 
                           "Por favor, selecciona una mesa que esté en color gris.");
-            return; //se detiene la ejecución
+            return;
         }
-
-        //Si es gris, permite la selección normal
-        actualizarColoresMesas(); //Limpia selecciones previas
+        actualizarColoresMesas(); 
         btnConfirmar.setDisable(false);
         cambiarEstadoSeleccionado(mesaPresionada);
-        
+
         this.mesaSeleccionadaActual = mesaPresionada;
     }
     
@@ -86,19 +98,24 @@ public class MapaMesasController implements Initializable {
             mostrarAlerta("Error", "No hay selección", "Por favor selecciona una mesa primero.");
             return; 
         }
-        
+
         try {
             String idStr = mesaSeleccionadaActual.getId().replace("mesa", "");
             int idMesa = Integer.parseInt(idStr);
 
+            //Actualizamos en la base de datos
             sql.actualizarEstadoMesa(idMesa, "Ocupada");
 
             actualizarColoresMesas();
-            btnConfirmar.setDisable(true);
+            
             mesaSeleccionadaActual = null;
+            btnConfirmar.setDisable(true);
+
+            System.out.println("Mesa " + idMesa + " actualizada correctamente. El programa sigue listo.");
+
         } catch (Exception e) {
-            // Esto evita que el programa se cierre y te muestra el error en la consola
             e.printStackTrace(); 
+            mostrarAlerta("Error de BD", "No se pudo actualizar", "Verifica la conexión con Workbench.");
         }
     }
     
@@ -107,27 +124,26 @@ public class MapaMesasController implements Initializable {
     private void actualizarColoresMesas() {
         Map<Integer, String> datos = sql.obtenerEstadosMesas();
 
-        // Recorremos las 10 mesas
         for (int i = 1; i <= 10; i++) {
             String estado = datos.get(i);
             Circle circuloActual = obtenerCirculoPorId(i);
 
             if (circuloActual != null && estado != null) {
+                // Quitamos bordes de selecciones previas
                 circuloActual.setStroke(Color.TRANSPARENT);
                 circuloActual.setStrokeWidth(0);
-                
+
                 switch (estado) {
                     case "Ocupada":
-                        circuloActual.setFill(Color.RED);
+                        circuloActual.setFill(COLOR_OCUPADA);
                         break;
                     case "Reservada":
-                        circuloActual.setFill(Color.YELLOW);
+                        circuloActual.setFill(COLOR_RESERVADA);
                         break;
                     case "Disponible":
-                        circuloActual.setFill(Color.GRAY);
+                        circuloActual.setFill(COLOR_DISPONIBLE);
                         break;
                 }
-                circuloActual.setStroke(Color.TRANSPARENT);
             }
         }
     }
@@ -140,6 +156,33 @@ public class MapaMesasController implements Initializable {
             case 7: return mesa7; case 8: return mesa8; case 9: return mesa9;
             case 10: return mesa10;
             default: return null;
+        }
+    }
+    
+    @FXML
+    private void regresarLogin(ActionEvent event) {
+        try {
+            // La ruta basada en tu estructura de carpetas real
+            String rutaFXML = "/scenes/login.fxml"; 
+            URL url = getClass().getResource(rutaFXML);
+
+            if (url == null) {
+                System.err.println("No se encontró el archivo en: " + rutaFXML);
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            System.out.println("Regresando al login correctamente.");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo cargar la vista", "Revisa la consola de NetBeans.");
         }
     }
     

@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -28,6 +29,9 @@ public class LoginController implements Initializable {
     private Button btnLogin;
 
     private SqlLib db;
+    
+    @FXML
+    private Hyperlink btnCliente;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -112,7 +116,7 @@ public class LoginController implements Initializable {
 
             case "recepcionista":
                 
-                loader = new FXMLLoader(getClass().getResource("/scenes/Recepcionista/Recepcion.fxml"));
+                loader = new FXMLLoader(getClass().getResource("/scenes/Recepcionista/MapaMesas.fxml"));
                 break;
 
             case "cajero":
@@ -132,6 +136,30 @@ public class LoginController implements Initializable {
         stage.setScene(scene);
         stage.sizeToScene();
         stage.setResizable(false);
+    }
+    
+    @FXML
+    private void accesoDirecto(ActionEvent event) {
+        // Sin la diagonal inicial
+        cambiarEscena("/scenes/Usuario/InfoRest.fxml", event);
+    }
+
+    private void cambiarEscena(String ruta, ActionEvent event) {
+        try {
+            // FXMLLoader carga la vista sin pedir credenciales
+            Parent root = FXMLLoader.load(getClass().getResource(ruta));
+
+            // Obtenemos la ventana actual a partir del evento del clic
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Cambiamos el contenido de la ventana
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException ex) {
+            // Si sale error, es que la ruta del archivo FXML está mal escrita
+            System.err.println("No se pudo saltar el login: " + ruta);
+            ex.printStackTrace();
+        }
     }
 }
 

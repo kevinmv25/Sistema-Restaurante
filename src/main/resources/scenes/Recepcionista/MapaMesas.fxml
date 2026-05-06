@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -42,21 +43,21 @@
                               <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="ALWAYS" />
                            </rowConstraints>
                            <children>
-                              <Circle fx:id="mesa10" fill="#919394" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                              <Circle fx:id="mesa10" fill="#919394" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                               <Circle fx:id="mesa1" fill="#ff1f1f" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                              <Circle fx:id="mesa3" fill="#919394" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Circle fx:id="mesa3" fill="#919394" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                               <Circle fx:id="mesa4" fill="#ff1f1f" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                              <Circle fx:id="mesa9" fill="#f3ff13" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                              <Circle fx:id="mesa5" fill="#ff1f1f" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                              <Circle fx:id="mesa6" fill="#f3ff13" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                              <Circle fx:id="mesa8" fill="#919394" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                              <Circle fx:id="mesa2" fill="#f3ff13" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                              <Circle fx:id="mesa7" fill="#919394" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Circle fx:id="mesa9" fill="#f3ff13" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                              <Circle fx:id="mesa5" fill="#ff1f1f" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                              <Circle fx:id="mesa6" fill="#f3ff13" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                              <Circle fx:id="mesa8" fill="#919394" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                              <Circle fx:id="mesa2" fill="#f3ff13" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Circle fx:id="mesa7" fill="#919394" onMouseClicked="#seleccionarMesa" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
                            </children>
                         </GridPane>
-                        <VBox layoutX="260.0" layoutY="460.0" prefHeight="15.0" prefWidth="100.0">
+                        <VBox layoutX="260.0" layoutY="460.0" prefHeight="31.0" prefWidth="194.0">
                            <children>
-                              <Button fx:id="btnConfirmar" mnemonicParsing="false" onAction="#onActualizar" style="-fx-background-color: #34363a;" text="Confirmar asignación" textFill="WHITE">
+                              <Button fx:id="btnConfirmar" mnemonicParsing="false" onAction="#onActualizar" prefHeight="31.0" prefWidth="202.0" style="-fx-background-color: #34363a;" text="Confirmar asignación" textFill="WHITE">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -81,16 +82,16 @@
             </StackPane>
          </center>
          <top>
-            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="291.0" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="291.0" spacing="350.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label text="Asignación de Mesas" textAlignment="CENTER" textFill="WHITE">
+                  <Label alignment="CENTER" text="Asignación de Mesas" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="21.0" />
                      </font>
                   </Label>
                </children>
                <padding>
-                  <Insets bottom="10.0" />
+                  <Insets bottom="10.0" left="10.0" />
                </padding>
             </HBox>
          </top>
@@ -135,6 +136,19 @@
                   <Insets bottom="20.0" left="40.0" top="20.0" />
                </BorderPane.margin>
             </VBox>
-         </left></BorderPane>
+         </left>
+         <bottom>
+            <Button fx:id="btnVolver" mnemonicParsing="false" onAction="#regresarLogin" style="-fx-background-color: #34363a;" text="Volver al Inicio" textFill="WHITE" BorderPane.alignment="CENTER">
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </bottom></BorderPane>
    </children>
 </AnchorPane>
