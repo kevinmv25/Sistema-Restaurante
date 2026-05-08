@@ -140,7 +140,6 @@ public class LoginController implements Initializable {
     
     @FXML
     private void accesoDirecto(ActionEvent event) {
-        // Sin la diagonal inicial
         cambiarEscena("/scenes/Usuario/InfoRest.fxml", event);
     }
 
