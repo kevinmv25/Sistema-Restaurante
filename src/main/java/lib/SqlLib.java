@@ -19,6 +19,8 @@ public class SqlLib {
     private final String USER = "admin_rest";
     private final String PASS = "rest123";
 
+    
+
     public Map<Integer, String> obtenerEstadosMesas() {
         Map<Integer, String> listaMesas = new HashMap<>();
         String query = "SELECT id_mesa, estado FROM mesas";
@@ -49,7 +51,8 @@ public class SqlLib {
         }
     }
 
-    public boolean isValidCredentials(String correo, String password) {
+    
+    public boolean isValidCredentials(String correo, String password) throws SQLException {
         String query = "SELECT password FROM usuarios WHERE correo = ?";
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -60,12 +63,14 @@ public class SqlLib {
                 return password.equals(storedPassword);
             }
         } catch (SQLException e) {
-            System.err.println("Error en login: " + e.getMessage());
+            
+            throw e; 
         }
         return false;
     }
 
-    public String getRole(String correo) {
+    
+    public String getRole(String correo) throws SQLException {
         String query = "SELECT r.nombre FROM usuarios u JOIN roles r ON u.rol_id = r.id WHERE u.correo = ?";
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -75,7 +80,7 @@ public class SqlLib {
                 return rs.getString("nombre");
             }
         } catch (SQLException e) {
-            System.err.println("Error obteniendo rol: " + e.getMessage());
+            throw e;
         }
         return "nil";
     }

@@ -125,7 +125,7 @@ public class menuadminController implements Initializable, SidebarActions {
         }
     }
 
-    // 🔹 EDITAR PRODUCTO
+    // EDITAR PRODUCTO
     @FXML
     private void editarProducto() throws IOException {
 

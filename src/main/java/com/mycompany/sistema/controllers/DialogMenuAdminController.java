@@ -37,7 +37,6 @@ public class DialogMenuAdminController implements Initializable {
     }
 
     public void setModoEdicion(Producto p) {
-
         editando = true;
         idProducto = p.getId();
 
@@ -47,14 +46,29 @@ public class DialogMenuAdminController implements Initializable {
         comboCategoria.setValue(p.getCategoria());
     }
 
-
-   
     @FXML
     public void guardar() {
+        // VALIDACIÓN DE CAMPOS VACÍOS (CP-05 / CU-03-CP-02)
+        if (txtNombre.getText().trim().isEmpty() || 
+            txtPrecio.getText().trim().isEmpty() || 
+            comboCategoria.getValue() == null) {
+            
+            new Alert(Alert.AlertType.WARNING, "Todos los campos (Nombre, Precio y Categoría) deben estar llenos").showAndWait();
+            return;
+        }
 
         String nombre = txtNombre.getText();
         String desc = txtDescripcion.getText();
-        double precio = Double.parseDouble(txtPrecio.getText());
+        double precio;
+        
+        // VALIDACIÓN DE FORMATO DE PRECIO
+        try {
+            precio = Double.parseDouble(txtPrecio.getText());
+        } catch (NumberFormatException e) {
+            new Alert(Alert.AlertType.ERROR, "El precio debe ser un número válido").showAndWait();
+            return;
+        }
+        
         String categoria = comboCategoria.getValue();
 
         try (Connection conn = DriverManager.getConnection(URL_DB, USER, PASS)) {
@@ -62,7 +76,6 @@ public class DialogMenuAdminController implements Initializable {
             int idCategoria = obtenerIdCategoria(conn, categoria);
 
             if (editando) {
-
                 PreparedStatement ps = conn.prepareStatement(
                         "UPDATE productos SET nombre=?, descripcion=?, precio=?, id_categoria=? WHERE id_producto=?"
                 );
@@ -77,7 +90,6 @@ public class DialogMenuAdminController implements Initializable {
                 new Alert(Alert.AlertType.INFORMATION, "Producto actualizado").showAndWait();
                 guardado = true;
             } else {
-
                 PreparedStatement ps = conn.prepareStatement(
                         "INSERT INTO productos(nombre, descripcion, precio, id_categoria) VALUES (?,?,?,?)"
                 );
@@ -95,13 +107,12 @@ public class DialogMenuAdminController implements Initializable {
             cerrarVentana();
 
         } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Error de base de datos: " + e.getMessage()).showAndWait();
             e.printStackTrace();
         }
     }
 
-    
     private int obtenerIdCategoria(Connection conn, String nombre) throws SQLException {
-
         PreparedStatement ps = conn.prepareStatement(
                 "SELECT id_categoria FROM categorias WHERE nombre=?"
         );
@@ -116,7 +127,6 @@ public class DialogMenuAdminController implements Initializable {
         return 1;
     }
 
-    
     private void cerrarVentana() {
         Stage stage = (Stage) btnGuardar.getScene().getWindow();
         stage.close();
