@@ -21,6 +21,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.stage.Stage;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * FXML Controller class
@@ -30,6 +32,7 @@ public class ConfirmacionReservaController implements Initializable {
     
     @FXML private Button btnMConf;
     @FXML private Label lblFolio, lblDia, lblHora, lblPersonas;
+    @FXML private Label lblTolerancia;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -37,19 +40,41 @@ public class ConfirmacionReservaController implements Initializable {
     }    
     
     // Método para recibir los datos de la pantalla anterior
-    public void configurarDatos(String dia, String hora, String personas) {
+    public void configurarDatos(String dia, String hora, String personas, String mesa) {
         int numFolio = (int)(Math.random() * 10000);
         lblFolio.setText("Folio de reservación: RES-" + numFolio);
 
         lblDia.setText("Día: " + dia);
         lblHora.setText("Hora: " + hora);
-        lblPersonas.setText("Personas: " + personas);
+        lblPersonas.setText("Personas: " + personas + "   |   " + mesa);
+        
+        try {
+            LocalTime tiempoOriginal = LocalTime.parse(hora);
+            // Sumamos 15 minutos
+            LocalTime tiempoTolerancia = tiempoOriginal.plusMinutes(15);
+            
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm");
+            String horaFinal = tiempoTolerancia.format(formato);
+
+            lblTolerancia.setText("Recuerda llegar a tiempo. Tu mesa se mantendrá reservada hasta las " 
+                                  + horaFinal + " hrs (15 min de tolerancia).");
+        } catch (Exception e) {
+            lblTolerancia.setText("Recuerda llegar a tiempo. Tienes 15 min de tolerancia.");
+        }
     }
 
-    // Método para el botón oscuro de "Finalizar" en el centro
     @FXML
     private void finalizar(ActionEvent event) {
-        // Usamos tu método cambiarEscena para mantener el código limpio
+        cambiarEscena("/scenes/Usuario/InfoRest.fxml", event);
+    }
+    
+    @FXML
+    private void modificarReserva(ActionEvent event) {
+        cambiarEscena("/scenes/Usuario/Reservacion.fxml", event);
+    }
+
+    @FXML
+    private void cancelarReserva(ActionEvent event) {
         cambiarEscena("/scenes/Usuario/InfoRest.fxml", event);
     }
     
@@ -68,7 +93,6 @@ public class ConfirmacionReservaController implements Initializable {
         menu.show(btnMConf, Side.BOTTOM, 0, 0);
     }
     
-    // Tu método genérico de cambio de escena (está perfecto)
     private void cambiarEscena(String ruta, ActionEvent event) {
         try {
             URL url = getClass().getResource(ruta);

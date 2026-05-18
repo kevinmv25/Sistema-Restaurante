@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -21,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuItem;
@@ -36,24 +38,16 @@ import lib.SqlLib;
  */
 public class ReservacionController implements Initializable {
     
+    @FXML private Button btnMenu;
+    @FXML private Button btnHora;
+    @FXML private TextField txtApellido;
+    @FXML private TextField txtNombre;
+    @FXML private DatePicker dpFecha;
+    @FXML private ComboBox<String> cmbMesas;
     
-    @FXML
-    private Button btnMenu;
-    
-    @FXML
-    private Button btnSeleccionarHora;
     private String horaSeleccionada = "";
     private int personas = 0;
-    
-    @FXML
-    private TextField txtApellido;
-    @FXML
-    private TextField txtNombre;
-    @FXML
-    private DatePicker dpFecha;
-    
-    @FXML
-    private Button btnHora;
+    private Button botonPersonaSeleccionado = null;
     
     private SqlLib sql = new SqlLib();
     private int idMesaSeleccionada = 1;
@@ -63,7 +57,13 @@ public class ReservacionController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        cargarMesasDisponibles();
+        
+        dpFecha.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                cargarMesasDisponibles();
+            }
+        });
     }    
     
     @FXML
@@ -84,28 +84,61 @@ public class ReservacionController implements Initializable {
     
     @FXML
     private void enviarReservacion(ActionEvent event) {
+        // 1. OBTENER LA MESA SELECCIONADA DEL COMBOBOX
+        String mesaSeleccionada = cmbMesas.getValue();
+        
         if (personas == 0 || horaSeleccionada.isEmpty() || 
             txtApellido.getText().trim().isEmpty() || 
             txtNombre.getText().trim().isEmpty() || 
-            dpFecha.getValue() == null) {
+            dpFecha.getValue() == null || mesaSeleccionada == null) {
 
-            mostrarAlerta("Por favor, completa todos los campos.");
+            mostrarAlerta("Por favor, completa todos los campos, incluyendo la selección de mesa.");
             return;
         }
+        
         try {
+            String numeroMesaStr = mesaSeleccionada.replace("Mesa ", "").trim();
+            this.idMesaSeleccionada = Integer.parseInt(numeroMesaStr);
+            
             // idMesaSeleccionada debe ser el ID de la mesa que el usuario escogió en el mapa
             sql.actualizarEstadoMesa(idMesaSeleccionada, "Reservada");
-            System.out.println("Base de datos actualizada: Mesa " + idMesaSeleccionada + " Reservada.");
+            
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/scenes/Usuario/ConfirmacionReserva.fxml"));
+            Parent root = loader.load();
+            
+            ConfirmacionReservaController controllerDestino = loader.getController();
+            
+            //extraemos los datos
+            String fechaStr = dpFecha.getValue().toString();
+            String personasStr = String.valueOf(personas);
+
+            // Llamamos al método que tenemos en ConfirmacionReservaController
+            controllerDestino.configurarDatos(fechaStr, horaSeleccionada, personasStr, "Mesa " + idMesaSeleccionada);
+            
+            // Cambio de escena manual (sin usar tu método cambiarEscena para poder usar el loader)
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+            
+        } catch (IOException e) {
+        System.err.println("Error al cargar Confirmacion: " + e.getMessage());
+        e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("Error al actualizar estado: " + e.getMessage());
+            System.err.println("Error en la BD: " + e.getMessage());
         }
-        cambiarEscena("/scenes/Usuario/ConfirmacionReserva.fxml", event);
     }
 
     @FXML
     private void seleccionarPersonas(ActionEvent event) {
+        if (botonPersonaSeleccionado != null) {
+            botonPersonaSeleccionado.setStyle(""); // Vuelve al estilo CSS por defecto (gris claro)
+        }
+        
         Button btn = (Button) event.getSource();
         personas = Integer.parseInt(btn.getText());
+        
+        btn.setStyle("-fx-background-color: #2d5a27; -fx-text-fill: white; -fx-font-weight: bold;");
+        botonPersonaSeleccionado = btn;
 
         System.out.println("Personas seleccionadas: " + personas);
     }
@@ -129,6 +162,26 @@ public class ReservacionController implements Initializable {
 
         menu.getItems().addAll(itemInfo, new SeparatorMenuItem(), itemSalir);
         menu.show(btnMenu, Side.BOTTOM, 0, 0);
+    }
+    
+    private void cargarMesasDisponibles() {
+        cmbMesas.getItems().clear(); 
+
+        //obtenemos el mapa con los estados actuales de la BD
+        Map<Integer, String> estados = sql.obtenerEstadosMesas();
+
+        for (int i = 1; i <= 10; i++) {
+            String estado = estados.get(i);
+
+            if (estado != null && estado.equals("Disponible")) {
+                cmbMesas.getItems().add("Mesa " + i);
+            }
+        }
+        if (cmbMesas.getItems().isEmpty()) {
+            cmbMesas.setPromptText("No hay mesas disponibles");
+        } else {
+            cmbMesas.setPromptText("Selecciona una mesa...");
+        }
     }
 
     private void cambiarEscena(String ruta, ActionEvent event) {

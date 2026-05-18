@@ -210,4 +210,23 @@ public class SqlLib {
             ex.printStackTrace();
         }
     }
+    
+    
+    //CAMBIOS 
+    public boolean registrarClienteNuevo(String usuario, String password) {
+        try {
+            // 'usuario' es el rol por defecto para los clientes
+            String sql = "INSERT INTO usuarios (username, password, rol) VALUES (?, ?, 'usuario')";
+            // Aquí usas tu lógica de conexión para ejecutar el INSERT
+            // db.execute(sql, usuario, password); 
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public void registrarHistorial(String usuario) {
+        System.out.println("Simulación de historial para: " + usuario);
+    }
 }

@@ -44,22 +44,25 @@ public class LoginController implements Initializable {
         String username = txtUsuario.getText();
         String password = txtPassword.getText();
 
-        
-        if (!db.isValidCredentials(username, password)) {
-            lblMensaje.setText("Usuario o contraseña incorrectos");
-            return "nil";
+        //CAMBIOS
+        if (db.isValidCredentials(username, password)) {
+            String rolObtenido = db.getRole(username);
+            //db.registrarHistorial(username);
+            return rolObtenido;
         }
 
+        //CAMBIOS
+        //si no existe lo registramos como cliente nuevo
+        boolean registrado = db.registrarClienteNuevo(username, password);
         
-        String rol = db.getRole(username);
-
-        
-        if (rol.equalsIgnoreCase("usuario")) {
-            lblMensaje.setText("No tienes acceso al sistema");
-            return "denegado";
+        if (registrado) {
+            //db.registrarHistorial(username);
+            return "usuario";
         }
 
-        return rol;
+        //CAMBIOS
+        lblMensaje.setText("Error al procesar el ingreso");
+        return "nil";
     }
 
     
@@ -91,7 +94,13 @@ public class LoginController implements Initializable {
 
         String rol = handleLogin();
 
+        /**
         if (rol.equals("nil") || rol.equals("denegado")) {
+            return;
+        }
+        */
+        
+        if (rol.equals("nil")) {
             return;
         }
 
@@ -123,6 +132,11 @@ public class LoginController implements Initializable {
                 
                 loader = new FXMLLoader(getClass().getResource("/scenes/AQUI_CAJERO.fxml"));
                 break;
+                 
+            case "usuario":
+                
+                loader = new FXMLLoader(getClass().getResource("/scenes/Usuario/InfoRest.fxml"));
+                break;
 
             default:
                 lblMensaje.setText("Rol no reconocido");
@@ -136,29 +150,6 @@ public class LoginController implements Initializable {
         stage.setScene(scene);
         stage.sizeToScene();
         stage.setResizable(false);
-    }
-    
-    @FXML
-    private void accesoDirecto(ActionEvent event) {
-        cambiarEscena("/scenes/Usuario/InfoRest.fxml", event);
-    }
-
-    private void cambiarEscena(String ruta, ActionEvent event) {
-        try {
-            // FXMLLoader carga la vista sin pedir credenciales
-            Parent root = FXMLLoader.load(getClass().getResource(ruta));
-
-            // Obtenemos la ventana actual a partir del evento del clic
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            // Cambiamos el contenido de la ventana
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException ex) {
-            // Si sale error, es que la ruta del archivo FXML está mal escrita
-            System.err.println("No se pudo saltar el login: " + ruta);
-            ex.printStackTrace();
-        }
     }
 }
 

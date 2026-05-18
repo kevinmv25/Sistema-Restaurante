@@ -36,7 +36,7 @@
                               <Insets bottom="5.0" />
                            </VBox.margin>
                            <image>
-                              <Image url="@../../../../../../../../../Downloads/elegant-vintage-restaurant-logo-and-badge-template-vector.jpg" />
+                              <Image url="@../../images/Restaurante..png" />
                            </image>
                         </ImageView>
                         <VBox alignment="CENTER_LEFT" prefHeight="79.0" prefWidth="272.0" spacing="2.0" style="-fx-border-color: black; -fx-border-radius: 15;">
@@ -77,19 +77,19 @@
                         <Button mnemonicParsing="false" onAction="#finalizar" style="-fx-background-color: #333639;" text="Finalizar" textFill="WHITE" />
                         <HBox alignment="CENTER" prefHeight="39.0" prefWidth="276.0" spacing="15.0">
                            <children>
-                              <Button mnemonicParsing="false" style="-fx-background-color: #333639;" text="Modificar mi reserva" textFill="WHITE">
+                              <Button mnemonicParsing="false" onAction="#modificarReserva" style="-fx-background-color: #333639;" text="Modificar mi reserva" textFill="WHITE">
                                  <font>
                                     <Font size="10.0" />
                                  </font>
                               </Button>
-                              <Button mnemonicParsing="false" style="-fx-background-color: #333639;" text="Cancelar reserva" textFill="WHITE">
+                              <Button mnemonicParsing="false" onAction="#cancelarReserva" style="-fx-background-color: #333639;" text="Cancelar reserva" textFill="WHITE">
                                  <font>
                                     <Font size="10.0" />
                                  </font>
                               </Button>
                            </children>
                         </HBox>
-                        <Label text="Recuerda llegar a tiempo. Tu mesa se mantendrá reservada hasta las 14:15 hrs (15 min de tolerancia)." wrapText="true">
+                        <Label fx:id="lblTolerancia" text="Recuerda llegar a tiempo. Tu mesa se mantendrá reservada hasta las 14:15 hrs (15 min de tolerancia)." wrapText="true">
                            <font>
                               <Font name="System Bold" size="9.0" />
                            </font>
