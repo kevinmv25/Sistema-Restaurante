@@ -89,7 +89,7 @@ public class EmpleadoController implements Initializable, SidebarActions {
             new SimpleStringProperty(data.getValue().getEstatus())
         );
 
-        // 🔴 AHORA REALES
+        
         colVacaciones.setCellValueFactory(data ->
             new SimpleStringProperty(data.getValue().getVacaciones())
         );

@@ -116,5 +116,10 @@ public class ControlController implements Initializable, SidebarActions {
     private void sceneEmpleado(javafx.event.ActionEvent event){
         cambiarEscena("/scenes/empleados.fxml", (Node) event.getSource() );
     }
+    
+    @FXML
+    private void sceneAsistencia(javafx.event.ActionEvent event){
+        cambiarEscena("/scenes/asistencia.fxml", (Node) event.getSource() );
+    }
 } 
 

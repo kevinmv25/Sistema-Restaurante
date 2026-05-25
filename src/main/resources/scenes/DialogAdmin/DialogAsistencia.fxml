@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="401.0" prefWidth="528.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.sistema.controllers.DialogAsistenciaController">
+    <stylesheets>
+        <URL value="@/styles/dialogmenu-admin.css" />
+    </stylesheets>
+   <children>
+      <DialogPane layoutX="-14.0" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="528.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <expandableContent>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
+          </expandableContent>
+         <header>
+            <VBox prefHeight="47.0" prefWidth="528.0" styleClass="header-bar" stylesheets="@../../styles/dialogmenu-admin.css" />
+         </header>
+         <content>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <VBox layoutX="19.200000000000003" layoutY="8.8" prefHeight="395.0" prefWidth="500.0" AnchorPane.bottomAnchor="-0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label styleClass="textoNormal" stylesheets="@../../styles/dialogmenu-admin.css" text="Agregar Empleado">
+                           <VBox.margin>
+                              <Insets left="165.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label styleClass="textoNormal" stylesheets="@../../styles/dialogmenu-admin.css" text="Nombre del empleado">
+                           <VBox.margin>
+                              <Insets top="40.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="txtNombre">
+                           <VBox.margin>
+                              <Insets right="150.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Label styleClass="textoNormal" stylesheets="@../../styles/dialogmenu-admin.css" text="Fecha">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="txtFecha" prefHeight="26.0" prefWidth="390.0">
+                           <VBox.margin>
+                              <Insets right="150.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Label styleClass="textoNormal" stylesheets="@../../styles/dialogmenu-admin.css" text="Hora de entrada">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="txtEntrada" prefHeight="26.0" prefWidth="545.0">
+                           <VBox.margin>
+                              <Insets right="150.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Label styleClass="textoNormal" stylesheets="@../../styles/dialogmenu-admin.css" text="Hora de sálida">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="txtSalida" prefHeight="26.0" prefWidth="425.0">
+                           <VBox.margin>
+                              <Insets right="150.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Label styleClass="textoNormal" stylesheets="@../../styles/dialogmenu-admin.css" text="Estado">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="txtEstado" prefHeight="26.0" prefWidth="357.0">
+                           <VBox.margin>
+                              <Insets right="150.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Label styleClass="textoNormal" stylesheets="@../../styles/dialogmenu-admin.css" text="Horario">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="txtHorario" prefHeight="26.0" prefWidth="394.0">
+                           <VBox.margin>
+                              <Insets right="150.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <Button fx:id="btn_buscar" layoutX="197.0" layoutY="584.0" mnemonicParsing="false" onAction="#buscarEmpleado" text="Buscar">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Button>
+                  <Button fx:id="btnGuardar" layoutX="257.0" layoutY="584.0" mnemonicParsing="false" onAction="#guardarAsistencia" text="Agregar">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </content>
+      </DialogPane>
+   </children>
+</AnchorPane>
