@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1000.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.mycompany.sistema.controllers.cajero.DescuentosController">
+    <children>
+        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <top>
+                <HBox style="-fx-background-color:#7d3c98;" BorderPane.alignment="CENTER">
+                    <children>
+                        <Label style="-fx-text-fill:white; -fx-font-size:24px;" text="Aplicar Descuentos">
+                            <HBox.margin>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                </HBox>
+            </top>
+            <center>
+                <GridPane hgap="20.0" style="-fx-padding: 20;" vgap="20.0" BorderPane.alignment="CENTER">
+                    <TableView fx:id="tablaProductos" prefHeight="250.0" GridPane.columnSpan="2">
+                        <columns>
+                            <TableColumn fx:id="colProducto" prefWidth="250.0" text="Producto" />
+                            <TableColumn fx:id="colPrecio" prefWidth="150.0" text="Precio" />
+                        </columns>
+                    </TableView>
+                    
+                    <Label text="Tipo de Descuento:" GridPane.rowIndex="1" />
+                    <ComboBox fx:id="comboTipoDescuento" promptText="Seleccionar" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    
+                    <Label text="Valor:" GridPane.rowIndex="2" />
+                    <TextField fx:id="txtValor" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    
+                    <Label text="Motivo:" GridPane.rowIndex="3" />
+                    <TextArea fx:id="txtMotivo" prefHeight="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    
+                    <Button fx:id="btnAplicar" onAction="#handleAplicarDescuento" text="Aplicar Descuento" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                </GridPane>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>
