@@ -1,55 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1000.0"
+<AnchorPane prefHeight="720.0" prefWidth="1050.0"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.mycompany.sistema.controllers.cajero.DescuentosController">
+
     <children>
-        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <BorderPane AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0">
+
             <top>
-                <HBox style="-fx-background-color:#7d3c98;" BorderPane.alignment="CENTER">
+                <HBox spacing="20.0" style="-fx-background-color:#7d3c98;" alignment="CENTER_LEFT">
                     <children>
-                        <Label style="-fx-text-fill:white; -fx-font-size:24px;" text="Aplicar Descuentos">
+                        <Button text="Volver al menú"
+                                onAction="#volverMenuCajero"
+                                style="-fx-background-color:#34363a; -fx-text-fill:white;">
                             <HBox.margin>
-                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                <Insets left="15.0"/>
+                            </HBox.margin>
+                        </Button>
+
+                        <Label text="Aplicar Descuentos"
+                               style="-fx-text-fill:white; -fx-font-size:24px;">
+                            <HBox.margin>
+                                <Insets top="20.0" bottom="20.0"/>
                             </HBox.margin>
                         </Label>
                     </children>
                 </HBox>
             </top>
+
             <center>
-                <GridPane hgap="20.0" style="-fx-padding: 20;" vgap="20.0" BorderPane.alignment="CENTER">
-                    <TableView fx:id="tablaProductos" prefHeight="250.0" GridPane.columnSpan="2">
+                <VBox spacing="15.0" style="-fx-padding:20;">
+
+                    <Label text="Cuentas pendientes"
+                           style="-fx-font-size:17px; -fx-font-weight:bold;"/>
+
+                    <TableView fx:id="tablaCuentas" prefHeight="180.0">
                         <columns>
-                            <TableColumn fx:id="colProducto" prefWidth="250.0" text="Producto" />
-                            <TableColumn fx:id="colPrecio" prefWidth="150.0" text="Precio" />
+                            <TableColumn fx:id="colCuenta" text="Cuenta" prefWidth="100.0"/>
+                            <TableColumn fx:id="colPedido" text="Pedido" prefWidth="100.0"/>
+                            <TableColumn fx:id="colSubtotal" text="Subtotal" prefWidth="130.0"/>
+                            <TableColumn fx:id="colImpuestos" text="Impuestos" prefWidth="130.0"/>
+                            <TableColumn fx:id="colDescuento" text="Descuento" prefWidth="130.0"/>
+                            <TableColumn fx:id="colTotal" text="Total" prefWidth="130.0"/>
+                            <TableColumn fx:id="colEstado" text="Estado" prefWidth="130.0"/>
                         </columns>
                     </TableView>
-                    
-                    <Label text="Tipo de Descuento:" GridPane.rowIndex="1" />
-                    <ComboBox fx:id="comboTipoDescuento" promptText="Seleccionar" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                    
-                    <Label text="Valor:" GridPane.rowIndex="2" />
-                    <TextField fx:id="txtValor" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                    
-                    <Label text="Motivo:" GridPane.rowIndex="3" />
-                    <TextArea fx:id="txtMotivo" prefHeight="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                    
-                    <Button fx:id="btnAplicar" onAction="#handleAplicarDescuento" text="Aplicar Descuento" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                </GridPane>
+
+                    <Label text="Productos de la cuenta"
+                           style="-fx-font-size:17px; -fx-font-weight:bold;"/>
+
+                    <TableView fx:id="tablaProductos" prefHeight="180.0">
+                        <columns>
+                            <TableColumn fx:id="colProducto" text="Producto" prefWidth="280.0"/>
+                            <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="120.0"/>
+                            <TableColumn fx:id="colPrecio" text="Subtotal" prefWidth="140.0"/>
+                        </columns>
+                    </TableView>
+
+                    <GridPane hgap="15.0" vgap="15.0">
+
+                        <Label text="Aplicar a:" GridPane.rowIndex="0"/>
+                        <ComboBox fx:id="comboAplicarA"
+                                  promptText="Seleccionar"
+                                  prefWidth="220.0"
+                                  GridPane.columnIndex="1"
+                                  GridPane.rowIndex="0"/>
+
+                        <Label text="Tipo de descuento:" GridPane.rowIndex="1"/>
+                        <ComboBox fx:id="comboTipoDescuento"
+                                  promptText="Seleccionar"
+                                  prefWidth="220.0"
+                                  GridPane.columnIndex="1"
+                                  GridPane.rowIndex="1"/>
+
+                        <Label text="Valor:" GridPane.rowIndex="2"/>
+                        <TextField fx:id="txtValorDescuento"
+                                   GridPane.columnIndex="1"
+                                   GridPane.rowIndex="2"/>
+
+                        <Label text="Motivo:" GridPane.rowIndex="3"/>
+                        <TextArea fx:id="txtMotivo"
+                                  prefHeight="90.0"
+                                  GridPane.columnIndex="1"
+                                  GridPane.rowIndex="3"/>
+
+                        <Button text="Aplicar Descuento"
+                                onAction="#handleAplicarDescuento"
+                                GridPane.columnIndex="1"
+                                GridPane.rowIndex="4"/>
+                    </GridPane>
+
+                </VBox>
             </center>
         </BorderPane>
     </children>

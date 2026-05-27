@@ -14,39 +14,77 @@
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.mycompany.sistema.controllers.cajero.CajaController">
+
     <children>
-        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <BorderPane AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0">
+
             <top>
-                <HBox style="-fx-background-color:#1f618d;" BorderPane.alignment="CENTER">
+                <HBox spacing="20.0" style="-fx-background-color:#1f618d;" alignment="CENTER_LEFT">
                     <children>
-                        <Label style="-fx-text-fill:white; -fx-font-size:24px;" text="Gestión de Caja">
+                        <Button fx:id="btnVolverMenu"
+                                text="Volver al menú"
+                                onAction="#volverMenuCajero"
+                                style="-fx-background-color:#34363a; -fx-text-fill:white;">
                             <HBox.margin>
-                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                <Insets left="15.0"/>
+                            </HBox.margin>
+                        </Button>
+
+                        <Label text="Gestión de Caja"
+                               style="-fx-text-fill:white; -fx-font-size:24px;">
+                            <HBox.margin>
+                                <Insets top="20.0" bottom="20.0"/>
                             </HBox.margin>
                         </Label>
                     </children>
                 </HBox>
             </top>
+
             <center>
-                <GridPane hgap="20.0" style="-fx-padding: 30;" vgap="20.0" BorderPane.alignment="CENTER">
-                    <Label text="Monto Inicial:" GridPane.rowIndex="0" />
-                    <TextField fx:id="txtMontoInicial" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                    
-                    <Label text="Total Esperado:" GridPane.rowIndex="1" />
-                    <TextField fx:id="txtTotalEsperado" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                    
-                    <Label text="Conteo Físico:" GridPane.rowIndex="2" />
-                    <TextField fx:id="txtConteoFisico" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                    
-                    <Label text="Justificación (Si hay diferencia):" GridPane.rowIndex="3" />
-                    <TextArea fx:id="txtJustificacion" prefHeight="120.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                    
-                    <HBox spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                        <Button fx:id="btnAbrir" onAction="#handleAbrirCaja" text="Abrir Caja" />
-                        <Button fx:id="btnCerrar" onAction="#handleCerrarCaja" text="Cerrar Caja" />
+                <GridPane hgap="20.0" vgap="20.0" style="-fx-padding:30;">
+
+                    <Label text="Monto Inicial:" GridPane.rowIndex="0"/>
+                    <TextField fx:id="txtMontoInicial"
+                               GridPane.columnIndex="1"
+                               GridPane.rowIndex="0"/>
+
+                    <Label text="Total Esperado:" GridPane.rowIndex="1"/>
+                    <TextField fx:id="txtTotalEsperado"
+                               editable="false"
+                               GridPane.columnIndex="1"
+                               GridPane.rowIndex="1"/>
+
+                    <Label text="Conteo Físico:" GridPane.rowIndex="2"/>
+                    <TextField fx:id="txtConteoFisico"
+                               GridPane.columnIndex="1"
+                               GridPane.rowIndex="2"/>
+
+                    <Label text="Justificación:" GridPane.rowIndex="3"/>
+                    <TextArea fx:id="txtJustificacion"
+                              prefHeight="120.0"
+                              GridPane.columnIndex="1"
+                              GridPane.rowIndex="3"/>
+
+                    <HBox spacing="20.0"
+                          GridPane.columnIndex="1"
+                          GridPane.rowIndex="4">
+
+                        <Button fx:id="btnAbrirCaja"
+                                text="Abrir Caja"
+                                onAction="#handleAbrirCaja"/>
+
+                        <Button fx:id="btnCerrarCaja"
+                                text="Cerrar Caja"
+                                onAction="#handleCerrarCaja"/>
+
                     </HBox>
+
                 </GridPane>
             </center>
+
         </BorderPane>
     </children>
 </AnchorPane>

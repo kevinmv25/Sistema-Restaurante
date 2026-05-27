@@ -8,7 +8,6 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -20,15 +19,27 @@
             fx:controller="com.mycompany.sistema.controllers.cajero.FacturacionController">
 
     <children>
-        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <BorderPane AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0">
 
             <top>
-                <HBox style="-fx-background-color:#2c3e50;" BorderPane.alignment="CENTER">
+                <HBox spacing="20.0" style="-fx-background-color:#2c3e50;" alignment="CENTER_LEFT">
                     <children>
+                        <Button fx:id="btnVolverMenu"
+                                text="Volver al menú"
+                                onAction="#volverMenuCajero"
+                                style="-fx-background-color:#34363a; -fx-text-fill:white;">
+                            <HBox.margin>
+                                <Insets left="15.0"/>
+                            </HBox.margin>
+                        </Button>
+
                         <Label text="Generar Cuenta y Factura"
                                style="-fx-text-fill:white; -fx-font-size:24px;">
                             <HBox.margin>
-                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                                <Insets top="20.0" bottom="20.0"/>
                             </HBox.margin>
                         </Label>
                     </children>
@@ -36,38 +47,39 @@
             </top>
 
             <center>
-                <VBox spacing="15.0" style="-fx-padding: 20;" BorderPane.alignment="CENTER">
-                    <children>
-                        <TableView prefHeight="250.0" VBox.vgrow="ALWAYS">
-                            <columns>
-                                <TableColumn prefWidth="250.0" text="Producto"/>
-                                <TableColumn prefWidth="100.0" text="Cantidad"/>
-                                <TableColumn prefWidth="150.0" text="Precio"/>
-                            </columns>
-                        </TableView>
+                <VBox spacing="15.0" style="-fx-padding:20;">
 
-                        <HBox spacing="20.0">
-                            <children>
-                                <ComboBox promptText="Tipo Documento" prefWidth="150.0"/>
-                                <ComboBox promptText="Formato" prefWidth="150.0"/>
-                            </children>
-                        </HBox>
+                    <TableView fx:id="tablaPedido" prefHeight="250.0">
+                        <columns>
+                            <TableColumn fx:id="colProducto" text="Producto" prefWidth="250.0"/>
+                            <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="120.0"/>
+                            <TableColumn fx:id="colPrecio" text="Precio" prefWidth="120.0"/>
+                        </columns>
+                    </TableView>
 
-                        <HBox spacing="20.0">
-                            <children>
-                                <RadioButton text="Incluir IVA">
-                                    <toggleGroup>
-                                        <ToggleGroup fx:id="grupoImpuestos" />
-                                    </toggleGroup>
-                                </RadioButton>
-                                <RadioButton text="Desglosar IVA" toggleGroup="$grupoImpuestos"/>
-                            </children>
-                        </HBox>
+                    <HBox spacing="20.0">
+                        <ComboBox fx:id="comboTipoDocumento"
+                                  promptText="Tipo Documento"
+                                  prefWidth="200.0"/>
 
-                        <TextArea prefHeight="150.0" promptText="Vista previa del documento"/>
+                        <ComboBox fx:id="comboFormato"
+                                  promptText="Formato"
+                                  prefWidth="200.0"/>
+                    </HBox>
 
-                        <Button prefWidth="200.0" text="Generar Documento" />
-                    </children>
+                    <HBox spacing="20.0">
+                        <RadioButton fx:id="rbIncluirIVA" text="Incluir IVA"/>
+                        <RadioButton fx:id="rbDesglosarIVA" text="Desglosar IVA"/>
+                    </HBox>
+
+                    <TextArea fx:id="txtVistaPrevia"
+                              prefHeight="150.0"
+                              promptText="Vista previa del documento"/>
+
+                    <Button fx:id="btnGenerarDocumento"
+                            text="Generar Documento"
+                            prefWidth="200.0"
+                            onAction="#handleGenerarDocumento"/>
                 </VBox>
             </center>
 

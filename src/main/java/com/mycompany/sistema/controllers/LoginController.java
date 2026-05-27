@@ -198,11 +198,9 @@ public class LoginController implements Initializable {
                 break;
 
             case "cajero":
-
                 loader = new FXMLLoader(
-                        getClass().getResource("/scenes/AQUI_CAJERO.fxml")
+                        getClass().getResource("/scenes/cajero/menu-cajero.fxml")
                 );
-
                 break;
 
             case "usuario":
