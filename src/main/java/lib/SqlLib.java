@@ -3,6 +3,7 @@ package lib;
 import com.mycompany.sistema.models.Asistencia;
 import com.mycompany.sistema.models.Empleado;
 import com.mycompany.sistema.models.Producto;
+import com.mycompany.sistema.models.insumos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -605,7 +606,7 @@ public class SqlLib {
         return lista;
     }
 
-    // ================= OTROS =================
+    
 
     public boolean registrarClienteNuevo(String usuario, String password) {
 
@@ -625,4 +626,115 @@ public class SqlLib {
     public void registrarHistorial(String usuario) {
         System.out.println("Simulación de historial para: " + usuario);
     }
+    
+    public List<insumos> obtenerInsumos() {
+
+        List<insumos> lista = new ArrayList<>();
+
+        String sql =
+            "SELECT id_insumo, nombre, stock, unidad_medida, categoria, estatus " +
+            "FROM insumos";
+
+        try (
+            Connection con = DriverManager.getConnection(URL, USER, PASS);
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql)
+        ) {
+
+            while (rs.next()) {
+
+                insumos i = new insumos(
+                    rs.getInt("id_insumo"),
+                    rs.getString("nombre"),
+                    rs.getDouble("stock"),
+                    rs.getString("unidad_medida"),
+                    rs.getString("categoria"),
+                    rs.getString("estatus")
+                );
+
+                lista.add(i);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
+    public void insertarInsumo(insumos i) {
+
+        String sql =
+            "INSERT INTO insumos(nombre, stock, unidad_medida, categoria, estatus) " +
+            "VALUES (?, ?, ?, ?, ?)";
+
+        try (
+            Connection conn = DriverManager.getConnection(URL, USER, PASS);
+            PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+
+            ps.setString(1, i.getNombre());
+            ps.setDouble(2, i.getStock());
+            ps.setString(3, i.getUnidadMedida());
+            ps.setString(4, i.getCategoria());
+            ps.setString(5, i.getEstatus());
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void actualizarInsumo(insumos i) {
+
+        String sql =
+            "UPDATE insumos " +
+            "SET nombre=?, stock=?, unidad_medida=?, categoria=?, estatus=? " +
+            "WHERE id_insumo=?";
+
+        try (
+            Connection conn = DriverManager.getConnection(URL, USER, PASS);
+            PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+
+            ps.setString(1, i.getNombre());
+            ps.setDouble(2, i.getStock());
+            ps.setString(3, i.getUnidadMedida());
+            ps.setString(4, i.getCategoria());
+            ps.setString(5, i.getEstatus());
+            ps.setInt(6, i.getIdInsumo());
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    public void registrarMovimientoInventario(int idInsumo, String tipoMovimiento, double cantidad, String descripcion) {
+        String sql =
+            "INSERT INTO movimientos_inventario(id_insumo, tipo_movimiento, cantidad, descripcion) " +
+            "VALUES (?, ?, ?, ?)";
+
+        try (
+            Connection conn = DriverManager.getConnection(URL, USER, PASS);
+            PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+
+            ps.setInt(1, idInsumo);
+            ps.setString(2, tipoMovimiento);
+            ps.setDouble(3, cantidad);
+            ps.setString(4, descripcion);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
 }

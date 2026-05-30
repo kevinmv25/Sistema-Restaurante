@@ -5,27 +5,27 @@ import java.io.Serializable;
 public class insumos implements Serializable {
 
     private int idInsumo;
-
     private String nombre;
     private double stock;
-
     private String unidadMedida;
     private String categoria;
+    private String estatus;
 
-    public insumos(int idInsumo, String nombre, double stock, String unidadMedida, String categoria) {
+    public insumos(int idInsumo, String nombre, double stock, String unidadMedida, String categoria, String estatus) {
         this.idInsumo = idInsumo;
         this.nombre = nombre;
         this.stock = stock;
         this.unidadMedida = unidadMedida;
         this.categoria = categoria;
+        this.estatus = estatus;
     }
 
-    public insumos(String nombre, double stock, String unidadMedida, String categoria) {
-
+    public insumos(String nombre, double stock, String unidadMedida, String categoria, String estatus) {
         this.nombre = nombre;
         this.stock = stock;
         this.unidadMedida = unidadMedida;
         this.categoria = categoria;
+        this.estatus = estatus;
     }
 
     public int getIdInsumo() {
@@ -66,5 +66,13 @@ public class insumos implements Serializable {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+    public String getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(String estatus) {
+        this.estatus = estatus;
     }
 }

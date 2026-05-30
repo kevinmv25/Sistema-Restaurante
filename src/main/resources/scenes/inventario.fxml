@@ -65,9 +65,9 @@
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
                               <Region prefHeight="100.0" prefWidth="113.0" />
-                              <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="79.0" styleClass="btn-menu" text="Editar" />
+                              <Button mnemonicParsing="false" onAction="#editarInsumo" prefHeight="33.0" prefWidth="79.0" styleClass="btn-menu" text="Editar" />
                               <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="79.0" styleClass="btn-menu" text="Eliminar" />
-                              <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="79.0" styleClass="btn-menu" text="Agregar" />
+                              <Button mnemonicParsing="false" onAction="#agregarInsumo" prefHeight="33.0" prefWidth="79.0" styleClass="btn-menu" text="Agregar" />
                               <Region prefHeight="100.0" prefWidth="58.0" />
                               <Label styleClass="titulo-admin" text="Inventario" />
                               <Region prefHeight="99.0" prefWidth="389.0" />
@@ -75,7 +75,7 @@
                         </HBox>
                         <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <TableView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                              <TableView fx:id="tablaInsumos" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                 <columns>
                                   <TableColumn prefWidth="75.0" text="Nombre" />
                                   <TableColumn prefWidth="75.0" text="C2" />
