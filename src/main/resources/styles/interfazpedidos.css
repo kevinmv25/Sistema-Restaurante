@@ -1,0 +1,37 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 30 may 2026, 11:58:22
+    Author     : Miguel Angel Marcelo
+*/
+
+/* Fondo general de la ventana */
+.root {
+    -fx-background-color: #333333; /* Un gris oscuro elegante para el fondo */
+}
+
+/* Estilo para los botones */
+.button {
+    -fx-background-color: #000000;      /* Fondo negro */
+    -fx-text-fill: #ffffff;            /* Texto blanco */
+    -fx-font-size: 9px;
+    -fx-font-family: "Arial BLack";
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;          /* Bordes apenas redondeados */
+    -fx-padding: 10 25 10 25;
+    -fx-cursor: hand;
+}
+
+/* Efecto al pasar el mouse sobre el botón */
+.button:hover {
+    -fx-background-color: #444444;     /* Un gris un poco más claro al tocar */
+    -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.2), 5, 0, 0, 0);
+}
+
+/* Estilo para las etiquetas de texto (si usas Labels) */
+.label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}

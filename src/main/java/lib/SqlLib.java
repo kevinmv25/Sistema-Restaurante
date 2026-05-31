@@ -172,12 +172,8 @@ public class SqlLib {
             while (rs.next()) {
 
                 Producto p = new Producto(
-                    rs.getInt("id_producto"),
-                    rs.getString("nombre"),
-                    rs.getString("descripcion"),
-                    rs.getDouble("precio"),
-                    rs.getString("categoria")
-                );
+                                        rs.getString("nombre"),
+                    rs.getDouble("precio"));
 
                 lista.add(p);
             }

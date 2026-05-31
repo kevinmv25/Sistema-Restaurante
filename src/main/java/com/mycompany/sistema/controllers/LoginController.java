@@ -175,11 +175,30 @@ public class LoginController implements Initializable {
 
             case "mesero":
 
-                loader = new FXMLLoader(
-                        getClass().getResource("/scenes/AQUI_MESERO.fxml")
-                );
+                try {
 
-                break;
+    Parent root = FXMLLoader.load(
+            getClass().getResource("/scenes/Mesero/InicioMesero.fxml")
+    );
+
+    Stage stage = (Stage) ((Node) event.getSource())
+            .getScene()
+            .getWindow();
+
+    stage.setScene(new Scene(root));
+    stage.show();
+
+    System.out.println("Pantalla cargada correctamente.");
+
+    return;
+
+} catch (Exception e) {
+
+    System.err.println("ERROR EN LA CARGA:");
+    e.printStackTrace();
+
+    return;
+}
 
             case "cocina":
 
@@ -221,7 +240,14 @@ public class LoginController implements Initializable {
                 return;
         }
 
+        if (loader == null) {
+            System.out.println("Loader es NULL");
+            return;
+        }
+        
+        
         Parent root = loader.load();
+        System.out.println("Loader = " + loader);
 
         Stage stage = (Stage) btnLogin.getScene().getWindow();
 

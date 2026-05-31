@@ -1,27 +1,49 @@
 package com.mycompany.sistema.models;
 
 public class Producto {
-
-    private int id;
+    // Los campos deben ser privados
     private String nombre;
-    
-    
+    private Double precio;
+    private String categoria;
     private String descripcion;
-    private double precio;
-    private String idCategoria; // 👈 cambiado a int
+    private int Id;
 
-    public Producto(int id, String nombre, String descripcion,
-                    double precio, String idCategoria) {
-        this.id = id;
+    // Constructor: necesario para crear nuevos objetos
+    public Producto(String nombre, double precio) {
         this.nombre = nombre;
-        this.descripcion = descripcion;
         this.precio = precio;
-        this.idCategoria = idCategoria;
+        this.categoria = categoria;
     }
 
-    public int getId() { return id; }
-    public String getNombre() { return nombre; }
-    public String getDescripcion() { return descripcion; }
-    public double getPrecio() { return precio; }
-    public String getCategoria() { return idCategoria; }
+    // --- ESTOS SON LOS MÉTODOS OBLIGATORIOS (GETTERS) ---
+    // La PropertyValueFactory busca estos métodos automáticamente
+    
+    public String getNombre() {
+        return nombre;
+    }
+    
+
+    public Double getPrecio() {
+        return precio;
+    }
+    
+    public String getCategoria() {
+        return categoria;
+    }
+    
+    public String getDescripcion(){
+        return descripcion;
+    }
+    
+    public int getId(){
+        return Id;
+    }
+    // Opcional: Métodos para modificar datos (Setters)
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
+    }
 }
