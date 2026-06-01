@@ -6,13 +6,14 @@ public class Producto {
     private Double precio;
     private String categoria;
     private String descripcion;
-    private int Id;
+    private int IdProducto;
 
     // Constructor: necesario para crear nuevos objetos
-    public Producto(String nombre, double precio) {
+    public Producto(int IdProducto,String nombre, double precio) {
         this.nombre = nombre;
         this.precio = precio;
         this.categoria = categoria;
+        this.IdProducto = IdProducto;
     }
 
     // --- ESTOS SON LOS MÉTODOS OBLIGATORIOS (GETTERS) ---
@@ -35,8 +36,8 @@ public class Producto {
         return descripcion;
     }
     
-    public int getId(){
-        return Id;
+    public int getIdProducto(){
+        return IdProducto;
     }
     // Opcional: Métodos para modificar datos (Setters)
     public void setNombre(String nombre) {
