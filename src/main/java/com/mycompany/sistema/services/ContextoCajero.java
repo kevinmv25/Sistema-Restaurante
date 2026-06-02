@@ -1,12 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.sistema.services;
 
 /**
+ * Mantiene datos temporales compartidos entre las pantallas del módulo de cajero.
  *
- * @author olive
+ * <p>Esta clase funciona como un contexto sencillo para conservar información
+ * como el pedido, cuenta, mesa o pago seleccionado. Su objetivo es facilitar la
+ * comunicación entre ventanas sin acoplar directamente los controladores entre
+ * sí.</p>
+ *
+ * <p>No sustituye a la base de datos. Solo conserva referencias temporales
+ * durante la navegación del usuario.</p>
+ *
+ * @author Gutierrez Colorado Oliver
+ * @see SceneService
+ * @see ReceptorDatos
  */
 public class ContextoCajero {
     
@@ -66,6 +73,12 @@ public class ContextoCajero {
         ContextoCajero.nombreClienteActual = nombreClienteActual;
     }
 
+    /**
+    * Limpia todos los datos temporales almacenados en el contexto.
+    *
+    * <p>Este método puede usarse al cerrar sesión o cuando se quiera evitar que una
+    * operación anterior afecte el flujo de otra pantalla.</p>
+    */
     public static void limpiar() {
         idPedidoActual = null;
         idCuentaActual = null;

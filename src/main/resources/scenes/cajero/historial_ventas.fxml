@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1100.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.mycompany.sistema.controllers.cajero.HistorialVentasController">
+
+    <children>
+        <BorderPane AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0">
+
+            <top>
+                <HBox spacing="20.0" style="-fx-background-color:#145a32;" alignment="CENTER_LEFT">
+                    <children>
+                        <Button text="Volver al menú"
+                                onAction="#volverMenuCajero"
+                                style="-fx-background-color:#34363a; -fx-text-fill:white;">
+                            <HBox.margin>
+                                <Insets left="15.0"/>
+                            </HBox.margin>
+                        </Button>
+
+                        <Label text="Historial de Ventas y Movimientos"
+                               style="-fx-text-fill:white; -fx-font-size:24px;">
+                            <HBox.margin>
+                                <Insets top="20.0" bottom="20.0"/>
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                </HBox>
+            </top>
+
+            <center>
+                <VBox spacing="15.0" style="-fx-padding:25;">
+
+                    <HBox spacing="15.0" alignment="CENTER_LEFT">
+                        <Label text="Filtrar por tipo:"/>
+
+                        <ComboBox fx:id="comboFiltro"
+                                  prefWidth="220.0"
+                                  onAction="#filtrarMovimientos"/>
+
+                        <Button text="Actualizar"
+                                onAction="#actualizarHistorial"/>
+                    </HBox>
+
+                    <TableView fx:id="tablaHistorial" prefHeight="420.0">
+                        <columns>
+                            <TableColumn fx:id="colMovimiento" text="Movimiento" prefWidth="100.0"/>
+                            <TableColumn fx:id="colTurno" text="Turno" prefWidth="80.0"/>
+                            <TableColumn fx:id="colPago" text="Pago" prefWidth="80.0"/>
+                            <TableColumn fx:id="colCuenta" text="Cuenta" prefWidth="80.0"/>
+                            <TableColumn fx:id="colTipo" text="Tipo" prefWidth="130.0"/>
+                            <TableColumn fx:id="colMetodo" text="Método" prefWidth="130.0"/>
+                            <TableColumn fx:id="colMonto" text="Monto" prefWidth="120.0"/>
+                            <TableColumn fx:id="colEstado" text="Estado Pago" prefWidth="130.0"/>
+                            <TableColumn fx:id="colFecha" text="Fecha" prefWidth="210.0"/>
+                        </columns>
+                    </TableView>
+
+                    <Label text="Detalle del movimiento:"/>
+
+                    <TextArea fx:id="txtDetalle"
+                              prefHeight="120.0"
+                              editable="false"
+                              promptText="Selecciona un movimiento para ver detalles"/>
+
+                </VBox>
+            </center>
+
+        </BorderPane>
+    </children>
+</AnchorPane>

@@ -12,6 +12,21 @@ import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 
+/**
+ * Controla la cancelación de pagos y emisión de reembolsos.
+ *
+ * <p>Esta clase implementa el caso de uso <b>CU-11 Cancelar pago y emitir
+ * reembolso</b>. Permite consultar los pagos del turno actual y cancelar uno de
+ * ellos siempre que pertenezca a la caja abierta.</p>
+ *
+ * <p>Cuando un pago se cancela, la cuenta vuelve a estado
+ * <code>Por pagar</code>, el pedido se marca nuevamente como pendiente, la mesa
+ * queda ocupada y se registra un movimiento de cancelación en caja.</p>
+ *
+ * @author Gutierrez Colorado Oliver
+ * @see CajeroService
+ * @see Pago
+ */
 public class ReembolsosController implements Initializable {
 
     @FXML private TextField txtBuscar;
@@ -24,6 +39,15 @@ public class ReembolsosController implements Initializable {
 
     private Pago pagoSeleccionado;
 
+    /**
+    * Inicializa la pantalla de reembolsos.
+    *
+    * <p>Configura la tabla, carga los pagos del turno actual y prepara la selección
+    * de registros.</p>
+    *
+    * @param url ubicación usada por JavaFX para resolver recursos.
+    * @param rb recursos de internacionalización, si existieran.
+    */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configurarTabla();
@@ -31,6 +55,9 @@ public class ReembolsosController implements Initializable {
         configurarSeleccionTabla();
     }
 
+    /**
+    * Asocia las columnas de la tabla con los datos de cada pago.
+    */
     private void configurarTabla() {
         colPago.setCellValueFactory(data ->
                 new SimpleStringProperty(String.valueOf(data.getValue().getIdPago())));
@@ -51,6 +78,12 @@ public class ReembolsosController implements Initializable {
                 new SimpleStringProperty(data.getValue().getFechaPago()));
     }
 
+    /**
+    * Configura la selección de pagos en la tabla.
+    *
+    * <p>Al seleccionar un pago, se actualiza el campo de búsqueda y el contexto
+    * temporal del cajero.</p>
+    */
     private void configurarSeleccionTabla() {
         tablaPagos.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             pagoSeleccionado = newValue;
@@ -63,6 +96,9 @@ public class ReembolsosController implements Initializable {
         });
     }
 
+    /**
+    * Carga los pagos registrados en el turno de caja actualmente abierto.
+    */
     private void cargarPagos() {
         ObservableList<Pago> pagos =
                 FXCollections.observableArrayList(cajeroService.obtenerPagosDelTurnoActual());
@@ -74,6 +110,13 @@ public class ReembolsosController implements Initializable {
         }
     }
 
+    /**
+    * Busca un pago por su identificador.
+    *
+    * <p>El método valida que el pago exista, que siga en estado
+    * <code>Pagado</code> y que pertenezca al turno de caja abierto. Si el pago
+    * corresponde a otro turno, se bloquea la operación.</p>
+    */
     @FXML
     private void handleBuscarTicket() {
         String texto = txtBuscar.getText().trim();
@@ -114,6 +157,12 @@ public class ReembolsosController implements Initializable {
         tablaPagos.getSelectionModel().selectFirst();
     }
 
+    /**
+    * Cancela el pago seleccionado y registra el comprobante de cancelación.
+    *
+    * <p>Solicita un motivo obligatorio y confirma la operación con el usuario antes
+    * de modificar los datos. Esta validación evita cancelaciones accidentales.</p>
+    */
     @FXML
     private void handleCancelarPago() {
         if (pagoSeleccionado == null) {
@@ -160,11 +209,23 @@ public class ReembolsosController implements Initializable {
         cargarPagos();
     }
 
+    /**
+    * Regresa al menú principal del módulo de cajero.
+    *
+    * @param event evento generado por el botón de regreso.
+    */
     @FXML
     private void volverMenuCajero(ActionEvent event) {
         SceneService.cambiarEscena(event, "/scenes/cajero/menu-cajero.fxml");
     }
 
+    /**
+    * Muestra una alerta al usuario.
+    *
+    * @param tipo tipo de alerta.
+    * @param titulo título de la alerta.
+    * @param mensaje mensaje mostrado al usuario.
+    */
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);

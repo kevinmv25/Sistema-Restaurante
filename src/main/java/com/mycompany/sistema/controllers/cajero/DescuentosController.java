@@ -12,6 +12,22 @@ import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 
+/**
+ * Controla la aplicación de descuentos y cortesías sobre cuentas pendientes.
+ *
+ * <p>Esta clase implementa el caso de uso <b>CU-10 Aplicar descuentos y
+ * cortesías</b>. Permite aplicar descuentos sobre una cuenta completa o sobre
+ * un producto específico del pedido, respetando las reglas de autorización
+ * cuando el descuento excede el límite permitido para el cajero.</p>
+ *
+ * <p>La pantalla trabaja únicamente con cuentas en estado <code>Por pagar</code>,
+ * ya que una cuenta pagada no debe modificarse desde este flujo.</p>
+ *
+ * @author Gutierrez Colorado Oliver
+ * @see CajeroService
+ * @see Cuenta
+ * @see DetallePedido
+ */
 public class DescuentosController implements Initializable {
 
     @FXML private TableView<Cuenta> tablaCuentas;
@@ -29,6 +45,12 @@ public class DescuentosController implements Initializable {
 
     private Cuenta cuentaSeleccionada;
 
+    /**
+    * Inicializa combos, tablas y datos necesarios para aplicar descuentos.
+    *
+    * @param url ubicación usada por JavaFX para resolver recursos.
+    * @param rb recursos de internacionalización, si existieran.
+    */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configurarCombos();
@@ -37,6 +59,12 @@ public class DescuentosController implements Initializable {
         configurarSeleccionCuenta();
     }
 
+    /**
+    * Configura las opciones disponibles para el alcance y tipo de descuento.
+    *
+    * <p>El descuento puede aplicarse a la cuenta completa o a un producto
+    * seleccionado. También puede calcularse por porcentaje o como monto fijo.</p>
+    */
     private void configurarCombos() {
         comboAplicarA.getItems().addAll("Cuenta completa", "Producto seleccionado");
         comboAplicarA.setValue("Cuenta completa");
@@ -45,6 +73,12 @@ public class DescuentosController implements Initializable {
         comboTipoDescuento.setValue("Porcentaje");
     }
 
+    /**
+    * Asocia las columnas de las tablas con los atributos de cuenta y detalle.
+    *
+    * <p>La tabla superior muestra las cuentas pendientes y la tabla inferior
+    * muestra los productos relacionados con la cuenta seleccionada.</p>
+    */
     private void configurarTablas() {
         colCuenta.setCellValueFactory(data ->
                 new SimpleStringProperty(String.valueOf(data.getValue().getIdCuenta())));
@@ -77,6 +111,12 @@ public class DescuentosController implements Initializable {
                 new SimpleStringProperty("$" + String.format("%.2f", data.getValue().getSubtotal())));
     }
 
+    /**
+    * Carga las cuentas pendientes de pago desde la base de datos.
+    *
+    * <p>Después de aplicar un descuento, este método se vuelve a ejecutar para
+    * reflejar el nuevo total de la cuenta.</p>
+    */
     private void cargarCuentas() {
         ObservableList<Cuenta> cuentas =
                 FXCollections.observableArrayList(cajeroService.obtenerCuentasPorPagar());
@@ -88,6 +128,12 @@ public class DescuentosController implements Initializable {
         }
     }
 
+    /**
+    * Detecta la cuenta seleccionada y carga sus productos relacionados.
+    *
+    * <p>También actualiza el contexto temporal de cajero para que otras pantallas
+    * puedan reutilizar la cuenta y el pedido seleccionados.</p>
+    */
     private void configurarSeleccionCuenta() {
         tablaCuentas.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             cuentaSeleccionada = newValue;
@@ -101,6 +147,11 @@ public class DescuentosController implements Initializable {
         });
     }
 
+    /**
+    * Carga los productos asociados al pedido de la cuenta seleccionada.
+    *
+    * @param idPedido identificador del pedido del cual se consultará el detalle.
+    */
     private void cargarProductosCuenta(int idPedido) {
         ObservableList<DetallePedido> detalles =
                 FXCollections.observableArrayList(cajeroService.obtenerDetallePedido(idPedido));
@@ -108,6 +159,14 @@ public class DescuentosController implements Initializable {
         tablaProductos.setItems(detalles);
     }
 
+    /**
+    * Aplica el descuento capturado por el cajero.
+    *
+    * <p>Valida campos obligatorios, formato numérico, selección de producto cuando
+    * aplica, y autorización de gerente si el descuento supera el límite permitido.
+    * Para esta versión, el PIN de autorización usado en la validación es
+    * <code>1234</code>.</p>
+    */
     @FXML
     private void handleAplicarDescuento() {
         if (cuentaSeleccionada == null) {
@@ -193,11 +252,23 @@ public class DescuentosController implements Initializable {
         cargarCuentas();
     }
 
+    /**
+    * Regresa al menú principal del módulo de cajero.
+    *
+    * @param event evento generado por el botón de regreso.
+    */
     @FXML
     private void volverMenuCajero(ActionEvent event) {
         SceneService.cambiarEscena(event, "/scenes/cajero/menu-cajero.fxml");
     }
 
+    /**
+    * Muestra una alerta al usuario.
+    *
+    * @param tipo tipo de alerta.
+    * @param titulo título de la alerta.
+    * @param mensaje mensaje que describe el resultado de la operación.
+    */
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
