@@ -9,13 +9,6 @@
                 <goal>javafx:run</goal>
                 
             </goals>
-            <properties>
-                <exec.vmArgs></exec.vmArgs>
-                <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
-                <exec.appArgs></exec.appArgs>
-                <exec.mainClass>com.mycompany.sistema.restaurante.SistemaRestaurante</exec.mainClass>
-                <exec.executable>java</exec.executable>
-            </properties>
         </action>
         <action>
             <actionName>debug</actionName>

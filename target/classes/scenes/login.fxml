@@ -16,7 +16,8 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.sistema.controllers.LoginController">
+
    <left>
       <VBox alignment="CENTER" fillWidth="false" prefHeight="600.0" prefWidth="400.0" spacing="20.0" styleClass="panel-izquierdo" BorderPane.alignment="CENTER">
          <children>
@@ -29,15 +30,10 @@
                      <image>
                         <Image url="@../images/Restaurante..png" />
                      </image>
-                     <StackPane.margin>
-                        <Insets />
-                     </StackPane.margin>
                   </ImageView>
                </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
             </StackPane>
+
             <Label styleClass="texto-sistema" text="Sistema de Gestión">
                <font>
                   <Font name="SansSerif Bold" size="24.0" />
@@ -47,7 +43,7 @@
                      <stops>
                         <Stop>
                            <color>
-                              <Color red="0.9578947424888611" green="0.9578947424888611" blue="0.9578947424888611" />
+                              <Color red="0.9578" green="0.9578" blue="0.9578" />
                            </color>
                         </Stop>
                         <Stop offset="1.0">
@@ -58,83 +54,54 @@
                      </stops>
                   </RadialGradient>
                </textFill>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
             </Label>
          </children>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
       </VBox>
    </left>
-   <center>
-      <VBox alignment="TOP_CENTER" prefHeight="598.0" prefWidth="400.0" styleClass="panel-derecho" BorderPane.alignment="CENTER">
-         <children>
-            <VBox alignment="CENTER" prefHeight="206.0" prefWidth="400.0">
-               <children>
-                  <Label cacheShape="false" styleClass="titulo-login" text="Inicio de sesión">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <VBox.margin>
-                        <Insets right="60.0" />
-                     </VBox.margin></Label>
-               </children>
-            </VBox>
-            <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="80.0" prefWidth="400.0">
-               <children>
-                  <Label alignment="TOP_CENTER" styleClass="textoNormal" text="Usuario">
-                     <VBox.margin>
-                        <Insets right="280.0" />
-                     </VBox.margin>
-                  </Label>
-                  <TextField prefHeight="26.0" prefWidth="274.0" promptText="Introduce tu usuario" styleClass="campo-texto">
-                     <VBox.margin>
-                        <Insets right="75.0" />
-                     </VBox.margin>
-                  </TextField>
-               </children>
-               <opaqueInsets>
-                  <Insets left="10.0" />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </VBox>
-            <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="78.0" prefWidth="400.0">
-               <children>
-                  <Label alignment="TOP_CENTER" styleClass="textoNormal" text="Contraseña">
-                     <VBox.margin>
-                        <Insets right="250.0" />
-                     </VBox.margin>
-                  </Label>
-                  <PasswordField prefHeight="26.0" prefWidth="270.0" promptText="Introduce la contraseña">
-                     <VBox.margin>
-                        <Insets right="75.0" />
-                     </VBox.margin>
-                  </PasswordField>
-               </children>
-               <opaqueInsets>
-                  <Insets left="10.0" />
-               </opaqueInsets>
-            </VBox>
-            <VBox alignment="CENTER" prefHeight="234.0" prefWidth="400.0">
-               <children>
-                  <Button alignment="TOP_CENTER" mnemonicParsing="false" prefHeight="38.0" prefWidth="191.0" styleClass="boton-login" text="Iniciar Sesión">
-                     <VBox.margin>
-                        <Insets bottom="150.0" right="60.0" />
-                     </VBox.margin></Button>
-               </children>
-            </VBox>
-         </children>
-      </VBox>
-   </center>
+
    <stylesheets>
       <URL value="@../styles/stylesheet.css" />
       <URL value="@../styles/loginCSS.css" />
    </stylesheets>
+   <right>
+      <VBox alignment="TOP_CENTER" prefHeight="598.0" prefWidth="400.0" styleClass="panel-derecho" BorderPane.alignment="CENTER">
+
+         <children>
+
+            <VBox alignment="CENTER" prefHeight="206.0" prefWidth="400.0">
+               <children>
+                  <Label styleClass="titulo-login" text="Inicio de sesión" />
+               </children>
+            </VBox>
+
+            <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="80.0" prefWidth="400.0">
+               <children>
+                  <Label styleClass="textoNormal" text="Usuario">
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding></Label>
+                  <TextField fx:id="txtUsuario" prefHeight="26.0" prefWidth="220.0" promptText="Introduce tu usuario" />
+               </children>
+            </VBox>
+
+            <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="78.0" prefWidth="400.0">
+               <children>
+                  <Label styleClass="textoNormal" text="Contraseña">
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding></Label>
+                  <PasswordField fx:id="txtPassword" prefHeight="26.0" prefWidth="220.0" promptText="Introduce la contraseña" />
+               </children>
+            </VBox>
+
+            <VBox alignment="CENTER" prefHeight="234.0" prefWidth="400.0" spacing="60.0">
+               <children>
+                  <Button fx:id="btnLogin" onAction="#login" text="Iniciar Sesión" />
+               </children>
+            </VBox>
+
+         </children>
+      </VBox>
+   </right>
+
 </BorderPane>

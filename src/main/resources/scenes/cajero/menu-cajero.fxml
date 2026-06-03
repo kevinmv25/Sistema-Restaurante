@@ -76,6 +76,12 @@
                             onAction="#cerrarSesion"
                             GridPane.columnIndex="1"
                             GridPane.rowIndex="2"/>
+                    <Button text="Historial de ventas"
+                            prefWidth="260.0"
+                            prefHeight="60.0"
+                            onAction="#irHistorialVentas"
+                            GridPane.columnIndex="0"
+                            GridPane.rowIndex="3"/>
 
                 </GridPane>
             </center>

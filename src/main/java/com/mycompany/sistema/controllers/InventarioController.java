@@ -1,49 +1,245 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package com.mycompany.sistema.controllers;
+
+import com.mycompany.sistema.models.insumos;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.animation.TranslateTransition;
+
+import javafx.beans.property.SimpleStringProperty;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+
 import javafx.scene.layout.AnchorPane;
+
+import javafx.stage.Stage;
+
 import javafx.util.Duration;
 
-/**
- * FXML Controller class
- *
- * @author juego
- */
+import lib.SqlLib;
+
 public class InventarioController implements Initializable, SidebarActions {
+
+    @FXML
+    private TableView<insumos> tablaInsumos;
+
     @FXML
     private AnchorPane sidebar;
-    
+
     @FXML
     private Button btn_sidebar;
+
     @FXML
     private Button btn_salir;
-    
+
     @FXML
     private SidebarController sidebarController;
 
-    private boolean abierto =  false; //bandera para comprobar
-    /**
-     * Initializes the controller class.
-     */
+    private boolean abierto = false;
+
+    private ObservableList<insumos> lista;
+
+    private SqlLib sql = new SqlLib();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       sidebar.setTranslateX(-200);
-       sidebarController.setParent(this);
-       
-    }    
-    
+
+        configurarTabla();
+        cargarDatos();
+
+        sidebar.setTranslateX(-200);
+
+        if (sidebarController != null) {
+            sidebarController.setParent(this);
+        }
+    }
+
+    private void configurarTabla() {
+
+        TableColumn<insumos, String> colInsumo = new TableColumn<>("Insumo");
+        colInsumo.setCellValueFactory(data ->
+            new SimpleStringProperty(data.getValue().getNombre())
+        );
+
+        TableColumn<insumos, String> colStock = new TableColumn<>("Stock");
+        colStock.setCellValueFactory(data ->
+            new SimpleStringProperty(String.valueOf(data.getValue().getStock()))
+        );
+
+        TableColumn<insumos, String> colMedida = new TableColumn<>("Unidad de medida");
+        colMedida.setCellValueFactory(data ->
+            new SimpleStringProperty(data.getValue().getUnidadMedida())
+        );
+
+        TableColumn<insumos, String> colCategoria = new TableColumn<>("Categoría");
+        colCategoria.setCellValueFactory(data ->
+            new SimpleStringProperty(data.getValue().getCategoria())
+        );
+
+        TableColumn<insumos, String> colEstatus = new TableColumn<>("Estatus");
+        colEstatus.setCellValueFactory(data ->
+            new SimpleStringProperty(data.getValue().getEstatus())
+        );
+
+        tablaInsumos.getColumns().clear();
+
+        tablaInsumos.getColumns().addAll(
+            colInsumo,
+            colStock,
+            colMedida,
+            colCategoria,
+            colEstatus
+        );
+    }
+
+    private void cargarDatos() {
+
+        lista = FXCollections.observableArrayList(
+            sql.obtenerInsumos()
+        );
+
+        tablaInsumos.setItems(lista);
+    }
+
+    @FXML
+    private void agregarInsumo() {
+
+        try {
+
+            FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/scenes/DialogAdmin/DialogInventario.fxml")
+            );
+
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+
+            stage.setTitle("Agregar Insumo");
+            stage.setScene(new Scene(root));
+
+            stage.showAndWait();
+
+            cargarDatos();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            new Alert(
+                Alert.AlertType.ERROR,
+                "No se pudo abrir la ventana para agregar insumo"
+            ).showAndWait();
+        }
+    }
+
+    @FXML
+    private void editarInsumo() {
+
+        insumos i = tablaInsumos
+            .getSelectionModel()
+            .getSelectedItem();
+
+        if (i != null) {
+
+            try {
+
+                FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/scenes/DialogAdmin/DialogInventario.fxml")
+                );
+
+                Parent root = loader.load();
+
+                DialogInventarioController controller =
+                    loader.getController();
+
+                controller.setInsumo(i);
+
+                Stage stage = new Stage();
+
+                stage.setTitle("Editar Insumo");
+                stage.setScene(new Scene(root));
+
+                stage.showAndWait();
+
+                cargarDatos();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                new Alert(
+                    Alert.AlertType.ERROR,
+                    "No se pudo abrir la ventana para editar insumo"
+                ).showAndWait();
+            }
+
+        } else {
+
+            new Alert(
+                Alert.AlertType.WARNING,
+                "Selecciona un insumo para editar"
+            ).showAndWait();
+        }
+    }
+
+    @FXML
+    private void eliminarInsumo() {
+
+        insumos i = tablaInsumos
+            .getSelectionModel()
+            .getSelectedItem();
+
+        if (i != null) {
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+            alert.setTitle("Eliminar insumo");
+            alert.setHeaderText("¿Eliminar insumo?");
+            alert.setContentText(
+                i.getNombre() + " - " + i.getStock() + " " + i.getUnidadMedida()
+            );
+
+            if (alert.showAndWait().get() == ButtonType.OK) {
+
+                sql.eliminarInsumo(
+                    i.getIdInsumo()
+                );
+
+                cargarDatos();
+
+                new Alert(
+                    Alert.AlertType.INFORMATION,
+                    "Insumo eliminado correctamente"
+                ).showAndWait();
+            }
+
+        } else {
+
+            new Alert(
+                Alert.AlertType.WARNING,
+                "Selecciona un insumo para eliminar"
+            ).showAndWait();
+        }
+    }
+
     @FXML
     private void mostrarSidebar() {
-        TranslateTransition tt = new TranslateTransition(Duration.millis(300), sidebar);
+
+        TranslateTransition tt =
+            new TranslateTransition(Duration.millis(300), sidebar);
 
         if (abierto) {
             tt.setToX(-200);
@@ -52,22 +248,23 @@ public class InventarioController implements Initializable, SidebarActions {
         }
 
         tt.play();
-        abierto = !abierto;
-    }
-    
-    @Override
-    public void ocultarSidebar(){
-        TranslateTransition tt = new TranslateTransition(Duration.millis(300), sidebar);
-        
-        if(abierto){
-            tt.setToX(-200);
-        } else {
-            tt.setToX(0);
-        }
-        tt.play();
+
         abierto = !abierto;
     }
 
-   
-    
+    @Override
+    public void ocultarSidebar() {
+
+        if (abierto) {
+
+            TranslateTransition tt =
+                new TranslateTransition(Duration.millis(300), sidebar);
+
+            tt.setToX(-200);
+
+            tt.play();
+
+            abierto = false;
+        }
+    }
 }

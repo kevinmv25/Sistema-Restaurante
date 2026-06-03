@@ -6,36 +6,27 @@ import java.util.ResourceBundle;
 
 import javafx.animation.TranslateTransition;
 import javafx.beans.property.SimpleStringProperty;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-
 import javafx.scene.layout.AnchorPane;
-
 import javafx.stage.Stage;
-
 import javafx.util.Duration;
-
 import lib.SqlLib;
 
 public class AsistenciaController implements Initializable, SidebarActions {
 
-    @FXML
-    private TableView<Asistencia> tablaAsistencias;
+    @FXML private TableView<Asistencia> tablaAsistencias;
 
     @FXML private TableColumn<Asistencia, String> col_ID;
     @FXML private TableColumn<Asistencia, String> col_Empleado;
@@ -52,14 +43,11 @@ public class AsistenciaController implements Initializable, SidebarActions {
     @FXML private AnchorPane sidebar;
 
     private boolean abierto = false;
-
     private ObservableList<Asistencia> lista;
-
     private SqlLib sql = new SqlLib();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         configurarTabla();
         cargarDatos();
 
@@ -74,7 +62,6 @@ public class AsistenciaController implements Initializable, SidebarActions {
     }
 
     private void configurarTabla() {
-
         col_ID.setCellValueFactory(data ->
             new SimpleStringProperty(String.valueOf(data.getValue().getIdAsistencia()))
         );
@@ -105,17 +92,12 @@ public class AsistenciaController implements Initializable, SidebarActions {
     }
 
     private void cargarDatos() {
-
-        lista = FXCollections.observableArrayList(
-            sql.obtenerAsistencias()
-        );
-
+        lista = FXCollections.observableArrayList(sql.obtenerAsistencias());
         tablaAsistencias.setItems(lista);
     }
 
     @FXML
     private void buscarPorFiltro() {
-
         String filtro = comboFiltro.getValue();
         String valor = txt_buscar.getText().trim();
 
@@ -124,18 +106,43 @@ public class AsistenciaController implements Initializable, SidebarActions {
             return;
         }
 
-        lista = FXCollections.observableArrayList(
-            sql.buscarAsistenciasPorFiltro(filtro, valor)
-        );
+        if (filtro.equals("Fecha") && !valor.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            mostrarAlerta("Fecha inválida", "Ingresa la fecha con formato: YYYY-MM-DD");
+            return;
+        }
 
-        tablaAsistencias.setItems(lista);
+        if ((filtro.equals("Hora entrada") || filtro.equals("Hora salida"))
+                && !valor.matches("\\d{2}:\\d{2}:\\d{2}")) {
+            mostrarAlerta("Hora inválida", "Ingresa la hora con formato: HH:MM:SS");
+            return;
+        }
+
+        try {
+            lista = FXCollections.observableArrayList(
+                sql.buscarAsistenciasPorFiltro(filtro, valor)
+            );
+
+            tablaAsistencias.setItems(lista);
+
+        } catch (Exception e) {
+            mostrarAlerta(
+                "Error en la búsqueda",
+                "No se pudo realizar la búsqueda. Verifica los datos ingresados."
+            );
+        }
+    }
+
+    private void mostrarAlerta(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 
     @FXML
     private void agregarAsistencia() {
-
         try {
-
             FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/scenes/DialogAdmin/DialogAsistencia.fxml")
             );
@@ -143,10 +150,8 @@ public class AsistenciaController implements Initializable, SidebarActions {
             Parent root = loader.load();
 
             Stage stage = new Stage();
-
             stage.setTitle("Agregar Asistencia");
             stage.setScene(new Scene(root));
-
             stage.showAndWait();
 
             cargarDatos();
@@ -158,31 +163,22 @@ public class AsistenciaController implements Initializable, SidebarActions {
 
     @FXML
     private void editarAsistencia() {
-
-        Asistencia a = tablaAsistencias
-            .getSelectionModel()
-            .getSelectedItem();
+        Asistencia a = tablaAsistencias.getSelectionModel().getSelectedItem();
 
         if (a != null) {
-
             try {
-
                 FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/scenes/DialogAdmin/DialogAsistencia.fxml")
                 );
 
                 Parent root = loader.load();
 
-                DialogAsistenciaController controller =
-                    loader.getController();
-
+                DialogAsistenciaController controller = loader.getController();
                 controller.setAsistencia(a);
 
                 Stage stage = new Stage();
-
                 stage.setTitle("Editar Asistencia");
                 stage.setScene(new Scene(root));
-
                 stage.showAndWait();
 
                 cargarDatos();
@@ -195,27 +191,17 @@ public class AsistenciaController implements Initializable, SidebarActions {
 
     @FXML
     private void eliminarAsistencia() {
-
-        Asistencia a = tablaAsistencias
-            .getSelectionModel()
-            .getSelectedItem();
+        Asistencia a = tablaAsistencias.getSelectionModel().getSelectedItem();
 
         if (a != null) {
-
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
             alert.setTitle("Eliminar");
             alert.setHeaderText("¿Eliminar asistencia?");
-            alert.setContentText(
-                a.getNombreEmpleado() + " - " + a.getFecha()
-            );
+            alert.setContentText(a.getNombreEmpleado() + " - " + a.getFecha());
 
             if (alert.showAndWait().get() == ButtonType.OK) {
-
-                sql.eliminarAsistencia(
-                    a.getIdAsistencia()
-                );
-
+                sql.eliminarAsistencia(a.getIdAsistencia());
                 cargarDatos();
             }
         }
@@ -223,7 +209,6 @@ public class AsistenciaController implements Initializable, SidebarActions {
 
     @FXML
     private void mostrarSidebar() {
-
         TranslateTransition tt =
             new TranslateTransition(Duration.millis(300), sidebar);
 
@@ -234,21 +219,17 @@ public class AsistenciaController implements Initializable, SidebarActions {
         }
 
         tt.play();
-
         abierto = !abierto;
     }
 
     @FXML
     @Override
     public void ocultarSidebar() {
-
         if (abierto) {
-
             TranslateTransition tt =
                 new TranslateTransition(Duration.millis(300), sidebar);
 
             tt.setToX(-200);
-
             tt.play();
 
             abierto = false;

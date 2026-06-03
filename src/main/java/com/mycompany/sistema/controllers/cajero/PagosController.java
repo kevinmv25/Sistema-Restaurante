@@ -12,6 +12,22 @@ import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 
+/**
+ * Controla el registro de pagos de cuentas pendientes.
+ *
+ * <p>Esta clase implementa el caso de uso <b>CU-06 Registrar pago</b>. Muestra
+ * las cuentas en estado <code>Por pagar</code>, permite seleccionar una cuenta
+ * y registra el pago dentro del turno de caja abierto.</p>
+ *
+ * <p>Al registrar un pago correctamente, el sistema cambia la cuenta a
+ * <code>Pagada</code>, libera la mesa relacionada, actualiza el pedido y agrega
+ * el movimiento al corte de caja.</p>
+ *
+ * @author Gutierrez Colorado Oliver
+ * @see CajeroService
+ * @see Cuenta
+ * @see Pago
+ */
 public class PagosController implements Initializable {
 
     @FXML private TableView<Cuenta> tablaCuentasPendientes;
@@ -32,6 +48,15 @@ public class PagosController implements Initializable {
 
     private Cuenta cuentaSeleccionada;
 
+    /**
+    * Inicializa la pantalla de pagos.
+    *
+    * <p>Configura el combo de métodos de pago, las columnas de la tabla y carga
+    * las cuentas pendientes.</p>
+    *
+    * @param url ubicación usada por JavaFX para resolver recursos.
+    * @param rb recursos de internacionalización, si existieran.
+    */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configurarCombo();
@@ -40,6 +65,12 @@ public class PagosController implements Initializable {
         configurarSeleccionTabla();
     }
 
+    /**
+    * Configura los métodos de pago disponibles.
+    *
+    * <p>Para esta versión, el pago mixto se registra como un único movimiento por
+    * el total de la cuenta.</p>
+    */
     private void configurarCombo() {
         comboMetodoPago.getItems().addAll(
                 "Efectivo",
@@ -50,6 +81,9 @@ public class PagosController implements Initializable {
         comboMetodoPago.setValue("Efectivo");
     }
 
+    /**
+    * Asocia las columnas de la tabla con los datos de las cuentas pendientes.
+    */
     private void configurarTabla() {
         colCuenta.setCellValueFactory(data ->
                 new SimpleStringProperty(String.valueOf(data.getValue().getIdCuenta()))
@@ -80,6 +114,12 @@ public class PagosController implements Initializable {
         );
     }
 
+    /**
+    * Configura la selección de cuentas pendientes.
+    *
+    * <p>Cuando el usuario selecciona una cuenta, se actualiza el saldo pendiente,
+    * el monto sugerido y el contexto temporal del módulo de cajero.</p>
+    */
     private void configurarSeleccionTabla() {
         tablaCuentasPendientes.getSelectionModel()
                 .selectedItemProperty()
@@ -102,6 +142,12 @@ public class PagosController implements Initializable {
                 });
     }
 
+    /**
+    * Carga todas las cuentas que todavía están pendientes de pago.
+    *
+    * <p>Después de registrar un pago, este método se vuelve a ejecutar para retirar
+    * de la tabla la cuenta ya pagada.</p>
+    */
     private void cargarCuentasPendientes() {
         List<Cuenta> cuentas = cajeroService.obtenerCuentasPorPagar();
 
@@ -117,6 +163,13 @@ public class PagosController implements Initializable {
         }
     }
 
+    /**
+    * Procesa el pago de la cuenta seleccionada.
+    *
+    * <p>Valida que exista una caja abierta, que el monto sea numérico y que cubra
+    * el total pendiente. Después registra el pago, actualiza la cuenta y agrega el
+    * movimiento de caja correspondiente.</p>
+    */
     @FXML
     private void handleProcesarPago() {
         if (cuentaSeleccionada == null) {
@@ -223,11 +276,23 @@ public class PagosController implements Initializable {
         cargarCuentasPendientes();
     }
 
+    /**
+    * Regresa al menú principal del módulo de cajero.
+    *
+    * @param event evento generado por el botón de regreso.
+    */
     @FXML
     private void volverMenuCajero(ActionEvent event) {
         SceneService.cambiarEscena(event, "/scenes/cajero/menu-cajero.fxml");
     }
 
+    /**
+    * Muestra una alerta al usuario.
+    *
+    * @param tipo tipo de alerta.
+    * @param titulo título de la alerta.
+    * @param mensaje mensaje mostrado al usuario.
+    */
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
