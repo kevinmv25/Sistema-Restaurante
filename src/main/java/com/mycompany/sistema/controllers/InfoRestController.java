@@ -42,17 +42,22 @@ public class InfoRestController implements Initializable {
     @FXML
     private void mostrarMenu(ActionEvent event) {
         ContextMenu menu = new ContextMenu();
+        
         MenuItem itemReservar = new MenuItem("Hacer una Reservación");
+        MenuItem itemHistorial = new MenuItem("Mis Reservaciones");
         MenuItem itemSalir = new MenuItem("Cerrar Sesión");
 
-        itemReservar.setOnAction(e -> cambiarEscena("/scenes/Usuario/Reservacion.fxml", event));
-        itemSalir.setOnAction(e -> cambiarEscena("/scenes/login.fxml", event));
-
-        menu.getItems().addAll(itemReservar, new SeparatorMenuItem(), itemSalir);
+        // Llamados limpios compartiendo únicamente la ruta de texto
+        itemReservar.setOnAction(e -> cambiarEscenaMenu("/scenes/Usuario/Reservacion.fxml"));
+        itemHistorial.setOnAction(e -> cambiarEscenaMenu("/scenes/Usuario/HistorialReservas.fxml"));
+        itemSalir.setOnAction(e -> cambiarEscenaMenu("/scenes/login.fxml"));
+        
+        // Incluidos todos los elementos físicos en la lista desplegable
+        menu.getItems().addAll(itemReservar, itemHistorial, new SeparatorMenuItem(), itemSalir);
         menu.show(btnMInfo, Side.BOTTOM, 0, 0);
     }
 
-    private void cambiarEscena(String ruta, ActionEvent event) {
+    private void cambiarEscenaMenu(String ruta) {
         try {
             URL url = getClass().getResource(ruta);
             if (url == null) {
@@ -60,7 +65,9 @@ public class InfoRestController implements Initializable {
                 return;
             }
             Parent root = FXMLLoader.load(url);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            
+            // Localiza de manera óptima la ventana actual a través del botón FXML
+            Stage stage = (Stage) btnMInfo.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException ex) {

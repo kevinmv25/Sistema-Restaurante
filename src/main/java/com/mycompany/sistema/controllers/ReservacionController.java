@@ -38,7 +38,7 @@ import lib.SqlLib;
  */
 public class ReservacionController implements Initializable {
     
-    @FXML private Button btnMenu;
+    @FXML private Button btnMInfo;
     @FXML private Button btnHora;
     @FXML private TextField txtApellido;
     @FXML private TextField txtNombre;
@@ -58,6 +58,18 @@ public class ReservacionController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargarMesasDisponibles();
+        
+        dpFecha.setDayCellFactory(picker -> new javafx.scene.control.DateCell() {
+        @Override
+        public void updateItem(java.time.LocalDate date, boolean empty) {
+            super.updateItem(date, empty);
+            //deshabilita fechas anteriores a hoy
+            if (date.isBefore(java.time.LocalDate.now())) {
+                setDisable(true);
+                setStyle("-fx-background-color: #ffc0c0;");
+            }
+        }
+    });
         
         dpFecha.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -84,9 +96,8 @@ public class ReservacionController implements Initializable {
     
     @FXML
     private void enviarReservacion(ActionEvent event) {
-        // 1. OBTENER LA MESA SELECCIONADA DEL COMBOBOX
         String mesaSeleccionada = cmbMesas.getValue();
-        
+
         if (personas == 0 || horaSeleccionada.isEmpty() || 
             txtApellido.getText().trim().isEmpty() || 
             txtNombre.getText().trim().isEmpty() || 
@@ -95,36 +106,51 @@ public class ReservacionController implements Initializable {
             mostrarAlerta("Por favor, completa todos los campos, incluyendo la selección de mesa.");
             return;
         }
-        
+
         try {
             String numeroMesaStr = mesaSeleccionada.replace("Mesa ", "").trim();
             this.idMesaSeleccionada = Integer.parseInt(numeroMesaStr);
+
+            String fechaStr = dpFecha.getValue().toString();
+
+            // Recuperamos el correo del usuario que inició sesión
+            String correoCliente = LoginController.CORREO_SESION; 
+            if(correoCliente == null || correoCliente.isEmpty()) {
+                correoCliente = "cliente.anonimo@restaurante.com"; // Respaldo por si pruebas sin login
+            }
+
+            boolean exito = sql.registrarNuevaReservacion(
+                correoCliente,
+                fechaStr,
+                horaSeleccionada + ":00",
+                idMesaSeleccionada,
+                personas
+            );
             
-            // idMesaSeleccionada debe ser el ID de la mesa que el usuario escogió en el mapa
-            sql.actualizarEstadoMesa(idMesaSeleccionada, "Reservada");
-            
+            if (!exito) {
+                mostrarAlerta("Hubo un error al procesar tu reservación en la base de datos.");
+                return;
+            }
+
+            // Ir a la pantalla de confirmación cargando el FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/scenes/Usuario/ConfirmacionReserva.fxml"));
             Parent root = loader.load();
-            
+
             ConfirmacionReservaController controllerDestino = loader.getController();
-            
-            //extraemos los datos
-            String fechaStr = dpFecha.getValue().toString();
             String personasStr = String.valueOf(personas);
 
-            // Llamamos al método que tenemos en ConfirmacionReservaController
-            controllerDestino.configurarDatos(fechaStr, horaSeleccionada, personasStr, "Mesa " + idMesaSeleccionada);
-            
-            // Cambio de escena manual (sin usar tu método cambiarEscena para poder usar el loader)
+            // Envío de parámetros estéticos a la pantalla de Comprobante
+            controllerDestino.configurarDatos(fechaStr, horaSeleccionada, personasStr, "Mesa " + idMesaSeleccionada, this.idMesaSeleccionada);
+
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
-            
+
         } catch (IOException e) {
-        System.err.println("Error al cargar Confirmacion: " + e.getMessage());
-        e.printStackTrace();
+            System.err.println("Error al cargar Confirmacion: " + e.getMessage());
+            e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("Error en la BD: " + e.getMessage());
+            System.err.println("Error general: " + e.getMessage());
         }
     }
 
@@ -143,7 +169,6 @@ public class ReservacionController implements Initializable {
         System.out.println("Personas seleccionadas: " + personas);
     }
     
-    // Método de alerta que faltaba
     private void mostrarAlerta(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setHeaderText(null);
@@ -154,14 +179,17 @@ public class ReservacionController implements Initializable {
     @FXML
     private void mostrarMenu(ActionEvent event) {
         ContextMenu menu = new ContextMenu();
-        MenuItem itemInfo = new MenuItem("Regresar a Información");
+        
+        MenuItem itemInicio = new MenuItem("Inicio / Información");
+        MenuItem itemHistorial = new MenuItem("Mis Reservaciones");
         MenuItem itemSalir = new MenuItem("Cerrar Sesión");
 
-        itemInfo.setOnAction(e -> cambiarEscena("/scenes/Usuario/InfoRest.fxml", event));
-        itemSalir.setOnAction(e -> cambiarEscena("/scenes/login.fxml", event));
+        itemInicio.setOnAction(e -> cambiarEscenaMenu("/scenes/Usuario/InfoRest.fxml"));
+        itemHistorial.setOnAction(e -> cambiarEscenaMenu("/scenes/Usuario/HistorialReservas.fxml"));
+        itemSalir.setOnAction(e -> cambiarEscenaMenu("/scenes/login.fxml"));
 
-        menu.getItems().addAll(itemInfo, new SeparatorMenuItem(), itemSalir);
-        menu.show(btnMenu, Side.BOTTOM, 0, 0);
+        menu.getItems().addAll(itemInicio, itemHistorial, new SeparatorMenuItem(), itemSalir);
+        menu.show(btnMInfo, Side.BOTTOM, 0, 0);
     }
     
     private void cargarMesasDisponibles() {
@@ -170,7 +198,7 @@ public class ReservacionController implements Initializable {
         //obtenemos el mapa con los estados actuales de la BD
         Map<Integer, String> estados = sql.obtenerEstadosMesas();
 
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 12; i++) {
             String estado = estados.get(i);
 
             if (estado != null && estado.equals("Disponible")) {
@@ -184,7 +212,7 @@ public class ReservacionController implements Initializable {
         }
     }
 
-    private void cambiarEscena(String ruta, ActionEvent event) {
+    private void cambiarEscenaMenu(String ruta) {
         try {
             URL url = getClass().getResource(ruta);
             if (url == null) {
@@ -192,7 +220,7 @@ public class ReservacionController implements Initializable {
                 return;
             }
             Parent root = FXMLLoader.load(url);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage stage = (Stage) btnMInfo.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException ex) {
@@ -200,6 +228,5 @@ public class ReservacionController implements Initializable {
             ex.printStackTrace();
         }
     }
-    
 }
-
+    
