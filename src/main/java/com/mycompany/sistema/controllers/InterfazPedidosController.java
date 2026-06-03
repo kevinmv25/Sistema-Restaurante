@@ -1,6 +1,7 @@
+/*
 package com.mycompany.sistema.controllers;
 
-import com.mycompany.sistema.models.DetallePedido;
+import com.mycompany.sistema.models.cajero.DetallePedido;
 import com.mycompany.sistema.models.Producto;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -190,3 +191,4 @@ private void guardarPedidoEnBD() {
     @FXML
     private TextArea txtSolicitudEspecial;
 }
+*/
