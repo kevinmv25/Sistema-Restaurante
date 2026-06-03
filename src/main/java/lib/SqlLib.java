@@ -70,16 +70,14 @@ public class SqlLib {
             "UPDATE mesas m " +
             "JOIN reservaciones r ON m.id_mesa = r.id_mesa " +
             "SET m.estado = 'Reservada' " +
-            "WHERE r.estatus IN ('Confirmada', 'Modificada') " +
+            "WHERE r.estatus IN ('Confirmada', 'Reservada') " +
             "AND r.fecha_reserva >= CURDATE()";
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              Statement stmt = conn.createStatement()) {
 
-            // 1. Todas disponibles
             stmt.executeUpdate(resetMesas);
 
-            // 2. Reservar solo las mesas con reservaciones activas
             stmt.executeUpdate(ocuparReservadas);
 
             System.out.println("Estados de mesas sincronizados.");
@@ -687,7 +685,7 @@ public class SqlLib {
                 "FROM reservaciones r " +
                 "JOIN usuarios u ON r.id_usuario = u.id " +
                 "WHERE u.correo = ? " +
-                "AND r.estatus NOT IN ('Cancelada', 'Pasada') " + 
+                "AND r.estatus NOT IN ('Cancelada', 'Pasada', 'Modificada') " + 
                 "ORDER BY r.fecha_reserva DESC, r.hora_reserva ASC";
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS); 

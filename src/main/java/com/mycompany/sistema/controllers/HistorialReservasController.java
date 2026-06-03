@@ -53,6 +53,9 @@ public class HistorialReservasController implements Initializable {
 
     private SqlLib db;
     
+    // Variable global para almacenar temporalmente el objeto a modificar
+    public static Reservacion RESERVA_A_MODIFICAR = null;
+    
     /**
      * Initializes the controller class.
      */
@@ -173,22 +176,15 @@ public class HistorialReservasController implements Initializable {
                 return;
             }
             
-        //liberar mesa anterior
-        int idMesa = Integer.parseInt(
-            seleccionada.getMesa()
-            .replace("Mesa ", "")
-            .trim()
-        );
-        
-        db.actualizarEstadoMesa(idMesa, "Disponible");
-        
-        db.actualizarEstatusReserva(
-            seleccionada.getFolio(),
-            "Modificada"
-        );
-        
-        cargarHistorial();
+        int idMesa = Integer.parseInt(seleccionada.getMesa().replace("Mesa ", "").trim());
+        String estadoActualMesa = db.obtenerEstadosMesas().get(idMesa);
+        if ("Ocupada".equalsIgnoreCase(estadoActualMesa)) {
+            mostrarAlerta("No puedes modificar esta reservación porque ya te encuentras en la mesa.");
+            return;
+        }
 
+        RESERVA_A_MODIFICAR = seleccionada;
+        
         // Aquí rediriges a la pantalla de Reservación
         cambiarEscenaMenu("/scenes/Usuario/Reservacion.fxml");
     }
@@ -208,11 +204,26 @@ public class HistorialReservasController implements Initializable {
             return;
         }
         
+        int idMesa = Integer.parseInt(
+            seleccionada.getMesa()
+            .replace("Mesa ", "")
+            .trim()
+        );
+        
+        String estadoActualMesa = db.obtenerEstadosMesas().get(idMesa);
+        
+        //si la mesa ya se encuentra ocupada, ya no puede cancelar
+        if ("Ocupada".equalsIgnoreCase(estadoActualMesa)) {
+            mostrarAlerta("No puedes cancelar esta reservación porque ya ha sido confirmada y la mesa se encuentra ocupada.");
+            return;
+        }
+        
         boolean exito = db.cancelarReservacion(seleccionada.getFolio());
         
         if (exito) {
-            // Refrescar la tabla del cliente de inmediato
+            limpiarDetalles();
             cargarHistorial();
+            db.sincronizarEstadoMesas();
             mostrarAlerta("La reservación " + seleccionada.getFolio() + " ha sido cancelada exitosamente.");
         } else {
             mostrarAlerta("Hubo un error al procesar la cancelación en la base de datos.");

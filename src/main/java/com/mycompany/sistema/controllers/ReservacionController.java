@@ -131,6 +131,25 @@ public class ReservacionController implements Initializable {
                 mostrarAlerta("Hubo un error al procesar tu reservación en la base de datos.");
                 return;
             }
+            
+            if (HistorialReservasController.RESERVA_A_MODIFICAR != null) {
+                com.mycompany.sistema.models.Reservacion vieja = HistorialReservasController.RESERVA_A_MODIFICAR;
+                
+                // Extraemos el ID de la mesa antigua
+                int idMesaVieja = Integer.parseInt(
+                    vieja.getMesa()
+                    .replace("Mesa ", "")
+                    .trim()
+                );
+            
+                sql.actualizarEstadoMesa(idMesaVieja, "Disponible");
+                sql.actualizarEstatusReserva(vieja.getFolio(), "Modificada");
+                sql.sincronizarEstadoMesas();
+                HistorialReservasController.RESERVA_A_MODIFICAR = null;
+                
+                System.out.println("DEBUG: Modificación completada. Reservación vieja desactivada con éxito.");
+            }
+            
 
             // Ir a la pantalla de confirmación cargando el FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/scenes/Usuario/ConfirmacionReserva.fxml"));
@@ -183,11 +202,20 @@ public class ReservacionController implements Initializable {
         MenuItem itemInicio = new MenuItem("Inicio / Información");
         MenuItem itemHistorial = new MenuItem("Mis Reservaciones");
         MenuItem itemSalir = new MenuItem("Cerrar Sesión");
-
-        itemInicio.setOnAction(e -> cambiarEscenaMenu("/scenes/Usuario/InfoRest.fxml"));
-        itemHistorial.setOnAction(e -> cambiarEscenaMenu("/scenes/Usuario/HistorialReservas.fxml"));
-        itemSalir.setOnAction(e -> cambiarEscenaMenu("/scenes/login.fxml"));
-
+        
+        itemInicio.setOnAction(e -> {
+            HistorialReservasController.RESERVA_A_MODIFICAR = null; 
+            cambiarEscenaMenu("/scenes/Usuario/InfoRest.fxml");
+        });
+        itemHistorial.setOnAction(e -> {
+            HistorialReservasController.RESERVA_A_MODIFICAR = null;
+            cambiarEscenaMenu("/scenes/Usuario/HistorialReservas.fxml");
+        });
+        itemSalir.setOnAction(e -> {
+            HistorialReservasController.RESERVA_A_MODIFICAR = null;
+            cambiarEscenaMenu("/scenes/login.fxml");
+        });
+        
         menu.getItems().addAll(itemInicio, itemHistorial, new SeparatorMenuItem(), itemSalir);
         menu.show(btnMInfo, Side.BOTTOM, 0, 0);
     }
