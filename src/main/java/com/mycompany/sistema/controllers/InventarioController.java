@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
@@ -190,6 +191,46 @@ public class InventarioController implements Initializable, SidebarActions {
             new Alert(
                 Alert.AlertType.WARNING,
                 "Selecciona un insumo para editar"
+            ).showAndWait();
+        }
+    }
+
+    @FXML
+    private void eliminarInsumo() {
+
+        insumos i = tablaInsumos
+            .getSelectionModel()
+            .getSelectedItem();
+
+        if (i != null) {
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+            alert.setTitle("Eliminar insumo");
+            alert.setHeaderText("¿Eliminar insumo?");
+            alert.setContentText(
+                i.getNombre() + " - " + i.getStock() + " " + i.getUnidadMedida()
+            );
+
+            if (alert.showAndWait().get() == ButtonType.OK) {
+
+                sql.eliminarInsumo(
+                    i.getIdInsumo()
+                );
+
+                cargarDatos();
+
+                new Alert(
+                    Alert.AlertType.INFORMATION,
+                    "Insumo eliminado correctamente"
+                ).showAndWait();
+            }
+
+        } else {
+
+            new Alert(
+                Alert.AlertType.WARNING,
+                "Selecciona un insumo para eliminar"
             ).showAndWait();
         }
     }

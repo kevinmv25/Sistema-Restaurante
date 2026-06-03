@@ -23,8 +23,6 @@ public class SqlLib {
     private final String USER = "admin_rest";
     private final String PASS = "rest123";
 
-    // ================= MESAS =================
-
     public Map<Integer, String> obtenerEstadosMesas() {
 
         Map<Integer, String> listaMesas = new HashMap<>();
@@ -70,8 +68,6 @@ public class SqlLib {
             e.printStackTrace();
         }
     }
-
-    
 
     public boolean isValidCredentials(String correo, String password) throws SQLException {
 
@@ -152,8 +148,6 @@ public class SqlLib {
         return false;
     }
 
-    // ================= PRODUCTOS =================
-
     public List<Producto> obtenerProductos() {
 
         List<Producto> lista = new ArrayList<>();
@@ -172,8 +166,9 @@ public class SqlLib {
             while (rs.next()) {
 
                 Producto p = new Producto(
-                                        rs.getString("nombre"),
-                    rs.getDouble("precio"));
+                    rs.getString("nombre"),
+                    rs.getDouble("precio")
+                );
 
                 lista.add(p);
             }
@@ -202,8 +197,6 @@ public class SqlLib {
             e.printStackTrace();
         }
     }
-
-    // ================= EMPLEADOS =================
 
     public List<Empleado> obtenerEmpleados() {
 
@@ -362,8 +355,6 @@ public class SqlLib {
 
         return null;
     }
-
-    // ================= ASISTENCIAS =================
 
     public void insertarAsistencia(
         int idEmpleado,
@@ -570,11 +561,8 @@ public class SqlLib {
         ) {
 
             if (filtro.equals("Empleado")) {
-
                 ps.setString(1, "%" + valor + "%");
-
             } else {
-
                 ps.setString(1, valor);
             }
 
@@ -602,8 +590,6 @@ public class SqlLib {
         return lista;
     }
 
-    
-
     public boolean registrarClienteNuevo(String usuario, String password) {
 
         try {
@@ -622,7 +608,7 @@ public class SqlLib {
     public void registrarHistorial(String usuario) {
         System.out.println("Simulación de historial para: " + usuario);
     }
-    
+
     public List<insumos> obtenerInsumos() {
 
         List<insumos> lista = new ArrayList<>();
@@ -708,9 +694,26 @@ public class SqlLib {
         }
     }
 
+    public void eliminarInsumo(int idInsumo) {
 
+        String sql = "DELETE FROM insumos WHERE id_insumo=?";
+
+        try (
+            Connection conn = DriverManager.getConnection(URL, USER, PASS);
+            PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+
+            ps.setInt(1, idInsumo);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void registrarMovimientoInventario(int idInsumo, String tipoMovimiento, double cantidad, String descripcion) {
+
         String sql =
             "INSERT INTO movimientos_inventario(id_insumo, tipo_movimiento, cantidad, descripcion) " +
             "VALUES (?, ?, ?, ?)";
@@ -731,6 +734,4 @@ public class SqlLib {
             e.printStackTrace();
         }
     }
-    
-    
 }

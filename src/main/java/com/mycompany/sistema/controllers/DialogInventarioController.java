@@ -47,19 +47,35 @@ public class DialogInventarioController implements Initializable {
     @FXML
     private void guardarInsumo() {
 
-        String nombre = txtInsumo.getText();
-        String stockTxt = txtStock.getText();
-        String unidadMedida = txtMedida.getText();
-        String categoria = txtCategoria.getText();
-        String estatus = txtEstatus.getText();
+        String nombre = txtInsumo.getText().trim();
+        String stockTxt = txtStock.getText().trim();
+        String unidadMedida = txtMedida.getText().trim();
+        String categoria = txtCategoria.getText().trim();
+        String estatus = txtEstatus.getText().trim();
+
+        if (
+            nombre.isEmpty() ||
+            stockTxt.isEmpty() ||
+            unidadMedida.isEmpty() ||
+            categoria.isEmpty() ||
+            estatus.isEmpty()
+        ) {
+            new Alert(Alert.AlertType.WARNING, "Todos los campos son obligatorios").showAndWait();
+            return;
+        }
 
         try {
 
-            double stock = stockTxt.isEmpty() ? 0 : Double.parseDouble(stockTxt);
+            double stock = Double.parseDouble(stockTxt);
+
+            if (stock < 0) {
+                new Alert(Alert.AlertType.WARNING, "El stock no puede ser negativo").showAndWait();
+                return;
+            }
 
             if (stock <= 0) {
                 estatus = "agotado";
-            } else if (estatus == null || estatus.trim().isEmpty()) {
+            } else {
                 estatus = "disponible";
             }
 
