@@ -125,6 +125,7 @@ public class menuadminController implements Initializable, SidebarActions {
         }
     }
 
+    /*
     // EDITAR PRODUCTO
     @FXML
     private void editarProducto() throws IOException {
@@ -152,8 +153,7 @@ public class menuadminController implements Initializable, SidebarActions {
             cargarProductos(); //  refrescar tabla
         }
     }
-
-    //
+    
     @FXML
     private void eliminarProducto() {
 
@@ -167,6 +167,7 @@ public class menuadminController implements Initializable, SidebarActions {
         db.eliminarProducto(seleccionado.getId());
         cargarProductos();
     }
+*/
     
     @FXML
     @Override

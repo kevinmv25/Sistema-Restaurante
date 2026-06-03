@@ -1,6 +1,7 @@
+/*
 package com.mycompany.sistema.controllers;
 
-import com.mycompany.sistema.models.Pedido;
+import com.mycompany.sistema.models.cajero.Pedido;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -260,5 +261,5 @@ private void btnLiberarMesaClick(ActionEvent event) {
 }
  
     
-
+*/
     

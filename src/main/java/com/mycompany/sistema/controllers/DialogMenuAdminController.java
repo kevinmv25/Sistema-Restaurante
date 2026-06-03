@@ -36,6 +36,7 @@ public class DialogMenuAdminController implements Initializable {
         );
     }
 
+    /*
     public void setModoEdicion(Producto p) {
         editando = true;
         idProducto = p.getId();
@@ -45,6 +46,7 @@ public class DialogMenuAdminController implements Initializable {
         txtPrecio.setText(String.valueOf(p.getPrecio()));
         comboCategoria.setValue(p.getCategoria());
     }
+    */
 
     @FXML
     public void guardar() {

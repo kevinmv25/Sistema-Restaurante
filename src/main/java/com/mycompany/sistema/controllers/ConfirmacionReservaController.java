@@ -23,6 +23,7 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.stage.Stage;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import lib.SqlLib;
 
 /**
  * FXML Controller class
@@ -33,18 +34,24 @@ public class ConfirmacionReservaController implements Initializable {
     @FXML private Button btnMConf;
     @FXML private Label lblFolio, lblDia, lblHora, lblPersonas;
     @FXML private Label lblTolerancia;
+    private String folioActual;
+    
+    private SqlLib sql = new SqlLib();
+    // Guardamos el ID numérico de la mesa para poder liberarla si se cancela
+    private int idMesaGuardada = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Aquí puedes inicializar algo si es necesario
     }    
     
     // Método para recibir los datos de la pantalla anterior
-    public void configurarDatos(String dia, String hora, String personas, String mesa) {
+    public void configurarDatos(String fecha, String hora, String personas, String mesa, int idMesa) {
+        this.idMesaGuardada = idMesa;
+        
         int numFolio = (int)(Math.random() * 10000);
         lblFolio.setText("Folio de reservación: RES-" + numFolio);
 
-        lblDia.setText("Día: " + dia);
+        lblDia.setText("Día: " + fecha);
         lblHora.setText("Hora: " + hora);
         lblPersonas.setText("Personas: " + personas + "   |   " + mesa);
         
@@ -70,11 +77,19 @@ public class ConfirmacionReservaController implements Initializable {
     
     @FXML
     private void modificarReserva(ActionEvent event) {
+        // Si va a corregir datos, liberamos la mesa primero para que vuelva a aparecer disponible
+        if (idMesaGuardada != 0) {
+            sql.actualizarEstatusReserva(folioActual, "Modificada");
+        }
         cambiarEscena("/scenes/Usuario/Reservacion.fxml", event);
     }
 
     @FXML
     private void cancelarReserva(ActionEvent event) {
+        //si cancela la reserva, liberamos la mesa en la base de datos de inmediato
+        if (idMesaGuardada != 0) {
+            sql.actualizarEstadoMesa(idMesaGuardada, "Disponible");
+        }
         cambiarEscena("/scenes/Usuario/InfoRest.fxml", event);
     }
     
@@ -85,7 +100,11 @@ public class ConfirmacionReservaController implements Initializable {
         MenuItem itemInfo = new MenuItem("Ver Información");
         MenuItem itemSalir = new MenuItem("Cerrar Sesión");
 
-        itemEditar.setOnAction(e -> cambiarEscena("/scenes/Usuario/Reservacion.fxml", event));
+        itemEditar.setOnAction(e -> {
+            if (idMesaGuardada != 0) sql.actualizarEstadoMesa(idMesaGuardada, "Disponible");
+            cambiarEscena("/scenes/Usuario/Reservacion.fxml", event);
+        });
+        
         itemInfo.setOnAction(e -> cambiarEscena("/scenes/Usuario/InfoRest.fxml", event));
         itemSalir.setOnAction(e -> cambiarEscena("/scenes/login.fxml", event));
 
