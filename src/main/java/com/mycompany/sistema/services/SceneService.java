@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.sistema.services;
 
 import java.io.IOException;
@@ -12,12 +8,28 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 /**
+ * Proporciona métodos reutilizables para cambiar escenas en JavaFX.
  *
- * @author olive
+ * <p>Esta clase evita repetir el mismo código de carga de archivos FXML en cada
+ * controlador. También ayuda a mantener una navegación uniforme dentro del
+ * módulo de cajero y el resto del sistema.</p>
+ *
+ * @author Gutierrez Colorado Oliver
+ * @see ReceptorDatos
  */
 public class SceneService {
     
+    /**
+    * Cambia la escena actual por la vista indicada.
+    *
+    * <p>El método recibe el evento del botón que originó la navegación, obtiene la
+    * ventana actual y reemplaza su contenido por el FXML solicitado.</p>
+    *
+    * @param event evento generado desde la interfaz.
+    * @param rutaFXML ruta absoluta del archivo FXML dentro de resources.
+    */
     public static void cambiarEscena(ActionEvent event, String rutaFXML) {
         try {
             URL url = SceneService.class.getResource(rutaFXML);
@@ -39,6 +51,18 @@ public class SceneService {
         }
     }
 
+    /**
+    * Cambia de escena enviando un objeto de datos al controlador destino.
+    *
+    * <p>El controlador de la nueva pantalla debe implementar
+    * <code>ReceptorDatos</code>. Si no lo implementa, la escena se carga de todos
+    * modos, pero no se entrega información adicional.</p>
+    *
+    * @param event evento generado desde la interfaz.
+    * @param rutaFXML ruta absoluta del archivo FXML que se cargará.
+    * @param datos objeto que será enviado al controlador destino.
+    * @see ReceptorDatos
+    */
     public static void cambiarEscenaConDatos(ActionEvent event, String rutaFXML, Object datos) {
         try {
             URL url = SceneService.class.getResource(rutaFXML);

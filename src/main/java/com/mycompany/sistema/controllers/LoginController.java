@@ -21,6 +21,9 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 public class LoginController implements Initializable {
+    
+    // Guarda el correo del usuario activo
+    public static String CORREO_SESION = "";
 
     @FXML
     private TextField txtUsuario;
@@ -50,47 +53,28 @@ public class LoginController implements Initializable {
         String password = txtPassword.getText();
 
         try {
-
-            // Validar credenciales
+            // 1. Validar credenciales tradicionales
             if (!db.isValidCredentials(username, password)) {
-
-                // Si no existe, registrarlo como nuevo cliente
-                boolean registrado = db.registrarClienteNuevo(username, password);
-
-                if (registrado) {
-                    return "usuario";
-                }
-
-                mostrarAlertaError(
-                    "Acceso Denegado",
-                    "Usuario o contraseña incorrectos."
-                );
-
+                mostrarAlertaError("Error de Acceso", "Usuario o contraseña incorrectos.");
                 return "nil";
             }
-
-            // Obtener rol
-            String rol = db.getRole(username);
-
-            // Validar acceso
-            if (rol.equalsIgnoreCase("usuario")) {
-
-                mostrarAlertaError(
-                    "Acceso Denegado",
-                    "No tienes acceso al sistema."
-                );
-
-                return "denegado";
+            
+            if (!db.puedeLogin(username)) {
+                mostrarAlertaError("Acceso Denegado", "Tu usuario tiene el acceso denegado por el administrador.");
+                return "nil";
             }
-
-            return rol;
-
-        } catch (SQLException e) {
-
-            mostrarErrorBD(
-                "Error al validar credenciales, intente más tarde."
-            );
-
+            
+            String rolObtenido = db.getRole(username);
+            db.registrarHistorial(username); 
+            
+            // 4. Guardamos el usuario logueado en la sesión global
+            CORREO_SESION = username;
+            
+            return rolObtenido;
+            
+            } catch (SQLException e) {
+            mostrarErrorBD("Error al validar credenciales, intente más tarde.");
+            e.printStackTrace();
             return "error_db";
         }
     }
@@ -144,64 +128,81 @@ public class LoginController implements Initializable {
     }
 
     @FXML
+    private void registrarNuevoCliente(ActionEvent event) {
+        String correo = txtUsuario.getText().trim();
+        String password = txtPassword.getText();
+
+        // 1. Validar campos vacíos primero
+        if (correo.isEmpty() || password.isEmpty()) {
+            Alert alertaCampos = new Alert(Alert.AlertType.WARNING);
+            alertaCampos.setTitle("Campos Vacíos");
+            alertaCampos.setHeaderText(null);
+            alertaCampos.setContentText("Por favor, ingresa un usuario y contraseña para registrarte.");
+            alertaCampos.showAndWait();
+            return; 
+        }
+
+        // 2. Intentar el registro en la Base de Datos
+        boolean registrado = db.registrarClienteNuevo("Cliente Nuevo", correo, password);
+
+        if (registrado) {
+            Alert alertaExito = new Alert(Alert.AlertType.INFORMATION);
+            alertaExito.setTitle("¡Registro Exitoso!");
+            alertaExito.setHeaderText(null);
+            alertaExito.setContentText("Tu cuenta ha sido creada. Ya puedes hacer clic en 'Iniciar Sesión'.");
+            alertaExito.showAndWait();
+        } else {
+            // Alerta de Error (Por si el correo está repetido)
+            Alert alertaError = new Alert(Alert.AlertType.ERROR);
+            alertaError.setTitle("Error de Registro");
+            alertaError.setHeaderText(null);
+            alertaError.setContentText("El correo electrónico ya se encuentra registrado. Intenta con otro.");
+            alertaError.showAndWait();
+        }
+    }
+    
+    @FXML
     private void login(ActionEvent event) throws IOException {
 
         if (!validarCampos()) {
-
             mostrarAlerta("Todos los campos deben estar llenos");
             return;
         }
 
         String rol = handleLogin();
 
-        if (rol.equals("nil")
-                || rol.equals("denegado")
-                || rol.equals("error_db")) {
-
+        if (rol.equals("nil") || rol.equals("denegado") || rol.equals("error_db")) {
             return;
         }
 
         FXMLLoader loader = null;
 
         switch (rol.toLowerCase()) {
-
             case "administrador":
-
                 loader = new FXMLLoader(
                         getClass().getResource("/scenes/interfazAdmin.fxml")
                 );
-
                 break;
 
             case "mesero":
-
                 try {
-
-    Parent root = FXMLLoader.load(
-            getClass().getResource("/scenes/Mesero/InicioMesero.fxml")
-    );
-
-    Stage stage = (Stage) ((Node) event.getSource())
-            .getScene()
-            .getWindow();
-
-    stage.setScene(new Scene(root));
-    stage.show();
-
-    System.out.println("Pantalla cargada correctamente.");
-
-    return;
-
-} catch (Exception e) {
-
-    System.err.println("ERROR EN LA CARGA:");
-    e.printStackTrace();
-
-    return;
-}
+                    Parent root = FXMLLoader.load(
+                            getClass().getResource("/scenes/Mesero/InicioMesero.fxml")
+                    );
+                Stage stage = (Stage) ((Node) event.getSource())
+                        .getScene()
+                        .getWindow();
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                    System.out.println("Pantalla cargada correctamente.");
+                    return;
+                } catch (Exception e) {
+                    System.err.println("ERROR EN LA CARGA:");
+                    e.printStackTrace();
+                    return;
+                }
 
             case "cocina":
-
                 loader = new FXMLLoader(
                         getClass().getResource("/scenes/AQUI_COCINA.fxml")
                 );
@@ -209,7 +210,6 @@ public class LoginController implements Initializable {
                 break;
 
             case "recepcionista":
-
                 loader = new FXMLLoader(
                         getClass().getResource("/scenes/Recepcionista/MapaMesas.fxml")
                 );
@@ -223,15 +223,12 @@ public class LoginController implements Initializable {
                 break;
 
             case "usuario":
-
                 loader = new FXMLLoader(
                         getClass().getResource("/scenes/Usuario/InfoRest.fxml")
                 );
-
                 break;
 
             default:
-
                 mostrarAlertaError(
                     "Error de Rol",
                     "Rol no reconocido en el sistema."
@@ -244,7 +241,6 @@ public class LoginController implements Initializable {
             System.out.println("Loader es NULL");
             return;
         }
-        
         
         Parent root = loader.load();
         System.out.println("Loader = " + loader);
@@ -260,31 +256,17 @@ public class LoginController implements Initializable {
 
     @FXML
     private void accesoDirecto(ActionEvent event) {
-
         cambiarEscena("/scenes/Usuario/InfoRest.fxml", event);
     }
 
     private void cambiarEscena(String ruta, ActionEvent event) {
-
         try {
-
-            Parent root = FXMLLoader.load(
-                    getClass().getResource(ruta)
-            );
-
-            Stage stage = (Stage) ((Node) event.getSource())
-                    .getScene()
-                    .getWindow();
-
+            Parent root = FXMLLoader.load(getClass().getResource(ruta));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
-
         } catch (IOException ex) {
-
-            System.err.println(
-                "No se pudo saltar el login: " + ruta
-            );
-
+            System.err.println("No se pudo saltar el login: " + ruta);
             ex.printStackTrace();
         }
     }

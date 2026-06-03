@@ -3,6 +3,7 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -63,40 +64,45 @@
       <URL value="@../styles/stylesheet.css" />
       <URL value="@../styles/loginCSS.css" />
    </stylesheets>
+   
    <right>
       <VBox alignment="TOP_CENTER" prefHeight="598.0" prefWidth="400.0" styleClass="panel-derecho" BorderPane.alignment="CENTER">
-
          <children>
 
-            <VBox alignment="CENTER" prefHeight="206.0" prefWidth="400.0">
+            <VBox alignment="CENTER" prefHeight="180.0" prefWidth="400.0">
                <children>
                   <Label styleClass="titulo-login" text="Inicio de sesión" />
                </children>
             </VBox>
 
-            <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="80.0" prefWidth="400.0">
+            <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="85.0" prefWidth="400.0">
                <children>
                   <Label styleClass="textoNormal" text="Usuario">
                      <padding>
                         <Insets bottom="10.0" />
-                     </padding></Label>
-                  <TextField fx:id="txtUsuario" prefHeight="26.0" prefWidth="220.0" promptText="Introduce tu usuario" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="txtUsuario" prefHeight="32.0" prefWidth="240.0" promptText="Introduce tu usuario" 
+                             style="-fx-background-color: #ffffff; -fx-text-fill: #333333; -fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-radius: 5; -fx-prompt-text-fill: #aaaaaa;" />
                </children>
             </VBox>
 
-            <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="78.0" prefWidth="400.0">
+            <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="85.0" prefWidth="400.0">
                <children>
                   <Label styleClass="textoNormal" text="Contraseña">
                      <padding>
                         <Insets bottom="10.0" />
-                     </padding></Label>
-                  <PasswordField fx:id="txtPassword" prefHeight="26.0" prefWidth="220.0" promptText="Introduce la contraseña" />
+                     </padding>
+                  </Label>
+                  <PasswordField fx:id="txtPassword" prefHeight="32.0" prefWidth="240.0" promptText="Introduce la contraseña" 
+                                 style="-fx-background-color: #ffffff; -fx-text-fill: #333333; -fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-radius: 5; -fx-prompt-text-fill: #aaaaaa;" />
                </children>
             </VBox>
 
-            <VBox alignment="CENTER" prefHeight="234.0" prefWidth="400.0" spacing="60.0">
+            <VBox alignment="CENTER" prefHeight="180.0" prefWidth="400.0" spacing="25.0">
                <children>
                   <Button fx:id="btnLogin" onAction="#login" text="Iniciar Sesión" />
+                  <Hyperlink fx:id="btnCliente" onAction="#registrarNuevoCliente" text="¿No tienes cuenta? Regístrate aquí" />
                </children>
             </VBox>
 

@@ -23,6 +23,23 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 
+/**
+ * Controla la generación de cuentas, tickets y facturas.
+ *
+ * <p>Esta clase implementa el caso de uso <b>CU-05 Generar cuenta, ticket y
+ * factura</b>. Recupera pedidos pendientes, muestra su detalle y genera una
+ * cuenta en estado <code>Por pagar</code>, lista para recibir descuentos o ser
+ * cobrada en el módulo de pagos.</p>
+ *
+ * <p>La cuenta generada mantiene trazabilidad con el pedido original, por lo que
+ * los casos de uso posteriores pueden continuar el flujo sin duplicar datos.</p>
+ *
+ * @author Gutierrez Colorado Oliver
+ * @see CajeroService
+ * @see Pedido
+ * @see Cuenta
+ * @see DetallePedido
+ */
 public class FacturacionController implements Initializable {
 
     @FXML
@@ -57,6 +74,15 @@ public class FacturacionController implements Initializable {
     private Pedido pedidoActual;
     private Cuenta cuentaActual;
 
+    /**
+    * Inicializa la pantalla de facturación.
+    *
+    * <p>Configura los combos, prepara la tabla de productos y carga el pedido
+    * pendiente que será facturado.</p>
+    *
+    * @param url ubicación usada por JavaFX para resolver recursos.
+    * @param rb recursos de internacionalización, si existieran.
+    */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configurarCombos();
@@ -64,6 +90,12 @@ public class FacturacionController implements Initializable {
         cargarPedidoActual();
     }
 
+    /**
+    * Configura las opciones de documento y formato disponibles.
+    *
+    * <p>El usuario puede generar un ticket de venta o factura legal en distintos
+    * formatos de salida.</p>
+    */
     private void configurarCombos() {
         comboTipoDocumento.getItems().addAll(
                 "Ticket de venta",
@@ -80,6 +112,9 @@ public class FacturacionController implements Initializable {
         comboFormato.setValue("Impresión térmica");
     }
 
+    /**
+    * Asocia las columnas de la tabla con los datos del detalle del pedido.
+    */
     private void configurarTabla() {
         colProducto.setCellValueFactory(data ->
                 new SimpleStringProperty(data.getValue().getNombreProducto())
@@ -94,6 +129,12 @@ public class FacturacionController implements Initializable {
         );
     }
 
+    /**
+    * Recupera el pedido actual que será facturado.
+    *
+    * <p>Primero intenta usar el pedido guardado en <code>ContextoCajero</code>.
+    * Si no existe, toma el primer pedido en estado <code>Por pagar</code>.</p>
+    */
     private void cargarPedidoActual() {
         Integer idPedidoContexto = ContextoCajero.getIdPedidoActual();
 
@@ -137,6 +178,12 @@ public class FacturacionController implements Initializable {
         );
     }
 
+    /**
+    * Genera la cuenta y el documento de consumo seleccionado.
+    *
+    * <p>Calcula impuestos cuando el usuario lo solicita, crea el registro en la
+    * tabla <code>cuentas</code> y actualiza la vista previa con el total final.</p>
+    */
     @FXML
     private void handleGenerarDocumento() {
         if (pedidoActual == null) {
@@ -216,11 +263,23 @@ public class FacturacionController implements Initializable {
         );
     }
 
+    /**
+    * Regresa al menú principal del módulo de cajero.
+    *
+    * @param event evento generado por el botón de regreso.
+    */
     @FXML
     private void volverMenuCajero(ActionEvent event) {
         SceneService.cambiarEscena(event, "/scenes/cajero/menu-cajero.fxml");
     }
 
+    /**
+    * Muestra una alerta en pantalla.
+    *
+    * @param tipo tipo de alerta.
+    * @param titulo título de la ventana.
+    * @param mensaje mensaje mostrado al usuario.
+    */
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);

@@ -7,7 +7,24 @@ import javafx.event.ActionEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
+/**
+ * Controla la apertura y cierre de caja del módulo de cajero.
+ *
+ * <p>Esta clase implementa la lógica del caso de uso <b>CU-09 Realizar apertura
+ * y corte de caja</b>. Su función principal es permitir que el cajero registre
+ * el fondo inicial del turno, consulte el total esperado y realice el corte
+ * final comparando el dinero físico contra los movimientos registrados.</p>
+ *
+ * <p>El <code>monto inicial</code> representa el fondo con el que inicia la caja.
+ * El <code>total esperado</code> se calcula con la suma del monto inicial más
+ * los pagos registrados, descontando cancelaciones o reembolsos. El
+ * <code>conteo físico</code> es el dinero real contado por el cajero al cerrar
+ * el turno.</p>
+ *
+ * @author Gutierrez Colorado Oliver
+ * @see CajeroService
+ * @see SceneService
+ */
 public class CajaController implements Initializable {
 
     @FXML private TextField txtMontoInicial;
@@ -19,11 +36,26 @@ public class CajaController implements Initializable {
 
     private Integer turnoAbierto;
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    /**
+    * Inicializa la pantalla de caja cargando el estado actual del turno.
+    *
+    * <p>Si existe una caja abierta, se muestra el turno activo y el total esperado.
+    * Si no existe, se habilita el campo para ingresar el monto inicial.</p>
+    *
+    * @param url ubicación usada por JavaFX para resolver recursos.
+    * @param rb recursos de internacionalización, si existieran.
+    */
+   @Override
+   public void initialize(URL url, ResourceBundle rb) {
         cargarEstadoCaja();
     }
 
+    /**
+    * Consulta si hay una caja abierta y actualiza los campos visibles.
+    *
+    * <p>Este método evita que el cajero abra dos cajas al mismo tiempo y mantiene
+    * sincronizada la interfaz con el estado real de la base de datos.</p>
+    */
     private void cargarEstadoCaja() {
         turnoAbierto = cajeroService.obtenerTurnoAbierto();
 
@@ -44,7 +76,13 @@ public class CajaController implements Initializable {
         txtConteoFisico.clear();
         txtJustificacion.clear();
     }
-
+    
+    /**
+    * Abre un nuevo turno de caja con el monto inicial capturado por el cajero.
+    *
+    * <p>Antes de registrar la apertura, valida que no exista otra caja abierta y
+    * que el monto inicial sea un número válido mayor o igual a cero.</p>
+    */
     @FXML
     private void handleAbrirCaja() {
         turnoAbierto = cajeroService.obtenerTurnoAbierto();
@@ -111,6 +149,13 @@ public class CajaController implements Initializable {
         cargarEstadoCaja();
     }
 
+    /**
+    * Realiza el cierre de caja del turno actual.
+    *
+    * <p>Antes de cerrar, valida que no existan cuentas pendientes de cobro. Después
+    * compara el total esperado contra el conteo físico. Si existe diferencia,
+    * solicita una justificación para dejar evidencia en el corte.</p>
+    */
     @FXML
     private void handleCerrarCaja() {
         turnoAbierto = cajeroService.obtenerTurnoAbierto();
@@ -209,11 +254,24 @@ public class CajaController implements Initializable {
         cargarEstadoCaja();
     }
 
+    /**
+    * Regresa al menú principal del módulo de cajero.
+    *
+    * @param event evento generado por el botón de regreso.
+    * @see SceneService#cambiarEscena(ActionEvent, String)
+    */
     @FXML
     private void volverMenuCajero(ActionEvent event) {
         SceneService.cambiarEscena(event, "/scenes/cajero/menu-cajero.fxml");
     }
 
+    /**
+    * Muestra una alerta informativa, de advertencia o de error.
+    *
+    * @param tipo tipo de alerta que se desea mostrar.
+    * @param titulo título de la ventana emergente.
+    * @param mensaje contenido que verá el usuario.
+    */
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
