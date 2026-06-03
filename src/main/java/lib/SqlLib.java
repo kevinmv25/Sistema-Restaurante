@@ -171,10 +171,12 @@ public class SqlLib {
             while (rs.next()) {
 
                 Producto p = new Producto(
-                                        rs.getString("nombre"),
-                    rs.getDouble("precio"));
+                rs.getInt("id_producto"),
+                rs.getString("nombre"),
+                rs.getDouble("precio")
+             );
 
-                lista.add(p);
+            lista.add(p);
             }
 
         } catch (Exception e) {
