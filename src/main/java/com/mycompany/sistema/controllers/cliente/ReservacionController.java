@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package com.mycompany.sistema.controllers;
+package com.mycompany.sistema.controllers.cliente;
 
+import com.mycompany.sistema.controllers.LoginController;
+import com.mycompany.sistema.controllers.cliente.HistorialReservasController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
@@ -133,7 +135,7 @@ public class ReservacionController implements Initializable {
             }
             
             if (HistorialReservasController.RESERVA_A_MODIFICAR != null) {
-                com.mycompany.sistema.models.Reservacion vieja = HistorialReservasController.RESERVA_A_MODIFICAR;
+                com.mycompany.sistema.models.cliente.Reservacion vieja = HistorialReservasController.RESERVA_A_MODIFICAR;
                 
                 // Extraemos el ID de la mesa antigua
                 int idMesaVieja = Integer.parseInt(
@@ -257,4 +259,3 @@ public class ReservacionController implements Initializable {
         }
     }
 }
-    

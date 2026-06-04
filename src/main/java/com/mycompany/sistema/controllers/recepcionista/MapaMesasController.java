@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package com.mycompany.sistema.controllers;
+package com.mycompany.sistema.controllers.recepcionista;
 
 import java.io.IOException;
 import java.net.URL;
@@ -47,15 +47,15 @@ public class MapaMesasController implements Initializable {
     private TextField txtNombreEspera, txtPersonasEspera;
     
     @FXML
-    private TableView<com.mycompany.sistema.models.Reservacion> tblReservaciones; 
+    private TableView<com.mycompany.sistema.models.cliente.Reservacion> tblReservaciones; 
     @FXML
-    private TableColumn<com.mycompany.sistema.models.Reservacion, String> colResNombre;
+    private TableColumn<com.mycompany.sistema.models.cliente.Reservacion, String> colResNombre;
     @FXML
-    private TableColumn<com.mycompany.sistema.models.Reservacion, String> colResHora;
+    private TableColumn<com.mycompany.sistema.models.cliente.Reservacion, String> colResHora;
     @FXML
-    private TableColumn<com.mycompany.sistema.models.Reservacion, String> colResMesa;
+    private TableColumn<com.mycompany.sistema.models.cliente.Reservacion, String> colResMesa;
     @FXML
-    private TableColumn<com.mycompany.sistema.models.Reservacion, String> colResEstatus;
+    private TableColumn<com.mycompany.sistema.models.cliente.Reservacion, String> colResEstatus;
     
     @FXML
     private TableView<Map<String, Object>> tblListaEspera;
@@ -71,7 +71,7 @@ public class MapaMesasController implements Initializable {
     private Circle mesaSeleccionadaActual = null;
     private int idMesaSeleccionadaActual = 0;
     
-    private ObservableList<com.mycompany.sistema.models.Reservacion> listaReservaciones = FXCollections.observableArrayList();
+    private ObservableList<com.mycompany.sistema.models.cliente.Reservacion> listaReservaciones = FXCollections.observableArrayList();
     private ObservableList<Map<String, Object>> listaEspera = FXCollections.observableArrayList();
     
     // Constantes de color
@@ -99,7 +99,7 @@ public class MapaMesasController implements Initializable {
         
         if (colResEstatus != null) {
             colResEstatus.setCellValueFactory(new PropertyValueFactory<>("estatus"));
-            colResEstatus.setCellFactory(column -> new TableCell<com.mycompany.sistema.models.Reservacion, String>() {
+            colResEstatus.setCellFactory(column -> new TableCell<com.mycompany.sistema.models.cliente.Reservacion, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -320,7 +320,7 @@ public class MapaMesasController implements Initializable {
     @FXML
     private void quitarReserva(ActionEvent event) {
         if (tblReservaciones == null) return;
-        com.mycompany.sistema.models.Reservacion resSeleccionada = tblReservaciones.getSelectionModel().getSelectedItem();
+        com.mycompany.sistema.models.cliente.Reservacion resSeleccionada = tblReservaciones.getSelectionModel().getSelectedItem();
         
         int idMesaAEliminar = idMesaSeleccionadaActual; 
         String idReservaAEliminar = (resSeleccionada != null) ? resSeleccionada.getFolio() : null;

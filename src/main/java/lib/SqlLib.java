@@ -3,7 +3,7 @@ package lib;
 import com.mycompany.sistema.models.Asistencia;
 import com.mycompany.sistema.models.Empleado;
 import com.mycompany.sistema.models.Producto;
-import com.mycompany.sistema.models.Reservacion;
+import com.mycompany.sistema.models.cliente.Reservacion;
 import com.mycompany.sistema.models.insumos;
 
 import java.sql.Connection;
@@ -31,7 +31,6 @@ public class SqlLib {
 
     public Map<Integer, String> obtenerEstadosMesas() {
         Map<Integer, String> listaMesas = new HashMap<>();
-
         String query = "SELECT id_mesa, estado FROM mesas";
 
         try (
@@ -40,16 +39,13 @@ public class SqlLib {
             ResultSet rs = stmt.executeQuery(query)
         ) {
             while (rs.next()) {
-                listaMesas.put(
-                    rs.getInt("id_mesa"),
-                    rs.getString("estado")
-                );
+                int id = rs.getInt("id_mesa");
+                String estado = rs.getString("estado");
+                listaMesas.put(id, estado);
             }
-
         } catch (SQLException e) {
             System.err.println("Error al conectar a la base de datos: " + e.getMessage());
         }
-
         return listaMesas;
     }
 
@@ -63,7 +59,7 @@ public class SqlLib {
             ps.setString(1, nuevoEstado);
             ps.setInt(2, idMesa);
             ps.executeUpdate();
-
+            System.out.println("Mesa " + idMesa + " actualizada con éxito.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,7 +67,6 @@ public class SqlLib {
 
     public void sincronizarEstadoMesas() {
         String resetMesas = "UPDATE mesas SET estado = 'Disponible'";
-
         String ocuparReservadas =
             "UPDATE mesas m " +
             "JOIN reservaciones r ON m.id_mesa = r.id_mesa " +
@@ -85,6 +80,8 @@ public class SqlLib {
             stmt.executeUpdate(resetMesas);
 
             stmt.executeUpdate(ocuparReservadas);
+
+            System.out.println("Estados de mesas sincronizados.");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -101,18 +98,15 @@ public class SqlLib {
             PreparedStatement ps = conn.prepareStatement(query)
         ) {
             ps.setString(1, correo);
-
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 String storedPassword = rs.getString("password");
                 return password.equals(storedPassword);
             }
-
         } catch (SQLException e) {
             throw e;
         }
-
         return false;
     }
 
@@ -156,37 +150,38 @@ public class SqlLib {
             if (rs.next()) {
                 return rs.getBoolean("puede_login");
             }
-
         } catch (SQLException e) {
             System.err.println("Error validando acceso: " + e.getMessage());
         }
-
         return false;
     }
 
     public boolean registrarClienteNuevo(String nombre, String correo, String password) {
-        String sql =
-            "INSERT INTO usuarios (nombre, correo, password, rol_id, puede_login) " +
-            "VALUES (?, ?, ?, 6, TRUE)";
-
-        try (
-            Connection conn = DriverManager.getConnection(URL, USER, PASS);
-            PreparedStatement ps = conn.prepareStatement(sql)
-        ) {
+        String sql = "INSERT INTO usuarios (nombre, correo, password, rol_id, puede_login) VALUES (?, ?, ?, 6, TRUE)";
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, nombre);
             ps.setString(2, correo);
             ps.setString(3, password);
-
             ps.executeUpdate();
-
             return true;
-
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
-
+    
+    public void registrarHistorial(String correo) {
+        String sql = "INSERT INTO historial_accesos (correo_usuario) VALUES (?)";
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, correo);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
     // ================= PRODUCTOS =================
 
     public List<Producto> obtenerProductos() {
@@ -605,38 +600,42 @@ public class SqlLib {
 
     public List<Reservacion> obtenerTodasLasReservaciones() {
         List<Reservacion> lista = new ArrayList<>();
-
-        String sql =
-            "SELECT r.id_reservacion, r.fecha_reserva, r.hora_reserva, " +
-            "r.id_mesa, r.num_personas, r.estatus, u.nombre " +
-            "FROM reservaciones r " +
-            "JOIN usuarios u ON r.id_usuario = u.id " +
-            "WHERE r.estatus IN ('Confirmada', 'Reservada', 'En Tolerancia') " +
-            "ORDER BY r.fecha_reserva ASC, r.hora_reserva ASC";
-
-        try (
-            Connection conn = DriverManager.getConnection(URL, USER, PASS);
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql)
-        ) {
+        String sql = 
+                "SELECT r.id_reservacion, r.fecha_reserva, r.hora_reserva, " +
+                "r.id_mesa, r.num_personas, r.estatus, u.nombre " +
+                "FROM reservaciones r " +
+                "JOIN usuarios u ON r.id_usuario = u.id " +
+                "WHERE r.estatus IN ('Confirmada', 'Reservada', 'En Tolerancia') " +
+                "ORDER BY r.fecha_reserva ASC, r.hora_reserva ASC";
+        
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
             while (rs.next()) {
+                String idReserva = String.valueOf(rs.getInt("id_reservacion"));
+                String fechaReserva = rs.getString("fecha_reserva");
+                String horaReserva = rs.getString("hora_reserva");
+                String mesaFormateada = "Mesa " + rs.getInt("id_mesa");
+                int numPersonas = rs.getInt("num_personas");
+                String nombreCliente = rs.getString("nombre");
+                String estatus = rs.getString("estatus");
+                
                 Reservacion reserva = new Reservacion(
-                    String.valueOf(rs.getInt("id_reservacion")),
-                    rs.getString("fecha_reserva"),
-                    rs.getString("hora_reserva"),
-                    "Mesa " + rs.getInt("id_mesa"),
-                    rs.getInt("num_personas"),
-                    rs.getString("estatus"),
-                    rs.getString("nombre")
+                    idReserva,
+                    fechaReserva,
+                    horaReserva,
+                    mesaFormateada,
+                    numPersonas,
+                    estatus,
+                    nombreCliente
                 );
-
                 lista.add(reserva);
             }
-
         } catch (SQLException e) {
+            System.err.println("Error al obtener todas las reservaciones: " + e.getMessage());
             e.printStackTrace();
         }
-
         return lista;
     }
 
@@ -656,55 +655,49 @@ public class SqlLib {
                 "AND r.estatus NOT IN ('Cancelada', 'Pasada', 'Modificada') " + 
                 "ORDER BY r.fecha_reserva DESC, r.hora_reserva ASC";
 
-        try (
-            Connection conn = DriverManager.getConnection(URL, USER, PASS);
-            PreparedStatement ps = conn.prepareStatement(query)
-        ) {
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS); 
+            PreparedStatement ps = conn.prepareStatement(query)) {
+
             ps.setString(1, correo);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String mesaFormateada = "Mesa " + rs.getInt("id_mesa");
 
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                lista.add(new Reservacion(
-                    String.valueOf(rs.getInt("id_reservacion")),
-                    rs.getString("fecha_reserva"),
-                    rs.getString("hora_reserva"),
-                    "Mesa " + rs.getInt("id_mesa"),
-                    rs.getInt("num_personas"),
-                    rs.getString("estatus_final"),
-                    rs.getString("nombre")
-                ));
+                    lista.add(new Reservacion(
+                        String.valueOf(rs.getInt("id_reservacion")),
+                        rs.getString("fecha_reserva"),
+                        rs.getString("hora_reserva"),
+                        mesaFormateada,
+                        rs.getInt("num_personas"),
+                        rs.getString("estatus_final"),
+                        rs.getString("nombre")
+                    ));
+                }
             }
-
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error al cargar historial: " + e.getMessage());
         }
-
         return lista;
     }
 
     public boolean registrarNuevaReservacion(String correoUsuario, String fecha, String hora, int idMesa, int personas) {
         String sqlId = "SELECT id FROM usuarios WHERE correo = ?";
-        String sqlInsert =
-            "INSERT INTO reservaciones (id_usuario, fecha_reserva, hora_reserva, id_mesa, num_personas, estatus) " +
-            "VALUES (?, ?, ?, ?, ?, 'Confirmada')";
+        String sqlInsert = 
+                "INSERT INTO reservaciones (id_usuario, fecha_reserva, hora_reserva, id_mesa, num_personas, estatus) "
+                + "VALUES (?, ?, ?, ?, ?, 'Confirmada')";
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
             int idUsuario = -1;
-
             try (PreparedStatement psId = conn.prepareStatement(sqlId)) {
                 psId.setString(1, correoUsuario);
-
-                ResultSet rs = psId.executeQuery();
-
-                if (rs.next()) {
-                    idUsuario = rs.getInt("id");
+                try (ResultSet rs = psId.executeQuery()) {
+                    if (rs.next()) {
+                        idUsuario = rs.getInt("id");
+                    }
                 }
             }
 
-            if (idUsuario == -1) {
-                return false;
-            }
+            if (idUsuario == -1) return false;
 
             try (PreparedStatement psInsert = conn.prepareStatement(sqlInsert)) {
                 psInsert.setInt(1, idUsuario);
@@ -717,7 +710,6 @@ public class SqlLib {
 
             actualizarEstadoMesa(idMesa, "Reservada");
             sincronizarEstadoMesas();
-
             return true;
 
         } catch (SQLException e) {
@@ -728,16 +720,16 @@ public class SqlLib {
 
     public void actualizarEstatusReserva(String idReserva, String nuevoEstado) {
         String query = "UPDATE reservaciones SET estatus = ? WHERE id_reservacion = ?";
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement ps = conn.prepareStatement(query)) {
 
-        try (
-            Connection conn = DriverManager.getConnection(URL, USER, PASS);
-            PreparedStatement ps = conn.prepareStatement(query)
-        ) {
             ps.setString(1, nuevoEstado);
             ps.setString(2, idReserva);
             ps.executeUpdate();
 
+            System.out.println("Reserva " + idReserva + " actualizada a: " + nuevoEstado);
         } catch (SQLException e) {
+            System.err.println("Error al actualizar el estatus de la reserva: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -745,79 +737,64 @@ public class SqlLib {
     public boolean cancelarReservacion(String idReservacion) {
         String sqlBuscarMesa = "SELECT id_mesa FROM reservaciones WHERE id_reservacion = ?";
         String sqlCancel = "UPDATE reservaciones SET estatus = 'Cancelada' WHERE id_reservacion = ?";
-
+        
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
             int idMesa = -1;
-
             try (PreparedStatement psBuscar = conn.prepareStatement(sqlBuscarMesa)) {
                 psBuscar.setString(1, idReservacion);
-
-                ResultSet rs = psBuscar.executeQuery();
-
-                if (rs.next()) {
-                    idMesa = rs.getInt("id_mesa");
+                try (ResultSet rs = psBuscar.executeQuery()) {
+                    if (rs.next()) {
+                        idMesa = rs.getInt("id_mesa");
+                    }
                 }
             }
-
+            
             try (PreparedStatement ps = conn.prepareStatement(sqlCancel)) {
                 ps.setString(1, idReservacion);
-
                 int filasAfectadas = ps.executeUpdate();
-
+                
                 if (filasAfectadas > 0) {
                     if (idMesa != -1) {
                         actualizarEstadoMesa(idMesa, "Disponible");
                         sincronizarEstadoMesas();
                     }
-
                     return true;
                 }
             }
-
         } catch (SQLException e) {
+            System.err.println("Error al cancelar la reservación: " + e.getMessage());
             e.printStackTrace();
         }
-
         return false;
     }
 
-    public boolean modificarReservacion(
-        String idReservacion,
-        String nuevaFecha,
-        String nuevaHora,
-        int nuevaMesa,
-        int nuevasPersonas
-    ) {
+    public boolean modificarReservacion(String idReservacion, String nuevaFecha, String nuevaHora, int nuevaMesa, int nuevasPersonas) {
         String buscarReserva = "SELECT id_usuario, id_mesa FROM reservaciones WHERE id_reservacion = ?";
         String marcarModificada = "UPDATE reservaciones SET estatus = 'Modificada' WHERE id_reservacion = ?";
-        String insertarNueva =
-            "INSERT INTO reservaciones (id_usuario, fecha_reserva, hora_reserva, id_mesa, num_personas, estatus) " +
-            "VALUES (?, ?, ?, ?, ?, 'Confirmada')";
-
+        String insertarNueva = "INSERT INTO reservaciones (id_usuario, fecha_reserva, hora_reserva, id_mesa, num_personas, estatus) VALUES (?, ?, ?, ?, ?, 'Confirmada')";
+        
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
             int idUsuario = -1;
             int mesaAnterior = -1;
-
+            
             try (PreparedStatement ps = conn.prepareStatement(buscarReserva)) {
                 ps.setString(1, idReservacion);
-
                 ResultSet rs = ps.executeQuery();
-
                 if (rs.next()) {
                     idUsuario = rs.getInt("id_usuario");
                     mesaAnterior = rs.getInt("id_mesa");
                 }
             }
-
+            
             if (idUsuario == -1) {
                 return false;
             }
-
+            
             try (PreparedStatement ps = conn.prepareStatement(marcarModificada)) {
                 ps.setString(1, idReservacion);
                 ps.executeUpdate();
             }
-
+            
             actualizarEstadoMesa(mesaAnterior, "Disponible");
 
             try (PreparedStatement ps = conn.prepareStatement(insertarNueva)) {
@@ -828,16 +805,16 @@ public class SqlLib {
                 ps.setInt(5, nuevasPersonas);
                 ps.executeUpdate();
             }
-
+                
             actualizarEstadoMesa(nuevaMesa, "Reservada");
             sincronizarEstadoMesas();
-
+            
             return true;
-
+            
         } catch (SQLException e) {
+            System.err.println("Error al modificar la reservación: " + e.getMessage());
             e.printStackTrace();
         }
-
         return false;
     }
 
@@ -1042,9 +1019,5 @@ public class SqlLib {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-    
-    public void registrarHistorial(String correo) {
-        System.out.println("Inicio de sesión registrado para: " + correo);
     }
 }

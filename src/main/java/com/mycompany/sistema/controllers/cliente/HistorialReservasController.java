@@ -1,10 +1,11 @@
-package com.mycompany.sistema.controllers;
+package com.mycompany.sistema.controllers.cliente;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 
+import com.mycompany.sistema.controllers.LoginController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,7 +26,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import com.mycompany.sistema.models.Reservacion; 
+import com.mycompany.sistema.models.cliente.Reservacion; 
 import lib.SqlLib;
 
 /**

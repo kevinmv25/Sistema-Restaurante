@@ -73,31 +73,46 @@
                      <children>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/infoUser/Gerente.jpg" />
+                                 </image></ImageView>
                               <Label text="Gerente" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/infoUser/Cajero.jpg" />
+                                 </image></ImageView>
                               <Label text="Cajero" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/infoUser/Recepcionista.jpg" />
+                                 </image></ImageView>
                               <Label text="Recepcionista" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" layoutX="240.0" layoutY="20.0" prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/infoUser/Chef.jpg" />
+                                 </image></ImageView>
                               <Label text="Chef" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" layoutX="20.0" layoutY="20.0" prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/infoUser/Mesero.jpg" />
+                                 </image></ImageView>
                               <Label text="Mesero" />
                            </children>
                         </VBox>
